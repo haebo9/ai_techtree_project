@@ -1,5 +1,18 @@
 # 📝 핵심 기능 명세 (Product Spec)
 
+## 📑 목차 (Table of Contents)
+1. [개요 (Overview)](#1-개요-overview)
+    - [MVP 목표 및 범위](#11-mvp-목표-및-범위-mvp-goals--scope)
+2. [유저 스토리 (User Stories)](#2-유저-스토리-user-stories)
+3. [핵심 기능 (Key Features)](#3-핵심-기능-key-features)
+    - [초기 역량 배치고사](#31-초기-역량-배치고사-initial-skill-calibration)
+    - [승급 심사 에이전트](#32-승급-심사-에이전트-advancement-interview-agent)
+    - [트랙 마스터 통합 퀴즈](#33-트랙-마스터-통합-퀴즈-track-master-challenge)
+    - [Tech Tree 시각화](#34-tech-tree-시각화-gamified-visualization)
+4. [비기능 요구사항 (Non-Functional Requirements)](#4-비기능-요구사항-non-functional-requirements)
+5. [데이터 요구사항 (Data Requirements)](#5-데이터-요구사항-data-requirements)
+6. [성공 지표 (Success Metrics)](#6-성공-지표-success-metrics)
+
 ## 1. 개요 (Overview)
 > 프로젝트의 정의와 목표를 간략히 기술합니다.
 - **프로젝트명**: AI TechTree
