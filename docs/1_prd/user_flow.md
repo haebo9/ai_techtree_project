@@ -8,7 +8,7 @@
 
 ```mermaid
 graph TD
-    %% --- [Color Palette] ---
+    %% --- [Color Palette Definition] ---
     classDef default fill:#fff,stroke:#333,stroke-width:1px;
     classDef init fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px,color:#0d47a1;
     classDef main fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#1b5e20;
@@ -46,15 +46,16 @@ graph TD
     %% [Conditional] 리포트 확인 후 승급 여부 결정
     ResultReport --> CheckPass{"기준 점수 달성?"}
     
-    CheckPass -->|No (Fail)| RetryGuide["재도전 가이드 확인"]:::fail
-    CheckPass -->|Yes (Pass)| StarGet["승급 확정 & 별(⭐) 지급"]:::gold
+    CheckPass -->|"No (Fail)"| RetryGuide["재도전 가이드 확인"]:::fail
+    CheckPass -->|"Yes (Pass)"| StarGet["승급 확정 & 별(⭐) 지급"]:::gold
     
     RetryGuide --> Dashboard
     StarGet --> Dashboard
     
     Dashboard --> CheckTrack{"트랙 모든 노드 ⭐⭐⭐?"}
     CheckTrack -->|Yes| BossRaid["☠️ 트랙 마스터 통합 퀴즈"]:::gold
-    BossRaid --> BossResult{성공?}
+    BossRaid --> BossResult{"성공?"}
+    
     BossResult -->|Yes| GoldGlow["🌟 Golden Glow 이펙트 해금"]:::gold
     BossResult -->|No| Retry["재도전 (쿨타임)"]:::fail
 
