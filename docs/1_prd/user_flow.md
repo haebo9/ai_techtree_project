@@ -13,7 +13,7 @@ graph TD
     Landing --> Login[로그인/회원가입]
     
     Login --> HasAccount{계정 존재?}
-    HasAccount -->|No| InitTest["📝 스킬 동기화 (구 배치고사)"]
+    HasAccount -->|No| InitTest["📝 역량 배치고사"]
     HasAccount -->|Yes| Dashboard[🌳 Tech Tree 대시보드]
     
     InitTest -->|결과 분석| SetBaseStats[기본 1차 전직 부여]
