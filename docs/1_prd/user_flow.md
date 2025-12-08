@@ -8,50 +8,65 @@
 
 ```mermaid
 graph TD
+    %% --- [Color Palette Definition] ---
+    %% 1. 기본/시작 (회색)
+    classDef default fill:#fff,stroke:#333,stroke-width:1px;
+    %% 2. 온보딩/초기화 (파란색 계열)
+    classDef init fill:#e3f2fd,stroke:#1e88e5,stroke-width:2px,color:#0d47a1;
+    %% 3. 대시보드/메인 (초록색 계열)
+    classDef main fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#1b5e20;
+    %% 4. AI 면접/평가 (보라색 계열)
+    classDef ai fill:#f3e5f5,stroke:#8e24aa,stroke-width:2px,color:#4a148c;
+    %% 5. 마스터/보상 (금색/주황색 계열)
+    classDef gold fill:#fff8e1,stroke:#ff8f00,stroke-width:2px,color:#bf360c;
+    %% 6. 실패/재시도 (붉은색 계열)
+    classDef fail fill:#ffebee,stroke:#e53935,stroke-width:2px,color:#b71c1c;
+
     %% Nodes
     Start((Start)) --> Landing[랜딩 페이지]
     Landing --> Login[로그인/회원가입]
     
     Login --> HasAccount{계정 존재?}
-    HasAccount -->|No| InitTest["📝 역량 배치고사 (레벨 측정)"]
-    HasAccount -->|Yes| Dashboard[🌳 Tech Tree 대시보드]
+    HasAccount -->|No| InitTest["📝 역량 배치고사 (레벨 측정)"]:::init
+    HasAccount -->|Yes| Dashboard[🌳 Tech Tree 대시보드]:::main
     
     %% [Reflect] 대시보드에서 재응시 가능
     Dashboard -->|실력 재측정 요청| InitTest
     
-    InitTest -->|결과 분석| SetBaseStats[기본 레벨 부여/갱신]
+    InitTest -->|결과 분석| SetBaseStats[기본 레벨 부여/갱신]:::init
     SetBaseStats --> Dashboard
     
     Dashboard --> ClickNode[노드/기술 선택]
     ClickNode --> CheckStatus{상태 확인}
     
-    CheckStatus -->|Locked| Disabled["진입 불가 (선행 학습 필요)"]
+    CheckStatus -->|Locked| Disabled["진입 불가 (선행 학습 필요)"]:::fail
     CheckStatus -->|Available| SelectLevel["도전 등급 선택 (2차/3차)"]
     CheckStatus -->|Mastered| Review["복습 하기/기록 보기"]
     
-    SelectLevel --> InterviewStart[🤖 AI 면접관 연결]
-    InterviewStart --> ChatLoop["인터뷰 진행 (Streaming Q&A)"]
+    SelectLevel --> InterviewStart[🤖 AI 면접관 연결]:::ai
+    InterviewStart --> ChatLoop["인터뷰 진행 (Streaming Q&A)"]:::ai
     ChatLoop -->|중도 포기/이탈| Dashboard
     
-    %% [FIX] 괄호가 들어가는 텍스트에 따옴표 추가
-    ChatLoop --> Eval["평가 및 채점 (One-Shot JSON)"]
+    ChatLoop --> Eval["평가 및 채점 (One-Shot JSON)"]:::ai
     
-    Eval --> Result{합격 여부?}
-    Result -->|Fail| Feedback[불합격 피드백 & 학습 자료 추천]
-    Result -->|Pass| LevelUp["✨ 별(Star) 획득 & 합격 리포트(Pro Tip)"]
+    Eval --> ResultReport["📄 결과 리포트 확인 (피드백 & 승급 반영)"]:::ai
     
-    Feedback --> Dashboard
-    LevelUp --> Dashboard
+    ResultReport --> Dashboard
     
     Dashboard --> CheckTrack{트랙 모든 노드 3성?}
-    CheckTrack -->|Yes| BossRaid["☠️ 트랙 마스터 통합 퀴즈"]
+    CheckTrack -->|Yes| BossRaid["☠️ 트랙 마스터 통합 퀴즈"]:::gold
     BossRaid --> BossResult{성공?}
-    BossResult -->|Yes| GoldGlow["🌟 Golden Glow 이펙트 해금"]
-    BossResult -->|No| Retry["재도전 (쿨타임)"]
+    BossResult -->|Yes| GoldGlow["🌟 Golden Glow 이펙트 해금"]:::gold
+    
+    BossResult -->|No| Retry["재도전 (쿨타임)"]:::fail
 
-    %% [UI Fix] 툴바 가림 방지용 투명 노드
-    LevelUp ~~~ Spacer[ ]
-    style Spacer fill:none,stroke:none,color:#00000000
+    %% [UI Fix] 툴바 가림 방지
+    ResultReport ~~~ Spacer1[ ]
+    GoldGlow ~~~ Spacer2[ ]
+    Retry ~~~ Spacer3[ ]
+    style Spacer1 fill:none,stroke:none,color:#00000000,height:50px
+    style Spacer2 fill:none,stroke:none,color:#00000000,height:50px
+    style Spacer3 fill:none,stroke:none,color:#00000000,height:50px
 ```
 
 ## 2. 상세 흐름 설명
@@ -61,10 +76,10 @@ graph TD
 
 1.  **로그인/회원가입**: 소셜 로그인 등을 통해 접속.
 2.  **초기 역량 배치고사 (Calibration)**:
-    *   일일이 1레벨(별 1개)을 따는 지루함을 방지하기 위한 "배치고사" 개념.
+    *   일일이 1레벨(별 1개)을 따는 지루함을 방지하기 위한 "실력 진단" 개념.
     *   사용자가 자신의 직무와 사용 가능한 기술 스택을 체크.
-    *   기술 당 2-3 문항의 핵심 퀴즈 풀이.
-    *   **결과**: 통과한 기술들에 대해 즉시 **'1차 전직(⭐)'** 상태 부여.
+    *   **기술 당 2~3문항**의 핵심 퀴즈 풀이.
+    *   **결과**: 통과한 기술들에 대해 즉시 **'1차 전직(⭐)'** 상태 부여. (추후 대시보드에서 재응시 가능)
 
 ### 🔵 Phase 2: Skill Advancement (승급 심사)
 가장 핵심적인 이용 흐름으로, AI 면접관과 대화하며 자신의 실력을 증명합니다.
@@ -73,13 +88,15 @@ graph TD
 2.  **등급 선택**:
     *   현재 자신의 등급보다 한 단계 높은 등급만 도전 가능.
     *   예: 별 1개(⭐) 보유 시 -> 2차 심사(⭐⭐) 도전 가능.
-3.  **AI 인터뷰 진행**:
-    *   **2차 심사**: "이 코드가 메모리 누수가 나는 이유는?", "데코레이터를 사용하여 로깅 기능을 구현해보시오." 등의 실무 응용 질문.
+3.  **AI 인터뷰 진행 (Streaming Q&A)**:
+    *   **2차 심사**: "이 코드가 메모리 누수가 나는 이유는?" 등의 실무 응용 질문.
     *   **3차 심사**: 아키텍처 설계, 트레이드오프 분석 등 심화 질문.
-4.  **평가 및 보상**:
-    *   면접 종료 후 AI가 즉시 채점 내용을 분석 리포트로 제공.
-    *   **Pass**: 해당 노드에 별 추가, 사용자 경험치 상승.
-    *   **Fail**: 부족한 부분에 대한 피드백 및 학습 자료 추천 (Phase 2 예정).
+    *   답변이 지연되지 않도록 스트리밍 방식으로 질문/피드백 제공.
+4.  **평가 및 결과 리포트 (Unified Feedback)**:
+    *   면접 종료 후 AI가 채점한 결과를 **하나의 통합된 리포트 페이지**에서 확인합니다.
+    *   **합격 시 (Pass)**: 축하 메시지, 획득한 별(Star) 표시, 그리고 더 나은 코드를 위한 'Pro Tip'.
+    *   **불합격 시 (Fail)**: 부족한 핵심 개념과 구체적인 학습 방향 가이드가 제공됩니다.
+    *   사용자는 결과를 확인한 후 대시보드로 복귀합니다.
 
 ### 🟡 Phase 3: Track Mastery (최종 완성)
 특정 직무(예: Backend Track)의 모든 기술을 마스터했을 때 주어지는 최종 도전입니다.
@@ -91,6 +108,7 @@ graph TD
 3.  **Golden Glow**:
     *   시험 통과 시 해당 트랙의 모든 라인이 **황금색으로 빛나는 시각적 효과** 부여.
     *   사용자가 스크린샷을 찍어 공유하고 싶게 만드는 "자랑하기" 모먼트 제공.
+    *   **실패 시**: 일정 시간(쿨타임) 후 재도전 기회 부여.
 
 ## 3. 예외 상황 처리 (Exception Flows)
 
