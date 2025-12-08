@@ -13,10 +13,13 @@ graph TD
     Landing --> Login[로그인/회원가입]
     
     Login --> HasAccount{계정 존재?}
-    HasAccount -->|No| InitTest["📝 역량 배치고사"]
+    HasAccount -->|No| InitTest["📝 역량 배치고사 (레벨 측정)"]
     HasAccount -->|Yes| Dashboard[🌳 Tech Tree 대시보드]
     
-    InitTest -->|결과 분석| SetBaseStats[기본 1차 전직 부여]
+    %% [Reflect] 대시보드에서 재응시 가능
+    Dashboard -->|실력 재측정 요청| InitTest
+    
+    InitTest -->|결과 분석| SetBaseStats[기본 레벨 부여/갱신]
     SetBaseStats --> Dashboard
     
     Dashboard --> ClickNode[노드/기술 선택]
@@ -24,15 +27,16 @@ graph TD
     
     CheckStatus -->|Locked| Disabled["진입 불가 (선행 학습 필요)"]
     CheckStatus -->|Available| SelectLevel["도전 등급 선택 (2차/3차)"]
-    CheckStatus -->|Mastered| Review[복습 하기]
+    CheckStatus -->|Mastered| Review[복습 하기/기록 보기]
     
     SelectLevel --> InterviewStart[🤖 AI 면접관 연결]
-    InterviewStart --> ChatLoop["인터뷰 진행 (Q&A)"]
-    ChatLoop --> Eval[평가 및 채점]
+    InterviewStart --> ChatLoop["인터뷰 진행 (Streaming Q&A)"]
+    ChatLoop -->|중도 포기/이탈| Dashboard
+    ChatLoop --> Eval[평가 및 채점 (One-Shot JSON)]
     
     Eval --> Result{합격 여부?}
-    Result -->|Fail| Feedback[피드백 리포트 제공]
-    Result -->|Pass| LevelUp["✨ 별(Star) 획득 & DB 업데이트"]
+    Result -->|Fail| Feedback[불합격 피드백 & 학습 자료 추천]
+    Result -->|Pass| LevelUp["✨ 별(Star) 획득 & 합격 리포트(Pro Tip)"]
     
     Feedback --> Dashboard
     LevelUp --> Dashboard
@@ -41,9 +45,9 @@ graph TD
     CheckTrack -->|Yes| BossRaid["☠️ 트랙 마스터 통합 퀴즈"]
     BossRaid --> BossResult{성공?}
     BossResult -->|Yes| GoldGlow["🌟 Golden Glow 이펙트 해금"]
-    BossResult -->|No| Retry[재도전]
+    BossResult -->|No| Retry[재도전 (쿨타임)]
 
-    %% --- [UI Fix] 툴바 가림 방지용 투명 노드 ---
+    %% [UI Fix] 툴바 가림 방지용 투명 노드
     LevelUp ~~~ Spacer[ ]
     style Spacer fill:none,stroke:none,color:#00000000
 ```
@@ -84,7 +88,7 @@ graph TD
     *   예: "Django와 Redis를 사용하여 실시간 채팅 서버를 구축할 때의 동시성 처리 전략을 설명하시오."
 3.  **Golden Glow**:
     *   시험 통과 시 해당 트랙의 모든 라인이 **황금색으로 빛나는 시각적 효과** 부여.
-    *   사용자가 스크린샷을 찍어 공유하고 싶게 만드는 "Whaaaat" 모먼트 제공.
+    *   사용자가 스크린샷을 찍어 공유하고 싶게 만드는 "자랑하기" 모먼트 제공.
 
 ## 3. 예외 상황 처리 (Exception Flows)
 
