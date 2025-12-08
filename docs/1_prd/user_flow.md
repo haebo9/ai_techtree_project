@@ -13,7 +13,7 @@ graph TD
     Landing --> Login[로그인/회원가입]
     
     Login --> HasAccount{계정 존재?}
-    HasAccount -->|No| InitTest[📝 초기 역량 배치고사]
+    HasAccount -->|No| InitTest["📝 스킬 동기화 (구 배치고사)"]
     HasAccount -->|Yes| Dashboard[🌳 Tech Tree 대시보드]
     
     InitTest -->|결과 분석| SetBaseStats[기본 1차 전직 부여]
@@ -32,15 +32,15 @@ graph TD
     
     Eval --> Result{합격 여부?}
     Result -->|Fail| Feedback[피드백 리포트 제공]
-    Result -->|Pass| LevelUp[✨ 별(Star) 획득 & DB 업데이트]
+    Result -->|Pass| LevelUp["✨ 별(Star) 획득 & DB 업데이트"]
     
     Feedback --> Dashboard
     LevelUp --> Dashboard
     
     Dashboard --> CheckTrack{트랙 모든 노드 3성?}
-    CheckTrack -->|Yes| BossRaid[☠️ 트랙 마스터 통합 퀴즈]
+    CheckTrack -->|Yes| BossRaid["☠️ 트랙 마스터 통합 퀴즈"]
     BossRaid --> BossResult{성공?}
-    BossResult -->|Yes| GoldGlow[🌟 Golden Glow 이펙트 해금]
+    BossResult -->|Yes| GoldGlow["🌟 Golden Glow 이펙트 해금"]
     BossResult -->|No| Retry[재도전]
 ```
 
