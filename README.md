@@ -9,14 +9,17 @@
 
 ## 🔗 Project Documentation
 
-> 이 프로젝트의 관련 상세 내용은 **Notion**에서 관리되고 있습니다. 
+> 프로젝트의 모든 기획 및 설계 문서는 `docs` 디렉토리 내에서 코드와 함께 관리됩니다.
 
- [![Notion](https://img.shields.io/badge/Notion-Project%20Page-black?style=for-the-badge&logo=notion&logoColor=white)](https://www.notion.so/6b3b0428beb64fce97b07a5585430d77?t=2bdc4afac1bf80b8b1d300a9877e5988)
+### 📂 Documentation Structure
 
-### 📂 What's inside Notion?
-- **Discovery**: 서비스 컨셉, 페르소나(Persona), 유저 저니 맵
-- **Design**: 시스템 아키텍처, DB 스키마, API 명세서
-- **Dev Log**: 스프린트별 회고 및 기술적 트러블슈팅 기록
+| Directory | Description | Key Documents |
+| --- | --- | --- |
+| [**1_prd**](docs/1_prd) | **기획 (Product Spec)**<br>요구사항 및 서비스 흐름 정의 | • [핵심 기능 명세](docs/1_prd/product_spec.md)<br>• [페르소나 정의](docs/1_prd/personas.md)<br>• [유저 흐름도](docs/1_prd/user_flow.md) |
+| [**2_design**](docs/2_design) | **설계 (System Design)**<br>시스템 아키텍처 및 기술 설계 | • [시스템 아키텍처](docs/2_design/architecture.md)<br>• [AI 에이전트 설계](docs/2_design/agent_workflow.md)<br>• [DB 스키마](docs/2_design/db_schema.md) |
+| [**3_knowledge**](docs/3_knowledge) | **지식 (Knowledge Base)**<br>기술 의사결정 및 트러블슈팅 | • [기술 스택 선정](docs/3_knowledge/tech_decisions.md)<br>• [트러블슈팅 로그](docs/3_knowledge/troubleshooting.md) |
+
+👉 [전체 문서 목록 보기](docs/README.md)
 
 ---
 
