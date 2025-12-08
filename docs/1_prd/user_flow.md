@@ -21,45 +21,45 @@ graph TD
     Landing --> Login[로그인/회원가입]
     
     Login --> HasAccount{계정 존재?}
-    HasAccount -->|No| InitTest["📝 역량 배치고사 (레벨 측정)"]:::init
+    HasAccount -->|No| InitTest["📝 역량 배치고사<br/>(레벨 측정)"]:::init
     HasAccount -->|Yes| Dashboard[🌳 Tech Tree 대시보드]:::main
     
-    %% [Reflect] 대시보드에서 재응시 가능
+    %% [Reflect]
     Dashboard -->|실력 재측정 요청| InitTest
-    InitTest -->|결과 분석| SetBaseStats[기본 레벨 부여/갱신]:::init
+    InitTest -->|결과 분석| SetBaseStats["기본 레벨<br/>부여/갱신"]:::init
     SetBaseStats --> Dashboard
     
     Dashboard --> ClickNode[노드/기술 선택]
     ClickNode --> CheckStatus{상태 확인}
     
-    CheckStatus -->|Locked| Disabled["진입 불가 (선행 학습 필요)"]:::fail
-    CheckStatus -->|Available| SelectLevel["도전 등급 선택 (2차/3차)"]
-    CheckStatus -->|Mastered| Review["복습 하기/기록 보기"]
+    CheckStatus -->|Locked| Disabled["진입 불가<br/>(선행 학습 필요)"]:::fail
+    CheckStatus -->|Available| SelectLevel["도전 등급 선택<br/>(2차/3차)"]
+    CheckStatus -->|Mastered| Review["복습 하기<br/>기록 보기"]
     
     SelectLevel --> InterviewStart[🤖 AI 면접관 연결]:::ai
-    InterviewStart --> ChatLoop["인터뷰 진행 (Streaming Q&A)"]:::ai
-    ChatLoop --> Eval["평가 및 채점 (One-Shot JSON)"]:::ai
+    InterviewStart --> ChatLoop["인터뷰 진행<br/>(Streaming Q&A)"]:::ai
+    ChatLoop --> Eval["평가 및 채점<br/>(One-Shot JSON)"]:::ai
     
-    %% [Unified] 결과 리포트 통합
-    Eval --> ResultReport["📄 결과 리포트 확인 (점수/피드백)"]:::main
+    %% [Unified]
+    Eval --> ResultReport["📄 결과 리포트 확인<br/>(점수/피드백)"]:::main
     
-    %% [Conditional] 리포트 확인 후 승급 여부 결정
-    ResultReport --> CheckPass{"기준 점수 달성?"}
+    %% [Conditional]
+    ResultReport --> CheckPass{"기준 점수<br/>달성?"}
     
     CheckPass -->|"No (Fail)"| RetryGuide["재도전 가이드 확인"]:::fail
-    CheckPass -->|"Yes (Pass)"| StarGet["승급 확정 & 별(⭐) 지급"]:::gold
+    CheckPass -->|"Yes (Pass)"| StarGet["승급 확정<br/>& 별(⭐) 지급"]:::gold
     
     RetryGuide --> Dashboard
     StarGet --> Dashboard
     
-    Dashboard --> CheckTrack{"트랙 모든 노드 ⭐⭐⭐?"}
-    CheckTrack -->|Yes| BossRaid["☠️ 트랙 마스터 통합 퀴즈"]:::gold
+    Dashboard --> CheckTrack{"트랙 모든 노드 3성?<br/>⭐⭐⭐?"}
+    CheckTrack -->|Yes| BossRaid["☠️ 트랙 마스터<br/>통합 퀴즈"]:::gold
     BossRaid --> BossResult{"성공?"}
     
-    BossResult -->|Yes| GoldGlow["🌟 Golden Glow 이펙트 해금"]:::gold
-    BossResult -->|No| Retry["재도전 (쿨타임)"]:::fail
+    BossResult -->|Yes| GoldGlow["🌟 Golden Glow<br/>이펙트 해금"]:::gold
+    BossResult -->|No| Retry["재도전<br/>(쿨타임)"]:::fail
 
-    %% [UI Fix] Spacer (툴바 가림 방지)
+    %% [UI Fix] Spacer
     StarGet ~~~ Spacer1[ ]
     GoldGlow ~~~ Spacer2[ ]
     style Spacer1 fill:none,stroke:none,color:#00000000,height:50px
