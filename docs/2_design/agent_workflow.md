@@ -159,5 +159,9 @@ sequenceDiagram
     end
     
     Backend-->>Frontend: Show Feedback Report
-    Note over User, Evaluator: <br/><br/><br/>
+    
+    %% 하단 여백 확보용 (보이지 않는 루프)
+    loop <br/><br/><br/>
+        User->>User:  
+    end
 ```
