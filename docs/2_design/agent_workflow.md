@@ -116,35 +116,51 @@ sequenceDiagram
     participant User
     participant Frontend
     participant Backend
-    participant Interviewer as Interviewer
-    participant Evaluator as Evaluator
     participant DB
+    participant Interviewer
+    participant Evaluator
 
+    %% --- [Phase 1: Init] ---
     User->>Frontend: 도전 시작 (Start)
     Frontend->>Backend: POST /interview/init
-    Backend->>DB: Create Session
-    Backend->>Interviewer: Gen Question 1
-    Interviewer-->>Backend: Q1
+    
+    Backend->>DB: Fetch Random Questions
+    DB-->>Backend: Question Set (Q1, Q2...)
+    
+    Backend->>DB: Create Session (IN_PROGRESS)
+    Backend->>Interviewer: System Prompt + Questions
+    Interviewer-->>Backend: Stream First Question
     Backend-->>Frontend: Stream Q1
 
-    loop Until End or MaxTurns
-        User->>Frontend: Answer
-        Frontend->>Backend: Send Msg
-        
-        opt IF MaxTurns Reached
-            Backend-->>Frontend: Force Stop Msg
-            Note right of Backend: Skip AI generation<br/>Go to Evaluation
+    %% --- [Phase 2: Interactive Loop] ---
+    rect rgb(240, 248, 255)
+        loop Until All Topics Covered or MaxTurns
+            User->>Frontend: Answer
+            Frontend->>Backend: Send Message
+            
+            alt Max Turns Reached
+                Backend-->>Frontend: Force Stop Message
+            else Normal Flow
+                Backend->>Interviewer: Context + Answer
+                Interviewer-->>Backend: Stream Next Question
+                Backend-->>Frontend: Stream Response
+            end
         end
-        
-        Backend->>Interviewer: Context + Answer
-        Interviewer-->>Backend: Next Q
-        Backend-->>Frontend: Stream Q
     end
 
+    %% --- [Phase 3: Evaluation] ---
     Frontend->>Backend: Request Evaluation
-    Backend->>Evaluator: Input Logs & Rubric
+    Backend->>Evaluator: Input Full Logs & Rubric
     Evaluator-->>Backend: Output JSON Result
     
-    Backend->>DB: Update Result & User Stats
-    Backend-->>Frontend: Show Report
+    Backend->>DB: Update Result (COMPLETED)
+    alt If Passed
+        Backend->>DB: Update User Skill Tree (Unlock)
+    end
+    
+    Backend-->>Frontend: Show Feedback Report
 ```
+
+<br>
+<br>
+<br>
