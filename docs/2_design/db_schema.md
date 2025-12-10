@@ -1,150 +1,220 @@
-# Database Schema Design
+# 💾 Database Schema Design (MongoDB)
 
-## 1. 개요
-본 문서는 "AI TechTree" 프로젝트의 데이터베이스 스키마를 정의합니다.
-사용자의 기술 역량을 진단하고 성장 과정을 추적하는 RPG 형태의 서비스를 지원하기 위해 관계형 모델(Relational Model)을 기반으로 설계되었습니다.
+- **[1. Overview](#1-overview)**
+- **[2. Collections Specification](#2-collections-specification)**
+- **[3. Data Access Patterns](#3-data-access-patterns)**
 
-## 2. ER Diagram (Entity Relationship)
+---
 
-```mermaid
-erDiagram
-    Users ||--o{ UserTrackProgress : "tracks"
-    Users ||--o{ UserSkillProgress : "learns"
-    Users ||--o{ InterviewSessions : "participates"
-    
-    Tracks ||--o{ TrackSkills : "consists_of"
-    Tracks ||--o{ UserTrackProgress : "tracked_by"
-    
-    Skills ||--o{ TrackSkills : "included_in"
-    Skills ||--o{ UserSkillProgress : "mastered_by"
-    Skills ||--o{ InterviewSessions : "targets"
-    
-    InterviewSessions ||--o{ ChatLogs : "logs"
-    InterviewSessions ||--|| AssessmentResults : "results"
+## 1. Overview
+>본 문서는 **AI TechTree** 프로젝트의 데이터 모델을 정의합니다.
+>단순한 선형적 학습이 아닌, **사용자의 선택에 따라 분기(Branching)되고 확장되는 그래프 형태의 로드맵**을 지원하기 위해 설계되었습니다.
 
-    %% --- Entity Definitions ---
+MongoDB Atlas (NoSQL)의 유연한 스키마를 활용하여 다음과 같은 핵심 가치를 제공합니다:
 
-    Users {
-        uuid id PK "User ID"
-        string email "Unique Email"
-        string nickname "Display Name"
-        string auth_provider "Google, GitHub, etc."
-        timestamp created_at
-        timestamp last_login_at
+1.  **Flexible Paths**: 필수 기술뿐만 아니라 대체 기술(Alternative)이나 선택적 분기(OR Condition)를 표현할 수 있는 구조.
+2.  **Read Optimized**: 대시보드 진입 시 복잡한 조인 없이 **단 1회의 쿼리**로 전체 트리의 진행 상황을 로드.
+3.  **Atomic Progression**: 면접 합격 시 사용자의 기술 레벨과 별(Star) 획득을 원자적(Atomic)으로 업데이트.
+
+> ### 📌 Key Design Decisions
+> 1.  **Skill Tree Embedding**: 사용자(`users`) 컬렉션 내에 학습 현황(`skill_tree`)을 내장하여, 대시보드 렌더링 속도를 극대화합니다.
+> 2.  **Graph-based Track Definition**: 트랙(`tracks`) 메타데이터에 `group_id`와 `dependency_logic(OR)`을 도입하여, 비선형적인 학습 경로를 지원합니다.
+> 3.  **Snapshot-based Interview**: 면접 기록은 완료 시점에 하나의 문서(`interviews`)로 스냅샷 저장하여, 데이터 무결성과 조회 성능을 보장합니다.
+
+---
+
+## 2. Collections Specification
+- [**2.1 users** (사용자/학습현황)](#21-users-사용자-및-학습-현황)
+- [**2.2 interviews** (면접/평가)](#22-interviews-면접-로그-및-평가)
+- [**2.3 tracks** (트랙/로드맵)](#23-tracks-트랙-메타데이터)
+- [**2.4 skills** (기술 정보)](#24-skills-기술-메타데이터)
+
+### 2.1 `users` (사용자 및 학습 현황)
+사용자의 계정 정보와 **기술 트리 진행 상황**을 관리하는 핵심 컬렉션입니다.
+
+* **Index**: `{"auth.email": 1}` (Unique), `{"auth.uid": 1}`
+
+```javascript
+{
+  "_id": ObjectId("..."),
+  "auth": {
+    "email": "user@example.com",     // 로그인 ID (이메일)
+    "provider": "kakao",             // 소셜 로그인 제공자
+    "uid": "123456789"               // 제공자 측 고유 ID
+  },
+  "profile": {
+    "nickname": "AI_Master",
+    "avatar_url": "https://...",
+    "job_title": "Student"           // 희망 직무 (Optional)
+  },
+  "stats": {
+    "total_stars": 12,               // 획득한 총 별 개수 (랭킹용)
+    "completed_tracks": [            // 마스터한 트랙 ID (Golden Glow 효과)
+      "backend-developer"
+    ]
+  },
+  /**
+   * [Core] 기술 습득 현황 (Map 구조)
+   * Key: skill_slug (e.g., 'python') -> 빠른 접근(O(1))을 위해 Map 사용
+   */
+  "skill_tree": {
+    "python": {"order": 1,                   // 시각화 순서
+      "level": 2,                    // 현재 레벨 (0:Locked, 1:Basic, 2:Adv, 3:Master)
+      "stars": 2,                    // UI에 표시될 별 개수
+      "last_tested_at": ISODate("...") // 마지막 승급 심사일
+    },
+    "docker": {
+      "level": 1,
+      "stars": 1,
+      "last_tested_at": ISODate("...")
     }
-
-    Tracks {
-        uuid id PK
-        string name "ex: AI Engineer, Backend"
-        string description
-        int total_nodes_count "For progress calc"
-    }
-
-    Skills {
-        uuid id PK
-        string name "ex: Python, Docker"
-        string category "Language, Framework, CS"
-        string icon_url
-        string description
-    }
-
-    TrackSkills {
-        uuid track_id FK
-        uuid skill_id FK
-        int order_index "Display Order"
-        boolean is_required "Mandatory for Master"
-        uuid[] dependency_skill_ids "Prerequisite Skills"
-    }
-
-    UserTrackProgress {
-        uuid user_id FK
-        uuid track_id FK
-        float progress_percentage
-        boolean is_track_master "Golden Glow Unlocked"
-        timestamp mastered_at
-    }
-
-    UserSkillProgress {
-        uuid user_id FK
-        uuid skill_id FK
-        int current_level "0:None, 1:Basic, 2:App, 3:Adv"
-        int stars_count "0 to 3"
-        boolean is_calibrated "Acquired via Initial Test"
-        timestamp last_leveled_up_at
-    }
-
-    InterviewSessions {
-        uuid id PK
-        uuid user_id FK
-        uuid skill_id FK
-        int target_level "Level Attempting (1, 2, 3)"
-        string status "INIT, IN_PROGRESS, COMPLETED, ABORTED"
-        timestamp started_at
-        timestamp ended_at
-    }
-
-    ChatLogs {
-        bigint id PK
-        uuid interview_id FK
-        string sender_role "USER, AI_INTERVIEWER"
-        text message_content
-        timestamp sent_at
-    }
-
-    AssessmentResults {
-        uuid id PK
-        uuid interview_id FK
-        boolean is_passed "Pass/Fail"
-        int score "0-100"
-        jsonb detailed_evaluation "Criteria scores (JSON)"
-        text feedback_summary
-        text improvement_guide
-        timestamp evaluated_at
-    }
+  },
+  "created_at": ISODate("..."),
+  "updated_at": ISODate("...")
+}
 ```
 
-## 3. 상세 테이블 정의 (Table Definitions)
+### 2.2 `interviews` (면접 로그 및 평가)
 
-### 3.1 계정 및 사용자 (Users)
-- **Users**: 서비스의 핵심 사용자 정보입니다.
+AI 면접관과의 대화 기록 및 최종 평가 결과를 저장합니다.
 
-| Field | Type | Description |
-|---|---|---|
-| id | UUID | Primary Key |
-| email | VARCHAR(255) | 이메일 (Unique) |
-| nickname | VARCHAR(50) | 닉네임 |
-| auth_provider | VARCHAR(20) | 소셜 로그인 제공자 |
-| created_at | TIMESTAMP | 계정 생성일 |
+* **Index**: `{"user_id": 1}` (내 기록 조회용), `{"meta.status": 1}`
 
-### 3.2 메타데이터 (Metadata)
-서비스에서 제공하는 트랙과 기술의 정적 정의입니다.
+```javascript
+{
+  "_id": ObjectId("..."),
+  "user_id": ObjectId("..."),       // users._id 참조
+  "meta": {
+    "skill_slug": "python",         // 대상 기술
+    "track_slug": "backend",        // (Optional) 어떤 트랙 문맥인가
+    "target_level": 2,              // 도전한 레벨 (1, 2, 3)
+    "status": "COMPLETED",          // IN_PROGRESS, COMPLETED, FAILED
+    "started_at": ISODate("..."),
+    "ended_at": ISODate("...")
+  },
+  /**
+   * 대화 로그 전체 저장 (Context 재구성용)
+   */
+  "messages": [
+    {
+      "role": "assistant",
+      "content": "Python의 데코레이터에 대해 설명해주세요.",
+      "timestamp": ISODate("...")
+    },
+    {
+      "role": "user",
+      "content": "함수를 수정하지 않고 기능을 확장할 때 사용합니다...",
+      "timestamp": ISODate("...")
+    }
+  ],
+  /**
+   * One-Shot Evaluation 결과 (JSON)
+   */
+  "result": {
+    "is_passed": true,              // 합격 여부
+    "score": 85,                    // 점수 (0~100)
+    "feedback_message": "핵심 개념을 잘 이해하고 있습니다.",
+    "improvement_tip": "functools.wraps를 사용하는 이유도 같이 언급하면 좋습니다.",
+    "evaluated_at": ISODate("...")
+  }
+}
+```
 
-- **Tracks**: 직무 트랙 정보 (예: 'AI Engineer', 'Backend Developer')
-- **Skills**: 개별 기술 노드 (예: 'Python', 'Docker', 'FastAPI')
-- **TrackSkills**: 트랙 내 스킬의 구성 및 순서, 선행 조건(Dependency)을 정의합니다.
+### 2.3 `tracks` (트랙 메타데이터)
 
-### 3.3 사용자 성장 데이터 (User Progress)
-사용자의 현재 학습 상태와 성취를 기록합니다.
+직무별 로드맵(트랙) 구조를 정의합니다. (Read-Only 성격)
 
-- **UserSkillProgress**
-  - 사용자가 특정 `Skill`에 대해 도달한 레벨(Stars)을 저장합니다.
-  - `current_level`: 
-    - 0: 미획득 (Locked)
-    - 1: 기초 (Basic, ⭐)
-    - 2: 응용 (Applied, ⭐⭐)
-    - 3: 심화 (Advanced, ⭐⭐⭐)
-  - `is_calibrated`: 배치고사를 통해 한 번에 획득한 레벨인지 여부.
+* **Index**: `{"slug": 1}` (Unique)
 
-- **UserTrackProgress**
-  - 사용자의 트랙별 진행률과 마스터(Golden Glow) 여부를 저장합니다.
-  - `is_track_master`: 트랙 마스터 챌린지 성공 시 True.
+```javascript
+{
+  "_id": ObjectId("..."),
+  "slug": "backend-developer",      // URL 식별자 (ex: /track/backend-developer)
+  "title": "Backend Developer",
+  "description": "서버 개발의 기초부터 배포까지 마스터하는 코스",
+  "nodes": [
+{
+  "_id": ObjectId("..."),
+  "slug": "backend-developer",
+  "title": "Backend Developer",
+  "nodes": [
+    {
+      "skill_slug": "python",
+      "required_level": 3,
+      "dependencies": [] 
+    },
+    // [선택 분기] 사용자는 RDBMS 또는 NoSQL 중 하나만 마스터해도 다음 단계로 진행 가능
+    {
+      "skill_slug": "postgresql",
+      "group_id": "database_selection", // 같은 그룹 ID를 가진 노드들은 '선택지'로 묶임
+      "required_level": 2,
+      "dependencies": ["python"]
+    },
+    {
+      "skill_slug": "mongodb",
+      "group_id": "database_selection", // PostgreSQL 대신 MongoDB를 선택해도 됨
+      "required_level": 2,
+      "dependencies": ["python"]
+    },
+    // 다음 단계: 위 DB 중 *하나라도* 조건을 만족하면 해금됨
+    {
+      "skill_slug": "fastapi",
+      "dependencies": ["postgresql", "mongodb"], // 의존성 배열에 나열된 것 중 '하나(OR)'만 만족하면 됨
+      "dependency_logic": "OR" // 기본값은 AND이나, OR로 명시하여 선택적 진행 지원
+    }
+  ]
+}
+```
 
-### 3.4 인터뷰 및 평가 (Interview & Assessment)
-AI 에이전트와의 면접 세션 데이터입니다.
+### 2.4 `skills` (기술 메타데이터)
 
-- **InterviewSessions**: 면접 세션의 메타 정보 (누가, 어떤 기술을, 몇 레벨로 도전했는지).
-- **ChatLogs**: 면접 중 오고 간 대화 내용. (추후 RAG나 복습 기능에 활용)
-- **AssessmentResults**: 면접 종료 후 생성된 평가 리포트.
-  - `detailed_evaluation`: JSON 형태로 저장된 세부 항목별 점수.
-  - `feedback_summary`: AI가 제공한 총평.
-  - `improvement_guide`: 부족한 점에 대한 학습 가이드.
+개별 기술에 대한 상세 정보입니다.
+
+* **Index**: `{"slug": 1}` (Unique)
+
+```javascript
+{
+  "_id": ObjectId("..."),
+  "slug": "python",                 // 고유 식별자
+  "name": "Python",
+  "category": "Language",           // Language, Framework, Infrastructure...
+  "icon_url": "/assets/icons/python.svg",
+  "description": "AI 및 백엔드 개발의 표준 언어",
+  "calibration_questions": [        // (Optional) 배치고사용 간단 문제 은행
+    {
+      "q": "Python의 리스트는 연결 리스트인가요?",
+      "a": "아니요, 동적 배열입니다.",
+      "difficulty": 1
+    }
+  ]
+}
+```
+
+---
+
+## 3. Data Access Patterns
+
+### ✅ Q1. 대시보드 로딩 (가장 빈번)
+
+* **Query**: `db.users.findOne({ "auth.uid": current_uid })`
+* **Logic**: 유저 문서를 통째로 가져와 `skill_tree` 필드를 순회하며 프론트엔드 그래프(React Flow)의 노드 색상과 별 개수를 렌더링합니다. (추가 쿼리 없음)
+
+### ✅ Q2. 면접 시작
+
+* **Query**: `db.interviews.insertOne({ user_id: ..., meta: { status: 'IN_PROGRESS' ... } })`
+* **Logic**: 새로운 면접 세션을 생성하고 `_id`를 반환하여 채팅방을 엽니다.
+
+### ✅ Q3. 면접 종료 및 승급
+
+1.  **Update**: `db.interviews.updateOne({ _id: ... }, { $set: { "result": ..., "meta.status": "COMPLETED" } })`
+2.  **If Passed**:
+    ```javascript
+    db.users.updateOne(
+      { _id: user_id },
+      { 
+        $set: { "skill_tree.python.level": 2, "skill_tree.python.stars": 2 },
+        $inc: { "stats.total_stars": 1 }
+      }
+    )
+    ```
+    * **Atomic Update**: MongoDB의 `$set` 연산자를 사용하여 동시성 문제 없이 안전하게 레벨을 업데이트합니다.
