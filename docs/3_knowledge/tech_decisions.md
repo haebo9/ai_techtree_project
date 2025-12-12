@@ -1,7 +1,7 @@
 # Technical Decisions & Stack Architecture
 
 > **AI TechTree** 프로젝트의 기술 스택 의사결정 문서(ADR)입니다.
-> **Python 백엔드 중심의 고도화**와 **나머지 영역의 효율적 구현(Lean)**을 핵심 원칙으로 삼아 선정했습니다.
+> **Python 백엔드 중심의 고도화**와 **나머지 영역의 효율적 구현**을 핵심 원칙으로 삼아 선정했습니다.
 
 1.  [Frontend Architecture](#1-frontend-architecture)
 2.  [Backend Architecture](#2-backend-architecture)
