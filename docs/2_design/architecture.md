@@ -1,11 +1,17 @@
 # 시스템 아키텍처 (System Architecture)
 
 > **AI TechTree** 서비스의 기술 구조와 배포 환경을 정의한 문서입니다.
-> 초기에는 **단일 서버(Monolithic)**로 빠르게 개발하되, AI 기능은 **모듈화**하여 추후 서비스 확장(MSA 전환)에 유연하게 대비합니다.
+> 초기에는 단일 서버(Monolithic)로 빠르게 개발하되, AI 기능은 모듈화하여 추후 서비스 확장(Microservice 전환)에 유연하게 대비합니다.
+
+
+1.  [High-Level Architecture](#high-level-architecture)
+2.  [Architecture Components & Data Flow](#architecture-components--data-flow)
+3.  [Security & Standards](#security--standards)
+4.  [Glossary](#glossary)
 
 ---
 
-## 🏗️ High-Level Architecture
+## High-Level Architecture
 
 ```mermaid
 graph TD
@@ -49,6 +55,7 @@ graph TD
     Client -->|Auth| OAuth["🔐 OAuth Provider (Google/GitHub)"]:::infra
 ```
 
+
 | 색상 (Color) | Layer | 구성 요소 (Components) |
 | :---: | :--- | :--- |
 | 🔵 | **Frontend** | User, Client Application |
@@ -57,7 +64,8 @@ graph TD
 | 🟠 | **Infrastructure** | CDN, Load Balancer, OAuth |
 | 🟡 | **Database** | MongoDB Atlas |
 
-## 📚 아키텍처 구성 요소 및 데이터 흐름 설명
+---
+## Architecture Components & Data Flow
 
 이 아키텍처는 사용자 경험을 최적화하고 AI 에이전트 간의 효율적인 협업을 지원하기 위해 설계되었습니다. 주요 구성 요소와 흐름은 다음과 같습니다.
 
@@ -79,7 +87,8 @@ graph TD
 4.  **`데이터 계층 (Data Layer)`**
     *   **MongoDB Atlas**: 유연한 NoSQL 스키마, 사용자 프로필/스킬 트리/로그 관리 (Cloud).
 
-## 🔒 보안 및 기술 표준 (Security & Standards)
+---
+## Security & Standards
 
 *   **인증/인가**: JWT (Access/Refresh Token) 기반 Stateless 인증.
 *   **보안**: 민감 정보(API Key, DB URI)는 서버 환경 변수(.env)로 관리.
@@ -87,12 +96,13 @@ graph TD
     *   **FE**: Next.js 14+ (App Router), TypeScript 5.x
     *   **BE**: Python 3.11+, FastAPI, Pydantic v2
 
-
-## 💡 주요 용어 한 줄 설명 (Glossary)
+---
+## Glossary
 
 | 용어 (Term) | 설명 (Description) |
 | :--- | :--- |
 | **Monolithic & AI Modules** | 단일 서버로 빠른 개발 지향, AI 기능만 모듈화하여 추후 분리 용이성 확보. |
+| **Microservice** | 작은 독립적인 서비스들로 구성되어 각 서비스가 특정 기능을 수행하는 아키텍처. |
 | **Vercel Edge Network** | 전 세계 분산 서버망 활용, 사용자 위치 기반 최적 속도 제공. |
 | **SSR (Server-Side Rendering)** | 서버에서 화면을 미리 그려 전송, 초기 로딩 속도 및 SEO 최적화. |
 | **Reverse Proxy** | 클라이언트의 요청을 대신 받아 내부 서버로 전달하는 보안 및 부하 분산 서버. |
