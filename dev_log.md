@@ -9,8 +9,8 @@
 
 ---
 ## 2025년 12월
-- 25.12.12(금) : 🔵 architecture, tech_decisions 문서 작성
-- 25.12.10(수) : 🔵 agent_workflow, db_schema 작성
+- 25.12.12(금) : 🔵 architecture, tech_decisions 문서 작성, git 전략 수립
+- 25.12.10(수) : 🔵 agent_workflow, db_schema 문서 작성
 - 25.12.08(월) : 🔵 user_flow(flowchart) 작성, Main README 개선
 - 25.12.06(토) : 🔵 기본 구조 생성, personas, product_spec 작성
 - 25.12.03(수) : ⚪️ 통합 레포지토리 및 파트별(FE/BE/Docs) 구조 생성
