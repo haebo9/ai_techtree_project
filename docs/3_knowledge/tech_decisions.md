@@ -42,6 +42,7 @@
 
 | Technology | Selection Rationale | Pros & Cons |
 | :--- | :--- | :--- |
+| **LangChain** | **Framework**: LLM 호출, 프롬프트 템플릿 관리, 데이터 파싱 등 AI 애플리케이션 개발을 위한 기본 프레임워크.<br/>**Integration**: 다양한 LLM 및 외부 도구와의 손쉬운 연동 지원. | **(+)** 방대한 생태계와 표준화된 인터페이스.<br/>**(-)** 잦은 버전 업데이트로 인한 호환성 이슈 가능성. |
 | **LangGraph** | **Stateful-Agent**: 인터뷰의 문맥을 유지하고, 질문과 답변의 루프를 제어하기 위한 표준 도구.<br/>**Control**: 자율 에이전트보다 개발자가 흐름을 명확히 통제 가능. | **(+)** 복잡한 순환형 워크플로우 구현 최적화.<br/>**(-)** LangChain 대비 높은 러닝 커브. |
 | **OpenAI** | **Reliability**: JSON 응답을 강제하는 Structured-Output 기능이 가장 안정적임.<br/>**Reasoning**: 평가 및 피드백 생성 시 높은 논리력 필요. | **(+)** 개발 편의성, 압도적인 한국어 처리 능력.<br/>**(-)** 유료 비용 발생. |
 
