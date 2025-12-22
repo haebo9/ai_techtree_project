@@ -1,20 +1,34 @@
-# Operating System Files
+# --- System ---
 .DS_Store
 Thumbs.db
 
-# Editor Configuration
+# --- Editor ---
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# Logs and Temporary Files
+# --- Logs & Temp ---
 *.log
 tmp/
 temp/
 coverage/
 dist/
 build/
-node_modules/
+
+# --- Backend (Python) ---
+backend/.venv/
+backend/__pycache__/
+backend/.env
+backend/*.pyc
+backend/.pytest_cache/
 __pycache__/
 *.pyc
+
+# --- Frontend (Node.js) ---
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+frontend/out/
+frontend/.vercel/
+node_modules/
