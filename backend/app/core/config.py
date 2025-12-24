@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     # 필수 환경 변수 (값 없으면 에러 발생)
     OPENAI_API_KEY: str
-    MONGODB_URL: str
+    MONGODB_URL: str | None = None
     
     # 선택적 환경 변수 (기본값 제공)
     PROJECT_NAME: str = "AI TechTree Backend"

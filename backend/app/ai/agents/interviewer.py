@@ -8,7 +8,7 @@ from app.core.config import settings
 # 1. 모델 초기화
 llm = ChatOpenAI(
     model="gpt-5-nano",
-    temperature=0.7,
+    temperature=0.5,
     api_key=settings.OPENAI_API_KEY
 )
 

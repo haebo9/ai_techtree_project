@@ -54,3 +54,5 @@ async def test_evaluator_agent_bad_answer():
     assert result['score'] < 50
     assert result['is_passed'] is False
     print("✅ Evaluator Agent (Bad Answer) 테스트 통과")
+
+# pytest tests/test_ai_agents.py -s

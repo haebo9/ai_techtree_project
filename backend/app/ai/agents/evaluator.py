@@ -16,7 +16,7 @@ class EvaluationResult(BaseModel):
 
 # 2. 모델 및 파서 설정
 llm = ChatOpenAI(
-    model="gpt-4o",  # 평가에는 정확도가 중요하므로 고성능 모델 권장
+    model="gpt-5-nano",  # 평가에는 정확도가 중요하므로 고성능 모델 권장 
     temperature=0,   # 일관된 평가를 위해 창의성(temperature)을 0으로 설정
     api_key=settings.OPENAI_API_KEY
 )
