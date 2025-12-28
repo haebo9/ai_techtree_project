@@ -32,9 +32,9 @@
 
 | Directory | Description | Key Documents |
 | --- | --- | --- |
-| [**1_prd**](docs/1_prd) | **기획 (Product Spec)**<br>요구사항 및 서비스 흐름 정의 | • [핵심 기능 명세](docs/1_prd/product_spec.md)<br>• [페르소나 정의](docs/1_prd/personas.md)<br>• [서비스 흐름도](docs/1_prd/user_flow.md) |
-| [**2_design**](docs/2_design) | **설계 (System Design)**<br>시스템 아키텍처 및 기술 설계 | • [시스템 아키텍처](docs/2_design/architecture.md)<br>• [AI 에이전트 설계](docs/2_design/agent_workflow.md)<br>• [DB 스키마](docs/2_design/db_schema.md) |
-| [**3_knowledge**](docs/3_knowledge) | **지식 (Knowledge Base)**<br>기술 의사결정 및 트러블슈팅 | • [기술 스택 선정](docs/3_knowledge/tech_decisions.md)<br>• [트러블슈팅 로그](docs/3_knowledge/troubleshooting/README.md) |
+| [**1_prd**](docs/1_prd) | **기획 (Product Spec)**<br>요구사항 및 서비스 흐름 정의 | • [핵심 기능 명세](docs/1_prd/product_spec.md)<br>• [페르소나 정의](docs/1_prd/personas.md)<br>• [서비스 흐름도](docs/1_prd/user_flow.md)<br>• [스프린트 로드맵](docs/1_prd/sprint_roadmap.md) |
+| [**2_design**](docs/2_design) | **설계 (System Design)**<br>시스템 아키텍처 및 기술 설계 | • [시스템 아키텍처](docs/2_design/architecture.md)<br>• [AI 에이전트 설계](docs/2_design/agent_workflow.md)<br>• [DB 스키마](docs/2_design/db_schema.md)<br>• [MCP 서버 설계](docs/2_design/mcp_server.md) |
+| [**3_knowledge**](docs/3_knowledge) | **지식 (Knowledge Base)**<br>기술 의사결정 및 참고 자료 | • [기술 스택 선정](docs/3_knowledge/tech_decisions.md)<br>• [참고 자료](docs/3_knowledge/references.md) |
 
 👉 [전체 문서 목록 보기](docs/README.md)
 
@@ -46,14 +46,14 @@
 
 | Category | Technology | Description |
 | --- | --- | --- |
-| **Frontend** | ![Next.js](https://img.shields.io/badge/Next.js-black?style=flat-square&logo=next.js&logoColor=white) ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white) | UI/UX & Client Deployment |
-| **Backend** | ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazon-aws&logoColor=white) | Server API & Cloud Hosting |
+| **Frontend** | ![Next.js](https://img.shields.io/badge/Next.js-black?style=flat-square&logo=next.js&logoColor=white) ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white) ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square) | UI/UX & Client Deployment |
+| **Backend** | ![Python](https://img.shields.io/badge/python-3670A0?style=flat-square&logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazon-aws&logoColor=white)  | Server API & Cloud Hosting |
 | **AI / LLM** | ![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=flat-square&logo=langchain&logoColor=white) ![LangGraph](https://img.shields.io/badge/LangGraph-FF4B4B?style=flat-square) ![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat-square&logo=openai&logoColor=white) | AI Agents & Workflow Orchestration |
 | **Database** | ![MongoDB Atlas](https://img.shields.io/badge/MongoDB%20Atlas-47A248?style=flat-square&logo=mongodb&logoColor=white) | Cloud NoSQL Database |
 
 ## Architecture
 
-- **Frontend**: Next.js로 구축되어 **Vercel**을 통해 배포됩니다.
+- **Frontend**: Next.js로 구축되어 **Vercel**을 통해 배포됩니다. (**Streamlit**으로 MCP 테스트)
 - **Backend**: FastAPI 서버를 **Docker** 컨테이너로 빌드하여 **AWS (EC2)** 에서 실행합니다.
 - **Database**: **MongoDB Atlas (Cloud)** 를 사용하여 데이터 안정성을 확보합니다.
 - **AI Engine**: LangGraph 기반의 Multi-Agent 시스템이 코드 분석 및 평가를 수행합니다.
@@ -90,7 +90,7 @@
 > `docs/README.md`를 참고하여 개발 환경을 구축할 수 있습니다.
 
 ### Prerequisites
-- Python 3.9.6
+- Python 3.14.0
 - Node.js v25.2.1
 - Docker & Docker Compose
 - OpenAI API Key
@@ -99,7 +99,7 @@
 ```bash
 cd backend
 # Create Virtual Environment
-python -m venv venv
+python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
 # Install Dependencies
