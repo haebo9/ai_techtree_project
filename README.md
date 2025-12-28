@@ -53,7 +53,7 @@
 
 ## Architecture
 
-- **Frontend**: Next.js로 구축되어 **Vercel**을 통해 배포됩니다.
+- **Frontend**: Next.js로 구축되어 **Vercel**을 통해 배포됩니다. (**Streamlit**으로 MCP 테스트)
 - **Backend**: FastAPI 서버를 **Docker** 컨테이너로 빌드하여 **AWS (EC2)** 에서 실행합니다.
 - **Database**: **MongoDB Atlas (Cloud)** 를 사용하여 데이터 안정성을 확보합니다.
 - **AI Engine**: LangGraph 기반의 Multi-Agent 시스템이 코드 분석 및 평가를 수행합니다.
