@@ -21,13 +21,17 @@
 > *이 단계에서 개발된 백엔드 로직은 추후 웹 서비스의 핵심 엔진으로 그대로 사용된다.*
 
 - [ ] **Sprint 1 (12월 3주~4주): 환경 구축 및 기본 로직**
-    - [ ] **DB**: MongoDB Atlas 클러스터 생성 및 스키마 설계 (`questions`, `sessions`)
+    - [x] **DB**: MongoDB Atlas 클러스터 생성 및 스키마 설계 (`questions`, `sessions`)
+    - [ ] **DB**: DB collection 구조 설계 및 스키마 저장 로직 구현
+    - [ ] **Dummy Data**: DB에 기본 데이터 추가(Agent 로직 테스트)
     - [x] **Backend**: FastAPI 프로젝트 Scaffolding 및 환경 변수 설정
-    - [ ] **AI Core**: LangChain 기반의 단순 질의응답(Interviewer) 로직 구현 (CLI 테스트)
-
+    - [x] **AI Core**: LangChain 기반의 단순 질의응답(Interviewer) 로직 구현 (CLI 테스트)
+    
 - [ ] **Sprint 2 (1월 1주): AI 에이전트 고도화 (LangGraph)**
-    - [ ] **Evaluator**: 답변 체점 및 피드백 생성 로직 구현
-    - [ ] **Orchestration**: 면접관(질문)-채점관(평가) 간의 상호작용 및 상태 관리 구현
+    - [ ] **Evaluator**: 답변 체점 및 피드백 생성 로직 구현 (DB 연결)
+    - [ ] **QAmaker**: 문제 생성 에이전트 구현 (DB 연결)
+    - [ ] **Interviewer**: 면접관 에이전트 구현 (DB 연결)
+    - [ ] **Orchestration**: 에이전트 간의 상호작용 및 상태 관리 구현
     - [ ] **Logging**: 대화 로그 DB 저장 및 조회 기능 연결
 
 - [ ] **Sprint 3 (1월 2주): MCP Server & AWS Deploy**
