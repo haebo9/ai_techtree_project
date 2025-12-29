@@ -24,14 +24,17 @@ llm = ChatOpenAI(
 parser = JsonOutputParser(pydantic_object=EvaluationResult)
 
 # 3. 프롬프트 템플릿
+# 3. 프롬프트 템플릿
 EVALUATOR_SYSTEM_PROMPT = """
 당신은 시니어 개발자 면접관입니다.
 주어진 면접 질문과 지원자의 답변을 기술적으로 평가하세요.
 
-[평가 기준]
+[필수 평가 항목]
 1. 기술적 정확성
 2. 논리적 설명
 3. 구체적인 예시 사용 여부
+
+참고할 모범 답안과 평가 기준이 있다면 이를 적극 반영하여 채점하세요.
 
 다음의 JSON 형식으로만 응답하세요:
 {format_instructions}
@@ -41,9 +44,16 @@ prompt = ChatPromptTemplate.from_messages([
     ("system", EVALUATOR_SYSTEM_PROMPT),
     ("human", """
     [질문]: {question}
+    
+    [모범 답안 (참고용)]:
+    {model_answer}
+    
+    [평가 기준 (키워드)]:
+    {evaluation_criteria}
+
     [지원자 답변]: {user_answer}
     
-    위 내용을 평가해주세요.
+    위 내용을 바탕으로 냉정하게 평가해주세요.
     """),
 ])
 
@@ -52,14 +62,19 @@ prompt = ChatPromptTemplate.from_messages([
 evaluator_chain = prompt | llm | parser
 
 # 5. 실행 함수
-async def evaluate_answer(question: str, user_answer: str) -> dict:
+async def evaluate_answer(question: str, user_answer: str, model_answer: str = "없음", evaluation_criteria: list = []) -> dict:
     """
     질문과 답변을 받아 평가 결과(JSON Dict)를 반환합니다.
     Ref: EvaluationResult schema
     """
+    
+    criteria_text = ", ".join(evaluation_criteria) if evaluation_criteria else "없음"
+    
     result = await evaluator_chain.ainvoke({
         "question": question,
         "user_answer": user_answer,
+        "model_answer": model_answer,
+        "evaluation_criteria": criteria_text,
         "format_instructions": parser.get_format_instructions()
     })
     

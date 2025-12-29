@@ -35,7 +35,10 @@ backend/
 │   └── ai/                             # AI/LangChain 핵심 로직
 │       ├── agents/                         # 개별 AI 에이전트 정의
 │       │   ├── interviewer.py                  # 면접관 페르소나 및 대화 로직
-│       │   └── evaluator.py                    # 답변 평가 및 점수 산정 로직
+│       │   ├── evaluator.py                    # 답변 평가 및 점수 산정 로직
+│       │   └── qamaker.py                      # 면접 문제 생성 및 DB 저장 (Batch)
+│       ├── source/                         # AI 데이터 소스 (커리큘럼 등)
+│       │   └── topics.py                       # 면접 주제 리스트 정의
 │       ├── graphs/                         # LangGraph 오케스트레이터
 │       │   └── workflow.py                     # 에이전트 간 순서 및 분기 처리
 │       ├── tools/                          # LangChain Tools (MCP 호환)
