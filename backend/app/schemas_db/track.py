@@ -7,7 +7,7 @@ class TrackNode(BaseModel):
     트랙 내의 개별 학습 노드 (스킬)
     """
     skill_slug: str
-    required_level: int = 1
+    required_level: int = 1 
     
     # 의존성 관리
     dependencies: List[str] = [] # 선행 스킬 slug 목록

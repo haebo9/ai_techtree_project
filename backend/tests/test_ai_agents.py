@@ -7,7 +7,7 @@ load_dotenv(dotenv_path="backend/.env")
 
 from app.ai.agents.interviewer import generate_interview_response
 from app.ai.agents.evaluator import evaluate_answer
-from app.ai.agents.question_generator import generate_single_question
+from app.ai.agents.qamaker import generate_single_question
 
 @pytest.mark.asyncio
 async def test_question_generator_agent():
