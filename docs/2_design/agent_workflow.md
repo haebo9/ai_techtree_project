@@ -1,7 +1,7 @@
 # Agent Workflow & System Design
 
 - **[1. Overview](#1-overview)**
-- **[2. Multi-Agent Architecture](#2-multi-agent-architecture)**
+- **[2. Main-Sub Agent Architecture](#2-main-sub-agent-architecture)**
 - **[3. Workflow Steps](#3-workflow-steps)**
 - **[4. Prompt Engineering Strategy](#4-prompt-engineering-strategy)**
 - **[5. Sequence Diagram](#5-sequence-diagram-mermaid)**
@@ -9,103 +9,87 @@
 ---
 
 ## 1. Overview
-본 문서는 "AI TechTree" 시스템의 핵심인 **AI 에이전트 워크플로우**를 정의합니다.
-사용자의 실력을 진단하는 **면접관**과 이를 평가하는 **채점관**의 멀티 에이전트 상호작용 및 데이터 흐름을 상세히 기술합니다.
+본 문서는 "AI TechTree" 시스템의 **Main-Sub Agent Architecture**를 정의합니다.
+기존의 단일 에이전트 또는 평면적 멀티 에이전트 구조를 **Controller(Main Agent)** 와 **Specialized Workers(Sub-Agents)** 구조로 재편하여 확장성과 응답 속도를 극대화합니다.
+
+참고: [LangChain Sub-agents Architecture](https://docs.langchain.com/oss/python/langchain/multi-agent/subagents)
 
 ---
 
-## 2. Multi-Agent Architecture
+## 2. Main-Sub Agent Architecture
 
-시스템은 역할이 명확히 분리된 두 개의 에이전트가 협업하는 구조입니다.
+시스템은 **Main Agent**가 사용자의 요청을 조율하고, 전문적인 작업은 **Sub-Agent**들을 **Tool**처럼 호출하여 수행하는 **Tool per Agent** 패턴을 따릅니다.
 
-### 1. Interviewer Agent (면접관)
-*   **Role**: 사용자에게 기술 질문을 던지고, 답변에 따라 심층 질문(꼬리물기)을 수행합니다.
-*   **Persona**: 직무 및 레벨에 따라 태도가 달라짐 (예: 1레벨은 친절한 사수, 3레벨은 깐깐한 시니어/임원).
-*   **Input**: `Skill Context`, `Target Level`, `User Answer History`
-*   **Output**: `Next Question` (Streamed Text) or `[END]` token
+### 1. Main Agent (The Controller)
+*   **Type**: Synchronous (동기식 처리)
+*   **Role**: 사용자의 인터페이스이자 전체 워크플로우의 관리자.
+*   **Responsibility**:
+    *   사용자 요청 수신 및 의도 파악.
+    *   적절한 Sub-Agent(Tool) 호출 및 실행 결과 중계.
+    *   세션 상태 관리 및 에러 핸들링.
 
-### 2. Evaluator Agent (채점관)
-*   **Role**: 축적된 대화 데이터를 분석하여 합격 여부를 판단하고 피드백을 생성합니다.
-*   **Constraint**: 사용자와 직접 대화하지 않으며, 오직 **데이터만**을 보고 냉정하게 평가합니다.
-*   **Input**: `Full Chat History`, `Evaluation Rubric`
-*   **Output**: `Assessment Result` (Structured JSON)
+### 2. Sub-Agents (Specialized Tools)
+각 Sub-Agent는 Main Agent가 필요에 따라 호출하는 **독립적인 기능 단위(Tool)**로 구현됩니다.
+
+#### A. QAmaker Agent (Question Generator)
+*   **Type**: **Asynchronous (비동기 백그라운드 처리)**
+*   **Role**: 인터뷰 질문을 백그라운드에서 실시간으로 생성하여 대기열(Queue)에 적재.
+*   **Features**:
+    *   **Async Generation**: Main Agent가 인터뷰 시작 신호를 보내면, 사용자 대기 시간을 최소화하기 위해 백그라운드에서 즉시 다음 질문들을 하나씩 생성(One-by-one)합니다.
+    *   **Output**: DB `questions` 후보군 적재.
+
+#### B. Interviewer Agent (The Facilitator)
+*   **Type**: Synchronous (Interactive)
+*   **Role**: 사용자와 직접 대화하며 질문을 던지고 꼬리물기(Deep Dive)를 수행.
+*   **Input**: `QAmaker`가 생성한 질문, `User Answer`
+*   **Reference**: QAmaker가 만든 질문을 컨텍스트로 활용하지만, 상황(질문 수준)에 따라 유연하게 꼬리 질문을 생성.
+
+#### C. Evaluator Agent (The Judge)
+*   **Type**: Synchronous (One-Shot)
+*   **Role**: 대화 로그를 기반으로 최종 평가 수행.
 
 ---
 
 ## 3. Workflow Steps
 
-### Phase 1: 면접 세션 초기화 (Session Init)
-사용자가 특정 노드(예: Python)의 승급 심사(예: 2차 전직)에 도전합니다.
+### Phase 1: 세션 초기화 및 비동기 질문 생성 (Init & Async Gen)
+사용자가 도전을 시작하면 Main Agent는 즉시 응답 가능한 상태를 만들고, QAmaker를 백그라운드에서 가동합니다.
 
-1.  **Frontend**: `POST /api/interview/start` 요청 (skill: `python`, level: `2`).
-2.  **Backend (Question Retrieval)**:
-    *   DB `questions` 컬렉션에서 해당 기술/레벨의 **질문 세트(2~3개)를 랜덤 추출**합니다.
-    *   (예: Generator, GIL, Decorator 주제 관련 질문 로드)
-3.  **Backend (Session Create)**:
-    *   DB `interviews` 컬렉션에 문서 생성 (`status`: `IN_PROGRESS`).
-    *   **Interviewer Agent**에게 `System Prompt`와 함께 **추출된 질문 목록(Reference Questions)**을 전송합니다.
-4.  **Interviewer Agent**:
-    *   첫 번째 질문을 선택하여 **스트리밍**으로 사용자에게 전송.
+1.  **User**: 도전 시작 요청.
+2.  **Main Agent**:
+    *   세션 생성 (Status: `IN_PROGRESS`).
+    *   **Tool Call (QAmaker)**: "Python Lv.2 질문 생성 시작해(비동기 Trigger)".
+3.  **QAmaker (Async)**:
+    *   첫 번째 필수 질문(Q1)을 즉시 생성하여 DB/Queue에 Push.
+    *   이후 Q2, Q3를 백그라운드에서 순차적으로 생성 및 적재.
+4.  **Main Agent**:
+    *   질문 큐에서 Q1이 확보되는 즉시 **Interviewer Tool** 호출.
 
-### Phase 2: 실시간 문답 (Interactive Q&A)
-사용자와 Interviewer Agent 간의 턴제 대화가 진행됩니다. (기본 5~10턴 내외)
+### Phase 2: 인터렉티브 인터뷰 (Tool-based Interaction)
+Main Agent는 사용자의 입력을 받아 Interviewer Tool을 통해 적절한 답변을 생성합니다.
 
-**핵심 로직: Sequential Deep Dive (순차적 심층 검증)**
-AI 면접관은 전달받은 **질문 세트(Q1, Q2, Q3)**를 **순서대로 진행**하며, 각 주제마다 충분한 깊이의 검증을 거칩니다.
+1.  **User**: 답변 전송.
+2.  **Main Agent**:
+    *   현재 대화 맥락을 파악.
+    *   **Tool Call (Interviewer)**: 사용자의 답변을 전달하고 다음 발화 생성 요청.
+3.  **Interviewer Tool**:
+    *   **Deep Dive Logic**: 답변이 부족하면 꼬리 질문 생성.
+    *   **Review Logic**: 답변이 충분하면 QAmaker가 만들어둔 **다음 질문(Q2)**을 Fetch하여 제시.
+4.  **Main Agent**: Interviewer의 출력을 사용자에게 스트리밍.
 
-1.  **User**: 답변 입력 및 전송.
-2.  **Backend**: `current_turn` 및 대화 로그 전달.
-3.  **Interviewer Agent (Decision Step)**:
-    *   **Current Topic Check**: 현재 다루고 있는 주제(예: Q1)에 대한 답변을 분석.
-    *   **Loop A (Deep Dive)**: 답변이 부족하거나 검증이 필요하면 -> **꼬리물기 질문(Follow-up) 유지**.
-    *   **Loop B (Topic Switch)**: 현재 주제가 통과(Pass)되었다고 판단되면 -> **"좋습니다. 다음은 [Q2 주제]에 대해 질문하겠습니다."라며 다음 질문 제시**.
-    *   *전체 흐름: [Q1 질문 -> 꼬리질문 -> 통과] ➡️ [Q2 질문 -> 꼬리질문 -> 통과] ➡️ [Q3 질문 ...]*
-4.  **Termination Logic (Hard Limit)**:
-    *   **Condition A**: 준비된 모든 질문 세트(Q1~Q3)가 완료되면 `[END]` 토큰 출력.
-    *   **Condition B**: `MAX_TURN_COUNT` 도달 시 강제 종료.
-
-### Phase 3: 평가 및 피드백 (Evaluation)
-면접이 종료되면 Evaluator Agent가 개입하여 One-Shot 평가를 수행합니다.
-
-1.  **Backend**: 전체 대화 로그(`messages`)를 **Evaluator Agent** 프롬프트에 주입.
-2.  **Evaluator Agent Processing**:
-    *   사전에 정의된 **세부 평가 기준(Rubric)**에 따라 각 항목 점수 산출.
-    *   **Decision Making**: 총점 80점 이상 시 Pass 처리.
-3.  **JSON Generation**:
-    ```json
-    {
-      "is_passed": true,
-      "total_score": 85,
-      "criteria_scores": {
-        "technical_accuracy": 90,   // 기술적 정확성
-        "logical_consistency": 80,  // 논리적 일관성
-        "practical_application": 85 // 실무 응용 능력
-      },
-      "feedback_summary": "핵심 개념인 Yield의 동작 원리를 정확히 이해하고 있습니다.",
-      "improvement_guide": "비동기 Generator(async for)에 대한 개념도 추가로 학습하면 완벽할 것입니다."
-    }
-    ```
-4.  **System Action**:
-    *   DB `interviews` 문서 업데이트 (결과 저장, `status`: `COMPLETED`).
-    *   **If Passed**: `users` 컬렉션 업데이트 -> **Skill Level Up & Star Earned!**
-    *   Frontend 결과 리포트 반환.
+### Phase 3: 평가 (Evaluation)
+1.  **Main Agent**: 모든 질문 세트 완료 감지.
+2.  **Tool Call (Evaluator)**: 전체 대화 로그 전달.
+3.  **Evaluator Tool**: 채점 및 피드백 JSON 반환.
+4.  **Main Agent**: 결과 저장 및 사용자에게 리포트 표시.
 
 ---
 
 ## 4. Prompt Engineering Strategy
 
-### Level-Adaptive Prompting
-도전 레벨에 따라 에이전트의 난이도와 평가 기준을 동적으로 조절합니다.
-
-| Level | Interviewer Persona | Evaluator Criteria |
-| :--- | :--- | :--- |
-| **Lv.1 (Basic)** | 친절하고 유도적인 질문 (Junior Mentor) | **Accurarcy**: 용어와 정의를 틀리지 않았는가? |
-| **Lv.2 (Applied)** | 실무 중심의 해결책 요구 (Team Lead) | **Problem Solving**: 코드로 구현 가능하고 현실적인가? |
-| **Lv.3 (Advanced)** | 트레이드오프와 설계 중심 (CTO) | **Architecture**: 확장성과 유지보수성을 고려했는가? |
-
-### Guardrails & Safety
-*   **Turn Limit**: 무한 루프 방지를 위해 백엔드 하드 코딩된 `MAX_TURNS` 적용.
-*   **Strict JSON Mode**: LLM 설정(temperature=0, json_mode=on)을 통해 반드시 파싱 가능한 JSON만 출력하도록 강제.
+*   **Main Agent Prompt**: "당신은 AI TechTree의 진행자입니다. 사용자의 요청이 들어오면 `QAmaker`, `Interviewer`, `Evaluator` 도구를 적절히 사용하여 과정을 진행하십시오."
+*   **QAmaker Prompt**: "주어진 기술과 레벨에 맞는 날카로운 면접 질문을 하나씩 생성하십시오. JSON 형식으로 출력해야 합니다."
+*   **Interviewer Prompt**: "당신은 면접관입니다. Main Agent가 제공한 Reference Question을 기반으로 대화를 진행하되, 너무 기계적으로 굴지 마십시오."
 
 ---
 
@@ -113,78 +97,66 @@ AI 면접관은 전달받은 **질문 세트(Q1, Q2, Q3)**를 **순서대로 진
 
 ```mermaid
 sequenceDiagram
-    participant User
-    participant Frontend
-    participant Backend
-    participant DB
-    participant Interviewer
-    participant Evaluator
+    autonumber
+    participant U as User
+    participant M as Main Agent (Controller)
+    participant Q as QAmaker (Async Tool)
+    participant DB as DB / Queue
+    participant I as Interviewer (Tool)
+    participant E as Evaluator (Tool)
 
-    %% --- [Phase 1: Init] ---
-    User->>Frontend: 도전 시작 (Start)
-    Frontend->>Backend: POST /interview/init
-    
-    Backend->>DB: Fetch Random Questions
-    DB-->>Backend: Question Set (Q1, Q2...)
-    
-    Backend->>DB: Create Session (IN_PROGRESS)
-    Backend->>Interviewer: System Prompt + Questions
-    Interviewer-->>Backend: Stream First Question
-    Backend-->>Frontend: Stream Q1
+    Note over U, E: Phase 1: 세션 초기화 및 비동기 질문 생성
 
-    %% --- [Phase 2: Interactive Loop] ---
-    rect rgb(240, 248, 255)
-        loop Until All Topics Covered or MaxTurns
-            User->>Frontend: Answer
-            Frontend->>Backend: Send Message
-            
-            alt Max Turns Reached
-                Backend-->>Frontend: Force Stop Message
-            else Normal Flow
-                Backend->>Interviewer: Context + Answer
-                Interviewer-->>Backend: Stream Next Question
-                Backend-->>Frontend: Stream Response
-            end
+    U->>M: 도전 시작 (Start TechTree)
+    M->>DB: 세션 생성 (Status: IN_PROGRESS)
+    
+    rect rgb(240, 240, 240)
+        Note right of M: 비동기 트리거 (Non-blocking)  
+        M-->>Q: 질문 생성 요청 (Topic, Level)
+        activate Q
+        Q->>DB: Q1 생성 및 Push
+        Q->>DB: Q2, Q3... 순차 생성 및 적재
+        deactivate Q
+    end
+
+    M->>DB: Q1 확보 확인
+    DB-->>M: Q1 Data
+    M->>I: 인터뷰 시작 (with Q1 Context)
+    I-->>M: Q1 질문 발화 (자연어)
+    M-->>U: Q1 전송 (Streaming 시작)
+
+    Note over U, E: Phase 2: 인터렉티브 인터뷰 루프
+
+    loop 질문 세트 완료 시까지
+        U->>M: 답변 전송 (User Answer)
+        M->>I: 답변 전달 및 판단 요청
+        
+        alt 답변 보충 필요 (Deep Dive)
+            I-->>M: 꼬리 질문 생성 (Deep Dive Question)
+        else 답변 충분 / 주제 통과 (Next Topic)
+            M->>DB: 다음 대기 질문(Next Q) Fetch
+            DB-->>M: Q{n} Data
+            M->>I: 다음 주제 전환 요청 (with Q{n})
+            I-->>M: 다음 질문 발화 (Transition + Q{n})
         end
+        
+        M-->>U: 최종 응답 전송
     end
 
-    %% --- [Phase 3: Evaluation] ---
-    Frontend->>Backend: Request Evaluation
-    Backend->>Evaluator: Input Full Logs & Rubric
-    Evaluator-->>Backend: Output JSON Result
+    Note over U, E: Phase 3: 최종 평가 (Evaluation)
+
+    M->>M: 세션 종료 판단
+    M->>E: 전체 대화 로그(History) 전달
+    activate E
+    E-->>M: 채점 결과 및 피드백 (JSON)
+    deactivate E
     
-    Backend->>DB: Update Result (COMPLETED)
-    alt If Passed
-        Backend->>DB: Update User Skill Tree (Unlock)
-    end
-    
-    Backend-->>Frontend: Show Feedback Report
+    M->>DB: 결과 저장 및 세션 종료 (Status: COMPLETED)
+    M-->>U: 최종 리포트 UI 출력
 ```
 
-### 다이어그램 요약 설명
-위 다이어그램은 **면접 시작부터 결과 처리까지의 전체 흐름**을 보여줍니다.
+### 다이어그램 요약
+1.  **Main Agent 중심 구조**: 모든 요청은 Main Agent를 통하며, Main Agent가 상황에 맞춰 하위 Sub-Agent(QAmaker, Interviewer)를 호출합니다.
+2.  **Async QAmaker**: QAmaker는 Main Agent의 요청을 받으면 백그라운드(비동기)에서 질문을 하나씩 만들어 DB에 쌓아둡니다. 이를 통해 유저는 기다림 없이 인터뷰를 진행할 수 있습니다.
+3.  **Tool Use**: Interviewer와 Evaluator는 독립적인 에이전트라기보다는, Main Agent가 사용하는 "능력(Tool)"으로써 동작합니다.
 
-1.  **시작 단계 (Init)**: 유저가 도전을 시작하면 시스템이 DB에서 질문을 꺼내와 면접관 AI에게 전달하고 면접을 시작합니다.
-2.  **대화 단계 (Loop)**: 유저와 면접관 AI가 대화를 주고받습니다. 답변이 부족하면 꼬리 질문을 하고, 충분하면 다음 주제로 넘어갑니다.
-3.  **평가 단계 (Evaluation)**: 모든 대화가 끝나면 채점관 AI가 대화 로그를 정밀 분석하여 합격/불합격을 판정하고 피드백을 줍니다. 합격 시 스킬 트리가 업데이트됩니다.
-
-### 다이어그램 보는 법 (Legend)
-
-다이어그램을 구성하는 **기호(선, 박스)**와 **주요 용어**에 대한 설명입니다.
-
-#### 1. 기호와 도형 (Symbols)
-| 기호 (Symbol) | 의미 (Meaning) | 설명 (Description) |
-| :--- | :--- | :--- |
-| **실선 화살표** (`──▶`) | **요청 (Request)** | "이거 처리해줘" 또는 "데이터 받아라" 하고 명령을 보낼 때 사용합니다. (예: 시작 요청) |
-| **점선 화살표** (`--▶`) | **응답 (Response)** | "작업 끝났어, 결과는 이거야" 하고 답장을 보낼 때 사용합니다. |
-| **상단 네모 칸** | **참여자 (Participant)** | 작업을 수행하는 주체들입니다. (User=사용자, Backend=서버, AI=지능형 에이전트) |
-| **loop 박스** | **반복 (Loop)** | 특정 조건이 끝날 때까지 질문과 답변을 계속 주고받는 구간입니다. |
-| **alt 박스** | **선택 (Alternative)** | 상황에 따라 "강제 종료" 또는 "정상 진행"으로 흐름이 갈라지는 구간입니다. |
-
-#### 2. 화살표 위 주요 용어 (Terms)
-| 용어 | 설명 |
-| :--- | :--- |
-| **System Prompt** | AI 면접관에게 "너는 면접관이야"라고 역할을 부여하는 초기 설정값 |
-| **Question Set** | 면접 진행을 위해 DB에서 꺼내온 질문 꾸러미 |
-| **Stream** | 타자 치듯 글자가 실시간으로 나오는 전송 방식 |
-| **Rubric** | 채점관 AI가 합격 여부를 판단할 때 사용하는 채점 기준표 |
