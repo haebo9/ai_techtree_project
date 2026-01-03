@@ -7,15 +7,15 @@
 > * ⚪️ **Infra** : 배포(AWS, Vercel), 환경 설정, CI/CD
 > * 🔴 **Project** : 프로젝트 초기화, 릴리즈, 마일스톤 
 
-> **Category** : **Feat**(기능), **Fix**(수정), **Refactor**(개선), **Add**(추가), **Update**(갱신), **Remove**(삭제), **Init**(초기화)
+> **+ Category** : **Feat**(기능), **Fix**(수정), **Refactor**(개선), **Add**(추가), **Update**(갱신), **Remove**(삭제), **Init**(초기화)
 
 ---
 ## 2026년 1월
 | Date | Tag | Category | Details |
 |:---:|:---:|:---:|:---|
-| **26.01.03(토)** | 🟢 | **Refactor** | `Stateless MCP Server`와 `Stateful Main Service` 폴더 분리 (Agent 로직 공유) |
-| | 🟣 | **Feat** | `main_agent` 로직 구현 (초안) |
-| | 🔵 | **Refactor** | Agent 아키텍처(DB 로직 제거) 및 MCP Server 구조(Main-Sub) 변경 |
+| **26.01.03(토)** | 🟢 | **Refactor** | `Stateless MCP`와 `Stateful api server` 폴더 분리 |
+| | 🟣 | **Feat** | `main_agent` 로직 구현, sub_agent 코드 검토 |
+| | 🔵 | **Refactor** | Agent 아키텍처(Main-sub) 및 MCP 구조 변경 문서 작성|
 
 ## 2025년 12월
 | Date | Tag | Category | Details |
