@@ -1,4 +1,4 @@
-# 🎮 AI Tech Tree: The Path of Mastery (v1.2)
+# AI Tech Tree: The Path of Mastery (v1.2)
 
 이 문서는 AI 엔지니어로 성장하기 위한 계층적 스킬 트리를 정의합니다. 모든 모험가는 **Tier 0**에서 시작하며, 이후 전직을 통해 자신만의 전문화된 경로(Option)를 선택할 수 있습니다.
 
@@ -9,27 +9,27 @@
 
 ---
 
-## 🏁 Tier 0: The Origin (공통 필수 기반)
+## 🏁 Track 0: The Origin
 
-**모든 AI 클래스로 전직하기 위한 선행 조건입니다.**
+> **모든 AI 클래스로 전직하기 위한 선행 조건입니다.**
 
-* **Python Mastery**
+* **[Tier 1: Core] Python Mastery**
   * 🔹 `Python Syntax & Types` : 변수, 자료형, 기초 문법
   * 🔹 `Data Structure Core` : List, Dict, Set의 메모리 구조 및 효율성
   * 🔹 `OOP & Functional` : Class, Decorator, Generator, Lambda
 
-* **DevOps Foundations**
+* **[Tier 2: Core] DevOps Foundations**
   * 🔹 `Linux CLI` : 파일 시스템, 권한, 프로세스 관리
   * 🔹 `Git Version Control` : Commit, Branch, Merge, Rebase
 
-* **[Required] Math & Logic**
-  * 🔹 `Linear Algebra & Statistics` : 선형대수, 기초 통계학 (AI 구동 원리 이해)
+* **[Tier 3: Core] Math & Logic**
+  * 💎 `Linear Algebra & Statistics` : 선형대수, 기초 통계학 (AI 구동 원리 이해)
 
 ---
 
-## 🛠️ Track 1: AI Engineer (시스템 구축가)
+## 🏁 Track 1: AI Engineer
 
-**모델을 실제 서비스 환경에 이식하고 가동합니다.**
+> **모델을 실제 서비스 환경에 이식하고 가동합니다.**
 
 * **[Tier 1: Core] System Foundation**
   * 🔹 `FastAPI Essentials` : Path/Query Param, Pydantic Schema
@@ -53,9 +53,9 @@
 
 ---
 
-## 🧠 Track 2: AI Modeler / Researcher (알고리즘 술사)
+## 🏁 Track 2: AI Modeler / Researcher
 
-**데이터를 지능으로 변환하는 핵심 모델을 설계합니다.**
+> **데이터를 지능으로 변환하는 핵심 모델을 설계합니다.**
 
 * **[Tier 1: Core] Deep Learning Engine**
   * 🔹 `Tensor Operations` : PyTorch Tensor Shape, Broadcasting
@@ -78,9 +78,9 @@
 
 ---
 
-## ⚡ Track 3: LLM Application Engineer (에이전트 소환사)
+## 🏁 Track 3: LLM Application Engineer
 
-**LLM을 활용하여 지능형 앱과 자율 에이전트를 개발합니다.**
+> **LLM을 활용하여 지능형 앱과 자율 에이전트를 개발합니다.**
 
 * **[Tier 1: Core] Context Integration**
   * 🔹 `Prompting Basics` : Zero-shot, Few-shot, Role Prompting
@@ -104,9 +104,9 @@
 
 ---
 
-## 🏗️ Track 4: Data Engineer (데이터 대장장이)
+## 🏁 Track 4: Data Engineer
 
-**안정적인 데이터 파이프라인과 대규모 데이터 인프라를 관리합니다.**
+> **안정적인 데이터 파이프라인과 대규모 데이터 인프라를 관리합니다.**
 
 * **[Tier 1: Core] Data Flow**
   * 🔹 `SQL Mastery` : Complex Join, Window Function, CTE
@@ -126,9 +126,9 @@
 
 ---
 
-## ♾️ Track 5: MLOps Engineer (운영의 지배자)
+## 🏁 Track 5: MLOps Engineer
 
-**전체 ML 생명 주기를 자동화하고 운영 효율을 극대화합니다.**
+> **전체 ML 생명 주기를 자동화하고 운영 효율을 극대화합니다.**
 
 * **[Tier 1: Core] Automation Core**
   * 🔹 `Docker & Registry` : Image Tagging, Registry 관리
@@ -149,52 +149,127 @@
 ---
 
 ## 🗺️ Summary Map (Visual Overview)
-```
-root/
-│
-├── 🏁 Tier 0: The Origin
-│   ├── 🐍 Python Mastery
-│   │   ├── 🔹 Syntax & Types
-│   │   ├── 🔹 Data Structure Core
-│   │   └── 🔹 OOP & Functional
-│   ├── ♾️ DevOps Foundations
-│   │   ├── 🔹 Linux CLI
-│   │   └── 🔹 Git Version Control
-│   └── 📐 Math & Logic
-│       └── 🔹 Linear Algebra & Statistics
-│
-├── 🛠️ Track 1: AI Engineer 
-│   ├── 📦 Tier 1: System Foundation (FastAPI, Docker, Async)
-│   ├── 🌿 Tier 2: Branching Point
-│   │   ├── 🔸 Option 1: Serving Specialist (ONNX, TensorRT, Triton)
-│   │   └── 🔸 Option 2: App Architect (DB Design, Redis, MQ)
-│   └── 💎 Tier 3: Infrastructure Mastery (K8s, GPU Scaling)
-│
-├── 🧠 Track 2: AI Modeler / Researcher 
-│   ├── 🚂 Tier 1: Deep Learning Engine (PyTorch, AutoGrad, Training Loop)
-│   ├── 🌿 Tier 2: Branching Point
-│   │   ├── 🔸 Option 1: Vision Sage (CNN, YOLO, Diffusion)
-│   │   └── 🔸 Option 2: Language Sage (Transformer, Tokenization, PEFT)
-│   └── 💎 Tier 3: Advanced Training (DDP, FSDP, Mixed Precision)
-│
-├── ⚡ Track 3: LLM Application Engineer 
-│   ├── 🔗 Tier 1: Context Integration (Prompting, CoT, Vector DB)
-│   ├── 🌿 Tier 2: Branching Point
-│   │   ├── 🔸 Option 1: Agentic Workflow (ReAct, Tool Use, LangGraph)
-│   │   └── 🔸 Option 2: Reliability & Eval (Adv-RAG, RAGAS, Chunking)
-│   └── 💎 Tier 3: Production Excellence (LLMOps, A/B Testing)
-│
-├── 🏗️ Track 4: Data Engineer 
-│   ├── 🌊 Tier 1: Data Flow (SQL, Data Modeling, Airflow)
-│   ├── 🌿 Tier 2: Branching Point
-│   │   ├── 🔸 Option 1: Big Data Master (Spark, MapReduce)
-│   │   └── 🔸 Option 2: Real-time Master (Kafka, Stream Processing)
-│   └── 💎 Tier 3: Data Architecture (Lakehouse, dbt)
-│
-└── ♾️ Track 5: MLOps Engineer 
-    ├── 🤖 Tier 1: Automation Core (CI/CD, MLflow/WandB)
-    ├── 🌿 Tier 2: Branching Point
-    │   ├── 🔸 Option 1: FinOps (Terraform, Resource Mgmt)
-    │   └── 🔸 Option 2: Model Health (Drift Detection, Observability)
-    └── 💎 Tier 3: Monitoring Mastery (Continuous Training)
+```mermaid
+graph LR
+    root[🎮 AI Tech Tree]
+
+    %% Track 0
+    root ==> T0("🏁 Track 0: The Origin")
+    T0 --> T0_1[Tier 1: Python Mastery]
+    T0_1 --- T0_1_1(🔹 Syntax & Types)
+    T0_1 --- T0_1_2(🔹 Data Structure Core)
+    T0_1 --- T0_1_3(🔹 OOP & Functional)
+
+    T0 --> T0_2[Tier 2: DevOps Foundations]
+    T0_2 --- T0_2_1(🔹 Linux CLI)
+    T0_2 --- T0_2_2(🔹 Git Version Control)
+
+    T0 --> T0_3[Tier 3: Math & Logic]
+    T0_3 --- T0_3_1(💎 Linear Algebra & Statistics)
+
+    %% Track 1
+    root ==> T1("🏁 Track 1: AI Engineer")
+    T1 --> T1_1[Tier 1: System Foundation]
+    T1_1 --- T1_1_1(🔹 FastAPI Essentials)
+    T1_1 --- T1_1_2(🔹 Dependency Injection)
+    T1_1 --- T1_1_3(🔹 Async Architecture)
+    T1_1 --- T1_1_4(🔹 Docker Basics)
+
+    T1 --> T1_2[Tier 2: Branching Point]
+    T1_2 -.-> T1_2_Opt1(Option 1: Serving Specialist)
+    T1_2_Opt1 --- T1_2_O1_1(🔸 Model Serialization)
+    T1_2_Opt1 --- T1_2_O1_2(🔸 Inference Optimization)
+    T1_2_Opt1 --- T1_2_O1_3(🔸 Serving Frameworks)
+
+    T1_2 -.-> T1_2_Opt2(Option 2: App Architect)
+    T1_2_Opt2 --- T1_2_O2_1(🔸 Database Design)
+    T1_2_Opt2 --- T1_2_O2_2(🔸 Caching Strategy)
+    T1_2_Opt2 --- T1_2_O2_3(🔸 Message Queue)
+
+    T1 --> T1_3[Tier 3: Infrastructure Mastery]
+    T1_3 --- T1_3_1(💎 Container Orchestration)
+    T1_3 --- T1_3_2(💎 GPU Scaling)
+
+    %% Track 2
+    root ==> T2("🏁 Track 2: AI Modeler / Researcher")
+    T2 --> T2_1[Tier 1: Deep Learning Engine]
+    T2_1 --- T2_1_1(🔹 Tensor Operations)
+    T2_1 --- T2_1_2(🔹 AutoGrad & Backprop)
+    T2_1 --- T2_1_3(🔹 Training Loop)
+
+    T2 --> T2_2[Tier 2: Branching Point]
+    T2_2 -.-> T2_2_Opt1(Option 1: Vision Sage)
+    T2_2_Opt1 --- T2_2_O1_1(🔸 CNN Backbones)
+    T2_2_Opt1 --- T2_2_O1_2(🔸 Object Detection)
+    T2_2_Opt1 --- T2_2_O1_3(🔸 Generative Vision)
+
+    T2_2 -.-> T2_2_Opt2(Option 2: Language Sage)
+    T2_2_Opt2 --- T2_2_O2_1(🔸 Transformer Arch)
+    T2_2_Opt2 --- T2_2_O2_2(🔸 Tokenization)
+    T2_2_Opt2 --- T2_2_O2_3(🔸 PEFT)
+
+    T2 --> T2_3[Tier 3: Advanced Training]
+    T2_3 --- T2_3_1(💎 Distributed Training)
+    T2_3 --- T2_3_2(💎 Memory Optimization)
+
+    %% Track 3
+    root ==> T3("🏁 Track 3: LLM Application Engineer")
+    T3 --> T3_1[Tier 1: Context Integration]
+    T3_1 --- T3_1_1(🔹 Prompting Basics)
+    T3_1 --- T3_1_2(🔹 Chain of Thought)
+    T3_1 --- T3_1_3(🔹 Embeddings)
+    T3_1 --- T3_1_4(🔹 Vector DB)
+
+    T3 --> T3_2[Tier 2: Branching Point]
+    T3_2 -.-> T3_2_Opt1(Option 1: Agentic Workflow)
+    T3_2_Opt1 --- T3_2_O1_1(🔸 ReAct Pattern)
+    T3_2_Opt1 --- T3_2_O1_2(🔸 Tool Use)
+    T3_2_Opt1 --- T3_2_O1_3(🔸 Multi-Agent)
+
+    T3_2 -.-> T3_2_Opt2(Option 2: Reliability & Eval)
+    T3_2_Opt2 --- T3_2_O2_1(🔸 Advanced RAG)
+    T3_2_Opt2 --- T3_2_O2_2(🔸 Chunking Strategy)
+    T3_2_Opt2 --- T3_2_O2_3(🔸 LLM Evaluation)
+
+    T3 --> T3_3[Tier 3: Production Excellence]
+    T3_3 --- T3_3_1(💎 Prompt Management)
+    T3_3 --- T3_3_2(💎 Feedback Loop)
+
+    %% Track 4
+    root ==> T4("� Track 4: Data Engineer")
+    T4 --> T4_1[Tier 1: Data Flow]
+    T4_1 --- T4_1_1(🔹 SQL Mastery)
+    T4_1 --- T4_1_2(🔹 Data Modeling)
+    T4_1 --- T4_1_3(🔹 Workflow Orchestration)
+
+    T4 --> T4_2[Tier 2: Branching Point]
+    T4_2 -.-> T4_2_Opt1(Option 1: Big Data Master)
+    T4_2_Opt1 --- T4_2_O1_1(🔸 Distributed Concept)
+    T4_2_Opt1 --- T4_2_O1_2(🔸 Spark Logic)
+
+    T4_2 -.-> T4_2_Opt2(Option 2: Real-time Master)
+    T4_2_Opt2 --- T4_2_O2_1(🔸 Event Streaming)
+    T4_2_Opt2 --- T4_2_O2_2(🔸 Stream Processing)
+
+    T4 --> T4_3[Tier 3: Data Architecture]
+    T4_3 --- T4_3_1(💎 Modern Data Stack)
+
+    %% Track 5
+    root ==> T5("🏁 Track 5: MLOps Engineer")
+    T5 --> T5_1[Tier 1: Automation Core]
+    T5_1 --- T5_1_1(🔹 Docker & Registry)
+    T5_1 --- T5_1_2(🔹 CI/CD Pipelines)
+    T5_1 --- T5_1_3(🔹 Model Logging)
+
+    T5 --> T5_2[Tier 2: Branching Point]
+    T5_2 -.-> T5_2_Opt1(Option 1: FinOps)
+    T5_2_Opt1 --- T5_2_O1_1(🔸 Resource Mgmt)
+    T5_2_Opt1 --- T5_2_O1_2(🔸 IaC)
+
+    T5_2 -.-> T5_2_Opt2(Option 2: Model Health)
+    T5_2_Opt2 --- T5_2_O2_1(🔸 Drift Detection)
+    T5_2_Opt2 --- T5_2_O2_2(🔸 Observability)
+
+    T5 --> T5_3[Tier 3: Monitoring Mastery]
+    T5_3 --- T5_3_1(💎 Continuous Training)
 ```
