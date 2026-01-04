@@ -1,4 +1,4 @@
-# 🎮 AI Tech Tree: The Path of Mastery (v1.2)
+# AI Tech Tree: The Path of Mastery (v1.2)
 
 이 문서는 AI 엔지니어로 성장하기 위한 계층적 스킬 트리를 정의합니다. 모든 모험가는 **Tier 0**에서 시작하며, 이후 전직을 통해 자신만의 전문화된 경로(Option)를 선택할 수 있습니다.
 
@@ -27,7 +27,7 @@
 
 ---
 
-## 🛠️ Track 1: AI Engineer
+## 🏁 Track 1: AI Engineer
 
 > **모델을 실제 서비스 환경에 이식하고 가동합니다.**
 
@@ -53,7 +53,7 @@
 
 ---
 
-## 🧠 Track 2: AI Modeler / Researcher
+## 🏁 Track 2: AI Modeler / Researcher
 
 > **데이터를 지능으로 변환하는 핵심 모델을 설계합니다.**
 
@@ -78,7 +78,7 @@
 
 ---
 
-## ⚡ Track 3: LLM Application Engineer
+## 🏁 Track 3: LLM Application Engineer
 
 > **LLM을 활용하여 지능형 앱과 자율 에이전트를 개발합니다.**
 
@@ -104,7 +104,7 @@
 
 ---
 
-## 🏗️ Track 4: Data Engineer
+## 🏁 Track 4: Data Engineer
 
 > **안정적인 데이터 파이프라인과 대규모 데이터 인프라를 관리합니다.**
 
@@ -126,7 +126,7 @@
 
 ---
 
-## ♾️ Track 5: MLOps Engineer
+## 🏁 Track 5: MLOps Engineer
 
 > **전체 ML 생명 주기를 자동화하고 운영 효율을 극대화합니다.**
 
@@ -151,125 +151,125 @@
 ## 🗺️ Summary Map (Visual Overview)
 ```mermaid
 graph LR
-    root[AI Tech Tree]
+    root[🎮 AI Tech Tree]
 
     %% Track 0
     root ==> T0("🏁 Track 0: The Origin")
     T0 --> T0_1[Tier 1: Python Mastery]
-    T0_1 --- T0_1_1(Syntax & Types)
-    T0_1 --- T0_1_2(Data Structure Core)
-    T0_1 --- T0_1_3(OOP & Functional)
+    T0_1 --- T0_1_1(🔹 Syntax & Types)
+    T0_1 --- T0_1_2(🔹 Data Structure Core)
+    T0_1 --- T0_1_3(🔹 OOP & Functional)
 
     T0 --> T0_2[Tier 2: DevOps Foundations]
-    T0_2 --- T0_2_1(Linux CLI)
-    T0_2 --- T0_2_2(Git Version Control)
+    T0_2 --- T0_2_1(🔹 Linux CLI)
+    T0_2 --- T0_2_2(🔹 Git Version Control)
 
     T0 --> T0_3[Tier 3: Math & Logic]
-    T0_3 --- T0_3_1(Linear Algebra & Statistics)
+    T0_3 --- T0_3_1(💎 Linear Algebra & Statistics)
 
     %% Track 1
-    root ==> T1("🛠️ Track 1: AI Engineer")
+    root ==> T1("🏁 Track 1: AI Engineer")
     T1 --> T1_1[Tier 1: System Foundation]
-    T1_1 --- T1_1_1(FastAPI Essentials)
-    T1_1 --- T1_1_2(Dependency Injection)
-    T1_1 --- T1_1_3(Async Architecture)
-    T1_1 --- T1_1_4(Docker Basics)
+    T1_1 --- T1_1_1(🔹 FastAPI Essentials)
+    T1_1 --- T1_1_2(🔹 Dependency Injection)
+    T1_1 --- T1_1_3(🔹 Async Architecture)
+    T1_1 --- T1_1_4(🔹 Docker Basics)
 
     T1 --> T1_2[Tier 2: Branching Point]
     T1_2 -.-> T1_2_Opt1(Option 1: Serving Specialist)
-    T1_2_Opt1 --- T1_2_O1_1(Model Serialization)
-    T1_2_Opt1 --- T1_2_O1_2(Inference Optimization)
-    T1_2_Opt1 --- T1_2_O1_3(Serving Frameworks)
+    T1_2_Opt1 --- T1_2_O1_1(🔸 Model Serialization)
+    T1_2_Opt1 --- T1_2_O1_2(🔸 Inference Optimization)
+    T1_2_Opt1 --- T1_2_O1_3(🔸 Serving Frameworks)
 
     T1_2 -.-> T1_2_Opt2(Option 2: App Architect)
-    T1_2_Opt2 --- T1_2_O2_1(Database Design)
-    T1_2_Opt2 --- T1_2_O2_2(Caching Strategy)
-    T1_2_Opt2 --- T1_2_O2_3(Message Queue)
+    T1_2_Opt2 --- T1_2_O2_1(🔸 Database Design)
+    T1_2_Opt2 --- T1_2_O2_2(🔸 Caching Strategy)
+    T1_2_Opt2 --- T1_2_O2_3(🔸 Message Queue)
 
     T1 --> T1_3[Tier 3: Infrastructure Mastery]
-    T1_3 --- T1_3_1(Container Orchestration)
-    T1_3 --- T1_3_2(GPU Scaling)
+    T1_3 --- T1_3_1(💎 Container Orchestration)
+    T1_3 --- T1_3_2(💎 GPU Scaling)
 
     %% Track 2
-    root ==> T2("🧠 Track 2: AI Modeler / Researcher")
+    root ==> T2("🏁 Track 2: AI Modeler / Researcher")
     T2 --> T2_1[Tier 1: Deep Learning Engine]
-    T2_1 --- T2_1_1(Tensor Operations)
-    T2_1 --- T2_1_2(AutoGrad & Backprop)
-    T2_1 --- T2_1_3(Training Loop)
+    T2_1 --- T2_1_1(🔹 Tensor Operations)
+    T2_1 --- T2_1_2(🔹 AutoGrad & Backprop)
+    T2_1 --- T2_1_3(🔹 Training Loop)
 
     T2 --> T2_2[Tier 2: Branching Point]
     T2_2 -.-> T2_2_Opt1(Option 1: Vision Sage)
-    T2_2_Opt1 --- T2_2_O1_1(CNN Backbones)
-    T2_2_Opt1 --- T2_2_O1_2(Object Detection)
-    T2_2_Opt1 --- T2_2_O1_3(Generative Vision)
+    T2_2_Opt1 --- T2_2_O1_1(🔸 CNN Backbones)
+    T2_2_Opt1 --- T2_2_O1_2(🔸 Object Detection)
+    T2_2_Opt1 --- T2_2_O1_3(🔸 Generative Vision)
 
     T2_2 -.-> T2_2_Opt2(Option 2: Language Sage)
-    T2_2_Opt2 --- T2_2_O2_1(Transformer Arch)
-    T2_2_Opt2 --- T2_2_O2_2(Tokenization)
-    T2_2_Opt2 --- T2_2_O2_3(PEFT)
+    T2_2_Opt2 --- T2_2_O2_1(🔸 Transformer Arch)
+    T2_2_Opt2 --- T2_2_O2_2(🔸 Tokenization)
+    T2_2_Opt2 --- T2_2_O2_3(🔸 PEFT)
 
     T2 --> T2_3[Tier 3: Advanced Training]
-    T2_3 --- T2_3_1(Distributed Training)
-    T2_3 --- T2_3_2(Memory Optimization)
+    T2_3 --- T2_3_1(💎 Distributed Training)
+    T2_3 --- T2_3_2(💎 Memory Optimization)
 
     %% Track 3
-    root ==> T3("⚡ Track 3: LLM Application Engineer")
+    root ==> T3("🏁 Track 3: LLM Application Engineer")
     T3 --> T3_1[Tier 1: Context Integration]
-    T3_1 --- T3_1_1(Prompting Basics)
-    T3_1 --- T3_1_2(Chain of Thought)
-    T3_1 --- T3_1_3(Embeddings)
-    T3_1 --- T3_1_4(Vector DB)
+    T3_1 --- T3_1_1(🔹 Prompting Basics)
+    T3_1 --- T3_1_2(🔹 Chain of Thought)
+    T3_1 --- T3_1_3(🔹 Embeddings)
+    T3_1 --- T3_1_4(🔹 Vector DB)
 
     T3 --> T3_2[Tier 2: Branching Point]
     T3_2 -.-> T3_2_Opt1(Option 1: Agentic Workflow)
-    T3_2_Opt1 --- T3_2_O1_1(ReAct Pattern)
-    T3_2_Opt1 --- T3_2_O1_2(Tool Use)
-    T3_2_Opt1 --- T3_2_O1_3(Multi-Agent)
+    T3_2_Opt1 --- T3_2_O1_1(🔸 ReAct Pattern)
+    T3_2_Opt1 --- T3_2_O1_2(🔸 Tool Use)
+    T3_2_Opt1 --- T3_2_O1_3(🔸 Multi-Agent)
 
     T3_2 -.-> T3_2_Opt2(Option 2: Reliability & Eval)
-    T3_2_Opt2 --- T3_2_O2_1(Advanced RAG)
-    T3_2_Opt2 --- T3_2_O2_2(Chunking Strategy)
-    T3_2_Opt2 --- T3_2_O2_3(LLM Evaluation)
+    T3_2_Opt2 --- T3_2_O2_1(🔸 Advanced RAG)
+    T3_2_Opt2 --- T3_2_O2_2(🔸 Chunking Strategy)
+    T3_2_Opt2 --- T3_2_O2_3(🔸 LLM Evaluation)
 
     T3 --> T3_3[Tier 3: Production Excellence]
-    T3_3 --- T3_3_1(Prompt Management)
-    T3_3 --- T3_3_2(Feedback Loop)
+    T3_3 --- T3_3_1(💎 Prompt Management)
+    T3_3 --- T3_3_2(💎 Feedback Loop)
 
     %% Track 4
-    root ==> T4("🏗️ Track 4: Data Engineer")
+    root ==> T4("� Track 4: Data Engineer")
     T4 --> T4_1[Tier 1: Data Flow]
-    T4_1 --- T4_1_1(SQL Mastery)
-    T4_1 --- T4_1_2(Data Modeling)
-    T4_1 --- T4_1_3(Workflow Orchestration)
+    T4_1 --- T4_1_1(🔹 SQL Mastery)
+    T4_1 --- T4_1_2(🔹 Data Modeling)
+    T4_1 --- T4_1_3(🔹 Workflow Orchestration)
 
     T4 --> T4_2[Tier 2: Branching Point]
     T4_2 -.-> T4_2_Opt1(Option 1: Big Data Master)
-    T4_2_Opt1 --- T4_2_O1_1(Distributed Concept)
-    T4_2_Opt1 --- T4_2_O1_2(Spark Logic)
+    T4_2_Opt1 --- T4_2_O1_1(🔸 Distributed Concept)
+    T4_2_Opt1 --- T4_2_O1_2(🔸 Spark Logic)
 
     T4_2 -.-> T4_2_Opt2(Option 2: Real-time Master)
-    T4_2_Opt2 --- T4_2_O2_1(Event Streaming)
-    T4_2_Opt2 --- T4_2_O2_2(Stream Processing)
+    T4_2_Opt2 --- T4_2_O2_1(🔸 Event Streaming)
+    T4_2_Opt2 --- T4_2_O2_2(🔸 Stream Processing)
 
     T4 --> T4_3[Tier 3: Data Architecture]
-    T4_3 --- T4_3_1(Modern Data Stack)
+    T4_3 --- T4_3_1(💎 Modern Data Stack)
 
     %% Track 5
-    root ==> T5("♾️ Track 5: MLOps Engineer")
+    root ==> T5("🏁 Track 5: MLOps Engineer")
     T5 --> T5_1[Tier 1: Automation Core]
-    T5_1 --- T5_1_1(Docker & Registry)
-    T5_1 --- T5_1_2(CI/CD Pipelines)
-    T5_1 --- T5_1_3(Model Logging)
+    T5_1 --- T5_1_1(🔹 Docker & Registry)
+    T5_1 --- T5_1_2(🔹 CI/CD Pipelines)
+    T5_1 --- T5_1_3(🔹 Model Logging)
 
     T5 --> T5_2[Tier 2: Branching Point]
     T5_2 -.-> T5_2_Opt1(Option 1: FinOps)
-    T5_2_Opt1 --- T5_2_O1_1(Resource Mgmt)
-    T5_2_Opt1 --- T5_2_O1_2(IaC)
+    T5_2_Opt1 --- T5_2_O1_1(🔸 Resource Mgmt)
+    T5_2_Opt1 --- T5_2_O1_2(🔸 IaC)
 
     T5_2 -.-> T5_2_Opt2(Option 2: Model Health)
-    T5_2_Opt2 --- T5_2_O2_1(Drift Detection)
-    T5_2_Opt2 --- T5_2_O2_2(Observability)
+    T5_2_Opt2 --- T5_2_O2_1(🔸 Drift Detection)
+    T5_2_Opt2 --- T5_2_O2_2(🔸 Observability)
 
     T5 --> T5_3[Tier 3: Monitoring Mastery]
-    T5_3 --- T5_3_1(Continuous Training)
+    T5_3 --- T5_3_1(💎 Continuous Training)
 ```
