@@ -27,7 +27,7 @@
 
 ---
 
-## 🛠️ Track 1: AI Engineer (시스템 구축가)
+## 🛠️ Track 1: AI Engineer (시스템 엔지니어)
 
 **모델을 실제 서비스 환경에 이식하고 가동합니다.**
 
@@ -152,15 +152,15 @@
 ```
 root/
 │
-├── 🏁 Tier 0: The Origin
-│   ├── 🐍 Python Mastery
+├── 🏁 Track 0: The Origin
+│   ├── 🐍 Tier 1: Python Mastery
 │   │   ├── 🔹 Syntax & Types
 │   │   ├── 🔹 Data Structure Core
 │   │   └── 🔹 OOP & Functional
-│   ├── ♾️ DevOps Foundations
+│   ├── ♾️ Tier 2: DevOps Foundations
 │   │   ├── 🔹 Linux CLI
 │   │   └── 🔹 Git Version Control
-│   └── 📐 Math & Logic
+│   └── 📐 Tier 3: Math & Logic
 │       └── 🔹 Linear Algebra & Statistics
 │
 ├── 🛠️ Track 1: AI Engineer 

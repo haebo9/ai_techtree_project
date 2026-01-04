@@ -2,215 +2,360 @@ from typing import Dict, Any
 
 # AI Tech Tree Curriculum Data
 # Based on track.md v1.2
-# 구조: Track -> Tier -> (Option) -> Subject -> Concepts (List[str])
+# 구조: Track -> Tier -> (Option) -> Subject -> Level (Lv1, Lv2, Lv3) -> Concepts
 
 AI_TECH_TREE: Dict[str, Any] = {
     "Track 0: The Origin": {
         "description": "공통 필수 기반 (Python, DevOps, Math)",
         "tiers": {
-           "Tier 1: Core Python Mastery": {
-                "Python Syntax & Types": [
-                    "변수 할당과 명명 규칙 (Snake Case)",
-                    "기본 자료형 (int, float, str, bool)의 특징",
-                    "문자열 슬라이싱(Slicing)과 인덱싱 기초",
-                    "조건문 (if-elif-else)과 반복문 (for, while) 사용법",
-                    "함수 정의 (def)와 return문의 역할",
-                    "Module import 방법 (import, from-import)",
-                    "변수, 자료형, 기초 문법 및 연산자 우선순위",
-                    "Mutable(List, Dict) vs Immutable(String, Tuple) 객체의 차이와 메모리 구조",
-                    "GIL (Global Interpreter Lock)의 개념과 멀티스레딩 성능에 미치는 영향",
-                    "Shallow Copy(얕은 복사) vs Deep Copy(깊은 복사)의 동작 차이",
-                    "Type Hinting (Generic, Union, Optional, Callable) 활용과 Static Analysis (mypy)",
-                    "String Formatting Evolution (%-formatting vs .format() vs f-string)",
-                    "Module과 Package의 차이, __init__.py의 역할"
-                ],
-                "Data Structure Core": [
-                    "List의 주요 메서드 (append, extend, pop) 사용법",
-                    "Dictionary의 Key-Value 구조 이해 및 기본 조작",
-                    "Set의 중복 제거 특성과 교집합/합집합 연산",
-                    "Tuple의 불변성(Immutability)과 사용 이유",
-                    "List, Dict, Set의 Time Complexity (Big-O) 분석 (Insert, Delete, Search)",
-                    "Hash Map의 동작 원리와 Hash Collision 해결 방식 (Open Addressing vs Chaining)",
-                    "NamedTuple vs Dataclass: 불변성과 메모리 효율성 비교",
-                    "Heapq 모듈을 이용한 Priority Queue 구현 및 활용",
-                    "Deque(Double-ended Queue)의 활용과 List와의 성능 차이"
-                ],
-                "OOP & Functional": [
-                    "Class 정의와 Instance 생성 방법",
-                    "self 키워드의 의미와 역할",
-                    "Lambda 함수(익명 함수)의 기본 문법과 활용",
-                    "List Comprehension의 기본 문법과 장점",
-                    "Class 상속(Inheritance), 다형성(Polymorphism), 캡슐화(Encapsulation)",
-                    "Decorator의 동작 원리 (@func syntax vs func = deco(func))와 활용 (Logging, Timing)",
-                    "Generator와 Iterator의 차이, `yield`와 `yield from`의 동작",
-                    "Closure와 Scope (Global, Local, Enclosing - LEGB Rule)",
-                    "Metaclass의 개념과 Singleton 패턴 구현 시 활용",
-                    "Dunder(Magic) Methods 활용 (__init__, __str__, __repr__, __call__, __getitem__)",
-                    "Context Manager (__enter__, __exit__)와 `with` statement의 안전한 자원 관리",
-                    "Abstract Base Class (abc 모듈)를 이용한 인터페이스 설계",
-                    "Method Resolution Order (MRO)와 Diamond Inheritance 문제"
-                ]
-           },
-           "Tier 2: Core DevOps Foundations": {
-                "Linux CLI": [
-                    "디렉토리 이동 (cd)과 목록 확인 (ls) 명령어",
-                    "파일 생성 (touch), 복사 (cp), 이동 (mv), 삭제 (rm) 기초",
-                    "파일 내용 확인 (cat, head, tail)",
-                    "현재 경로 확인 (pwd)과 화면 지우기 (clear)",
-                    "파일 시스템(File System) 구조와 권한 관리 (chmod, chown, chgrp)",
-                    "표준 입출력 (stdin, stdout, stderr)과 Pipe(|), Redirection(>, >>)",
-                    "프로세스 관리: ps, top, htop, kill, nohup, background(&) 실행",
-                    "SSH Key 생성 및 원격 서버 접속 설정 (authorized_keys)",
-                    "Package Manager (apt, yum, brew) 동작 원리",
-                    "Soft Link vs Hard Link의 차이 (Inode 개념)"
-                ],
-                "Git Version Control": [
-                    "Git 저장소 초기화 (init)와 상태 확인 (status)",
-                    "파일 스테이징 (add)과 커밋 (commit) 기초",
-                    "원격 저장소 연결 (remote add)과 푸시 (push)",
-                    "브랜치 생성 (branch)과 이동 (checkout/switch)",
-                    "Git의 3가지 영역 (Working Directory, Staging Area, Repository)",
-                    "Commit Convention (feat, fix, refactor 등)과 메시지 작성법",
-                    "Git Branching Strategies (Git Flow, GitHub Flow, Trunk-based)",
-                    "Merge vs Rebase: 히스토리 관리 차이점과 사용 시기",
-                    "Reset (Soft, Mixed, Hard)의 차이와 되돌리기 전략",
-                    "Cherry-pick을 이용한 특정 커밋 가져오기",
-                    ".gitignore 패턴 작성법과 관리"
-                ]
-           },
-           "Tier 3: Core Math & Logic": {
-                "Linear Algebra & Statistics": [
-                    "평균(Mean)과 중앙값(Median)의 차이",
-                    "벡터(Vector)와 행렬(Matrix)의 기본 생김새",
-                    "기초 확률 (동전 던지기, 주사위 확률)",
-                    "로그(Log)와 지수(Exponential)의 기본 그래프 형태",
-                    "Scalar, Vector, Matrix, Tensor의 개념과 차이",
-                    "Matrix Multiplication (Dot Product)의 기하학적 의미",
-                    "Eigenvalue와 Eigenvector의 의미와 PCA(Principal Component Analysis) 활용",
-                    "확률 변수(Random Variable), 확률 분포(Normal, Uniform, Bernoulli 등)",
-                    "Bayes' Theorem (베이즈 정리)와 조건부 확률",
-                    "Variance, Standard Deviation의 의미",
-                    "Correlation vs Causation (상관관계와 인과관계)"
-                ]
-           }
+            "Tier 1: Core Python Mastery": {
+                "Python Syntax & Types": {
+                    "Lv1": [
+                        "변수 할당과 명명 규칙 (Snake Case)",
+                        "기본 자료형 (int, float, str, bool)의 특징",
+                        "문자열 슬라이싱(Slicing)과 인덱싱 기초",
+                        "조건문 (if-elif-else)과 반복문 (for, while) 사용법",
+                        "함수 정의 (def)와 return문의 역할",
+                        "Module import 방법 (import, from-import)"
+                    ],
+                    "Lv2": [
+                        "Mutable(List, Dict) vs Immutable(String, Tuple) 객체의 차이",
+                        "Shallow Copy(얕은 복사) vs Deep Copy(깊은 복사)의 동작 차이",
+                        "String Formatting Evolution (%-formatting vs .format() vs f-string)",
+                        "Module과 Package의 차이, __init__.py의 역할"
+                    ],
+                    "Lv3": [
+                        "GIL (Global Interpreter Lock)의 개념과 멀티스레딩 성능에 미치는 영향",
+                        "Type Hinting (Generic, Union, Optional)과 Static Analysis (mypy)",
+                        "Memory Management (Reference Counting & Garbage Collection)",
+                        "Weakref 모듈을 이용한 순환 참조(Circular Reference) 해결",
+                        "Python 3.11+ Adaptive Interpreter와 성능 개선 원리"
+                    ]
+                },
+                "Data Structure Core": {
+                    "Lv1": [
+                        "List의 주요 메서드 (append, extend, pop) 사용법",
+                        "Dictionary의 Key-Value 구조 이해 및 기본 조작",
+                        "Set의 중복 제거 특성과 교집합/합집합 연산",
+                        "Tuple의 불변성(Immutability)과 사용 이유"
+                    ],
+                    "Lv2": [
+                        "List, Dict, Set의 Time Complexity (Big-O) 분석 (Insert, Delete, Search)",
+                        "Hash Map의 동작 원리와 Hash Collision 해결 방식 (Open Addressing vs Chaining)",
+                        "Deque(Double-ended Queue)의 활용과 List와의 성능 차이"
+                    ],
+                    "Lv3": [
+                        "NamedTuple vs Dataclass: 불변성과 메모리 효율성 비교",
+                        "Heapq 모듈을 이용한 Priority Queue 구현 및 내부 동작 (Binary Heap)",
+                        "Python Dict의 내부 구조 변화 (Compact Dict, 3.6+)",
+                        "__slots__ 매직 메서드를 이용한 클래스 메모리 최적화"
+                    ]
+                },
+                "OOP & Functional": {
+                    "Lv1": [
+                        "Class 정의와 Instance 생성 방법",
+                        "self 키워드의 의미와 역할",
+                        "Lambda 함수(익명 함수)의 기본 문법과 활용",
+                        "List Comprehension의 기본 문법과 장점"
+                    ],
+                    "Lv2": [
+                        "Class 상속(Inheritance), 다형성(Polymorphism), 캡슐화(Encapsulation)",
+                        "Decorator의 동작 원리 (@func syntax)와 활용 (Logging)",
+                        "Generator와 Iterator의 차이, `yield`문의 동작",
+                        "Closure와 Scope (Global, Local, Enclosing - LEGB Rule)"
+                    ],
+                    "Lv3": [
+                        "Metaclass의 개념과 Singleton 패턴 구현 시 활용",
+                        "Dunder(Magic) Methods 활용 (__new__ vs __init__, __call__)",
+                        "Context Manager (__enter__, __exit__)와 `with` statement의 원리",
+                        "Method Resolution Order (MRO)와 Diamond Inheritance 문제",
+                        "Descriptor Protocol (__get__, __set__, __delete__) 구현"
+                    ]
+                }
+            },
+            "Tier 2: Core DevOps Foundations": {
+                "Linux CLI": {
+                    "Lv1": [
+                        "디렉토리 이동 (cd)과 목록 확인 (ls) 명령어",
+                        "파일 생성 (touch), 복사 (cp), 이동 (mv), 삭제 (rm) 기초",
+                        "파일 내용 확인 (cat, head, tail)",
+                        "현재 경로 확인 (pwd)과 화면 지우기 (clear)"
+                    ],
+                    "Lv2": [
+                        "파일 시스템(File System) 구조와 권한 관리 (chmod, chown, chgrp)",
+                        "표준 입출력 (stdin, stdout, stderr)과 Pipe(|), Redirection(>, >>)",
+                        "프로세스 관리: ps, top, htop, kill, background(&) 실행",
+                        "SSH Key 생성 및 원격 서버 접속 설정 (authorized_keys)"
+                    ],
+                    "Lv3": [
+                        "Package Manager (apt, yum, brew) 동작 원리",
+                        "Soft Link vs Hard Link의 차이 (Inode 개념)",
+                        "Shell Scripting 기초 (Variables, Loops, If conditions)",
+                        "Systemd Service 등록 및 관리 (systemctl)",
+                        "rsync를 이용한 효율적인 파일 동기화"
+                    ]
+                },
+                "Git Version Control": {
+                    "Lv1": [
+                        "Git 저장소 초기화 (init)와 상태 확인 (status)",
+                        "파일 스테이징 (add)과 커밋 (commit) 기초",
+                        "원격 저장소 연결 (remote add)과 푸시 (push)",
+                        "브랜치 생성 (branch)과 이동 (switch)"
+                    ],
+                    "Lv2": [
+                        "Git의 3가지 영역 (Working Directory, Staging Area, Repository)",
+                        "Merge vs Rebase: 히스토리 관리 차이점",
+                        "Reset (Soft, Mixed, Hard)의 차이와 되돌리기 전략",
+                        ".gitignore 패턴 작성법과 관리"
+                    ],
+                    "Lv3": [
+                        "Git Flow vs GitHub Flow vs Trunk-based Development",
+                        "Cherry-pick을 이용한 특정 커밋 가져오기",
+                        "Interactive Rebase (`git rebase -i`)를 이용한 커밋 정리",
+                        "Git Hooks (pre-commit) 활용",
+                        "Git Submodule 활용 및 주의사항"
+                    ]
+                }
+            },
+            "Tier 3: Core Math & Logic": {
+                "Linear Algebra & Statistics": {
+                    "Lv1": [
+                        "평균(Mean)과 중앙값(Median)의 차이",
+                        "벡터(Vector)와 행렬(Matrix)의 기본 생김새",
+                        "기초 확률 (동전 던지기, 주사위 확률)",
+                        "로그(Log)와 지수(Exponential)의 기본 그래프 형태"
+                    ],
+                    "Lv2": [
+                        "Scalar, Vector, Matrix, Tensor의 개념과 차이",
+                        "Matrix Multiplication (Dot Product)의 기하학적 의미",
+                        "Variance, Standard Deviation(표준편차)의 의미",
+                        "Correlation(상관관계) vs Causation(인과관계)"
+                    ],
+                    "Lv3": [
+                        "Eigenvalue와 Eigenvector의 의미와 PCA(주성분 분석) 활용",
+                        "확률 분포(Normal, Uniform, Bernoulli)의 특징 및 활용",
+                        "Bayes' Theorem (베이즈 정리)와 조건부 확률",
+                        "Gradient Descent(경사하강법)의 수학적 원리 (미분)",
+                        "SVD (Singular Value Decomposition)의 AI 활용"
+                    ]
+                }
+            }
         }
     },
     "Track 1: AI Engineer": {
         "description": "시스템 구축가 (FastAPI, Docker, GPU Serving)",
         "tiers": {
             "Tier 1: Core System Foundation": {
-                "FastAPI Essentials": [
-                    "GET, POST 요청 메서드의 차이",
-                    "Path Parameter(`/items/{id}`) 사용법",
-                    "Query Parameter(`?skip=0`) 사용법",
-                    "JSON 요청과 응답 구조 이해",
-                    "Path Parameter vs Query Parameter vs Request Body의 차이",
-                    "Pydantic BaseModel을 이용한 엄격한 데이터 유효성 검사 및 Serialization",
-                    "FastAPI의 Dependency Injection 시스템 (Depends, Security, Singleton)",
-                    "APIRouter를 이용한 대규모 애플리케이션 라우팅 및 모듈화 전략",
-                    "Middleware의 동작 순서와 Custom Middleware 구현 (CORS, Logging, Gzip)",
-                    "Exception Handler 구현과 Global Error Handling",
-                    "Lifespan Events (Startup/Shutdown) 처리"
-                ],
-                "Dependency Injection": [
-                    "함수 인자로 객체 전달하기 (DI의 기초)",
-                    "Global 변수 사용의 문제점",
-                    "Inversion of Control (IoC)와 DI의 개념",
-                    "DB Session 관리 (SQLAlchemy SessionLocal)와 Transaction Scope",
-                    "Unit Test 작성을 위한 Dependency Overrides 활용",
-                    "Singleton Pattern vs Request Scoped Dependency"
-                ],
-                "Async Architecture": [
-                    "동기(Sync) 처리의 개념 (순차 실행)",
-                    "비동기(Async) 함수의 정의 (async def)",
-                    "await 키워드의 기본 역할",
-                    "Sync(동기) vs Async(비동기) vs Parallel(병렬)의 개념적 차이",
-                    "Python `async`/`await` 문법과 Event Loop의 동작 원리",
-                    "Blocking I/O 호출이 Event Loop에 미치는 악영향과 해결책 (run_in_executor)",
-                    "Asyncio Task와 Future 객체의 이해",
-                    "Coroutine Concurrency: `asyncio.gather` vs `asyncio.wait`",
-                    "ASGI (Asynchronous Server Gateway Interface) vs WSGI 차이"
-                ],
-                "Docker Basics": [
-                    "Docker 이미지와 컨테이너의 개념 차이",
-                    "Dockerfile 기본 명령어 (FROM, RUN, CMD)",
-                    "Docker 컨테이너 실행 (run)과 중지 (stop)",
-                    "포트 포워딩 (-p 옵션)의 이해",
-                    "Docker Image Layer Cache 원리와 효율적인 Dockerfile 작성 (Multi-stage Build)",
-                    "Container vs VM (Virtual Machine) 구조적 차이",
-                    "ENTRYPOINT vs CMD의 차이점",
-                    "Volume Mount (Bind Mount, Named Volume)를 이용한 데이터 영속성",
-                    "Docker Compose를 이용한 다중 컨테이너 오케스트레이션",
-                    "Docker Network (Bridge, Host, Overlay) 모드 이해"
-                ]
-            },
-            "Tier 2: Branching Point": {
-                "Option 1: Serving Specialist (추론 최적화)": {
-                    "Model Serialization": [
-                        "모델 파일 저장과 불러오기 기초",
-                        "Pickle 모듈 기본 사용법",
-                        "Pickle의 보안 위험성과 Safetensors의 장점",
-                        "ONNX (Open Neural Network Exchange) 포맷의 구조와 변환 과정",
-                        "PyTorch `torch.save` vs `torch.jit.save` (TorchScript)"
+                "FastAPI Essentials": {
+                    "Lv1": [
+                        "GET vs POST 요청 메서드의 차이",
+                        "Path Parameter(`/items/{id}`)와 Query Parameter(`?skip=0`) 사용법",
+                        "JSON 요청과 응답 구조 이해",
+                        "FastAPI 기본 앱 생성 및 실행"
                     ],
-                    "Inference Optimization": [
-                        "모델 경량화의 필요성 이해",
-                        "Python 코드 실행 시간 측정 방법",
-                        "TensorRT Engine 빌드 과정과 Layer Fusion",
-                        "Quantization Types (PTQ vs QAT, INT8 vs FP16 vs BF16)",
-                        "Pruning (가지치기) 기법과 희소성(Sparsity) 활용"
+                    "Lv2": [
+                        "Pydantic BaseModel을 이용한 데이터 유효성 검사",
+                        "FastAPI의 Dependency Injection (Depends) 활용",
+                        "APIRouter를 이용한 라우팅 모듈화",
+                        "Exception Handler 구현과 에러 처리"
                     ],
-                    "Serving Frameworks": [
-                        "REST API로 모델 결과 반환하기",
-                        "Batch Processing(일괄 처리)의 개념",
-                        "Triton Inference Server 아키텍처 (Model Repository, Backend)",
-                        "Dynamic Batching의 원리와 Latency/Throughput 트레이드오프",
-                        "gRPC vs HTTP/REST 프로토콜 성능 비교"
+                    "Lv3": [
+                        "Middleware 구현 (CORS, Logging) 및 동작 순서",
+                        "Lifespan Events (Startup/Shutdown) 처리",
+                        "Background Tasks vs Celery 비동기 작업",
+                        "FastAPI Security (OAuth2, JWT) 인증 흐름 구현",
+                        "WebSocket 구현 및 Connection 관리"
                     ]
                 },
-                "Option 2: App Architect (서비스 아키텍처)": {
-                    "Database Design": [
-                        "Table, Row, Column의 개념",
-                        "Primary Key(PK)와 Foreign Key(FK)의 역할",
-                        "RDBMS Indexing (B-Tree) 원리와 Composite Index 전략",
-                        "N+1 Problem의 원인과 해결 (Eager Loading vs Lazy Loading)",
-                        "DB Replication (Master-Slave) vs Sharding",
-                        "ACID 트랜잭션 속성과 Isolation Level"
+                "Dependency Injection": {
+                    "Lv1": [
+                        "함수 인자로 객체 전달하기 (DI의 기초)",
+                        "Global 변수 사용의 문제점"
                     ],
-                    "Caching Strategy": [
-                        "캐시(Cache)의 기본 개념과 필요성",
-                        "Key-Value 저장소의 특징",
-                        "Cache-Aside(Lazy Loading) vs Write-Through 패턴",
-                        "Redis Eviction Policies (LRU, LFU, TTL)",
-                        "Cache Stampede(Thundering Herd) 문제와 해결책"
+                    "Lv2": [
+                        "Inversion of Control (IoC)와 DI의 개념",
+                        "DB Session 관리 (SessionLocal)와 Depends 연결",
+                        "Singleton Pattern vs Request Scoped Dependency"
                     ],
-                    "Message Queue": [
-                        "Producer와 Consumer의 개념",
-                        "비동기 작업(백그라운드 처리)의 필요성 예시",
-                        "Message Broker Pattern (Pub/Sub vs Point-to-Point)",
-                        "Celery와 Redis/RabbitMQ 연동 아키텍처",
-                        "Idempotency(멱등성) 보장과 At-least-once vs Exactly-once 전달",
-                        "Dead Letter Queue (DLQ) 활용 전략"
+                    "Lv3": [
+                        "Unit Test 작성을 위한 Dependency Overrides 활용",
+                        "Container (e.g. library) 없이 DI 패턴 구현하기",
+                        "Circular Dependency 문제 해결",
+                        "AsyncSession (SQLAlchemy) 사용 시 주의점 및 Transaction 관리"
+                    ]
+                },
+                "Async Architecture": {
+                    "Lv1": [
+                        "동기(Sync) vs 비동기(Async) 개념 차이",
+                        "Python `async def`와 `await` 키워드 기본 문법"
+                    ],
+                    "Lv2": [
+                        "Sync 함수 내에서 Async 함수 호출 불가 이유",
+                        "Event Loop의 동작 원리 (Single Thread)",
+                        "Blocking I/O가 서버 성능에 미치는 영향"
+                    ],
+                    "Lv3": [
+                        "Coroutine Concurrency: `asyncio.gather` 활용",
+                        "Blocking Code를 Non-blocking으로 실행하기 (run_in_executor)",
+                        "ASGI vs WSGI 차이와 비동기 서버(Uvicorn)의 역할",
+                        "FastAPI의 ThreadPoolExecutor 동작 방식"
+                    ]
+                },
+                "Docker Basics": {
+                    "Lv1": [
+                        "Docker 이미지와 컨테이너의 차이",
+                        "Dockerfile 기본 명령어 (FROM, RUN, CMD)",
+                        "컨테이너 실행 (run), 중지 (stop), 로그 확인 (logs)"
+                    ],
+                    "Lv2": [
+                        "포트 포워딩 (-p)과 볼륨 마운트 (-v) 설정",
+                        "Docker Compose를 이용한 멀티 컨테이너 실행",
+                        "Container vs VM (Virtual Machine) 구조적 차이"
+                    ],
+                    "Lv3": [
+                        "Docker Image Layer Cache 원리와 Multi-stage Build 최적화",
+                        "ENTRYPOINT vs CMD의 차이점 및 활용",
+                        "Docker Network Mode (Bridge, Host) 이해",
+                        "Distroless Image 사용을 통한 보안 강화"
                     ]
                 }
             },
+            "Tier 2: Branching Point": {
+                "Option 1: Serving Specialist (추론 최적화)": {
+                    "Model Serialization": {
+                        "Lv1": [
+                            "모델 파일 저장(.pt, .pkl)과 불러오기 기초",
+                            "Pickle 모듈 기본 사용법"
+                        ],
+                        "Lv2": [
+                            "PyTorch `state_dict` 저장 방식 권장 이유",
+                            "ONNX (Open Neural Network Exchange) 포맷의 필요성",
+                            "Safetensors 포맷의 장점 (보안, 속도)"
+                        ],
+                        "Lv3": [
+                            "TorchScript (`torch.jit.trace` vs `script`) 변환",
+                            "Pickle의 보안 취약점 (RCE) 원리"
+                        ]
+                    },
+                    "Inference Optimization": {
+                        "Lv1": [
+                            "모델 경량화의 필요성 이해",
+                            "Python 코드 실행 시간 측정 (time 모듈)"
+                        ],
+                        "Lv2": [
+                            "Quantization (양자화) 개념: FP32 -> INT8",
+                            "Pruning (가지치기) 개념: 불필요한 가중치 제거",
+                            "Batch Processing을 통한 Throughput 향상"
+                        ],
+                        "Lv3": [
+                            "TensorRT Engine 빌드 및 Layer Fusion 원리",
+                            "Quantization Aware Training (QAT) vs Post Training Quantization (PTQ)",
+                            "Kernel Fusion과 Memory access 최적화",
+                            "vLLM / TGI 프레임워크의 PagedAttention 기술"
+                        ]
+                    },
+                    "Serving Frameworks": {
+                        "Lv1": [
+                            "Flask/FastAPI로 모델 결과 반환하기",
+                            "REST API 기본 구조 설계"
+                        ],
+                        "Lv2": [
+                            "gRPC vs HTTP 프로토콜 성능 비교",
+                            "Triton Inference Server의 기본 아키텍처",
+                            "Model Repository 구조 관리"
+                        ],
+                        "Lv3": [
+                            "Dynamic Batching 동작 원리와 Latency 트레이드오프",
+                            "Ensemble Model Serving 파이프라인 구성",
+                            "Concurrent Model Execution (Multi-instance GPU)"
+                        ]
+                    }
+                },
+                "Option 2: App Architect (서비스 아키텍처)": {
+                    "Database Design": {
+                        "Lv1": [
+                            "Table, Row, Column 개념",
+                            "PK (Primary Key)와 FK (Foreign Key)의 역할"
+                        ],
+                        "Lv2": [
+                            "Indexing (B-Tree)의 원리와 검색 성능 향상",
+                            "N+1 Problem의 원인과 Eager Loading 해결법",
+                            "ACID 트랜잭션 속성의 의미"
+                        ],
+                        "Lv3": [
+                            "Composite Index (복합 인덱스) 설계 전략",
+                            "DB Replication (Master-Slave) vs Sharding 차이",
+                            "Isolation Level (Read Committed vs Repeatable Read)",
+                            "Time-Series DB (InfluxDB) vs RDBMS 차이"
+                        ]
+                    },
+                    "Caching Strategy": {
+                        "Lv1": [
+                            "캐시(Cache)의 기본 개념과 필요성",
+                            "Key-Value 저장소(Redis)의 특징"
+                        ],
+                        "Lv2": [
+                            "Cache-Aside Pattern (Look-aside) 구현 흐름",
+                            "TTL (Time To Live) 설정의 중요성"
+                        ],
+                        "Lv3": [
+                            "Write-Through vs Write-Back 캐싱 패턴 비교",
+                            "Redis Eviction Policies (LRU, LFU) 선택 기준",
+                            "Cache Stampede (Thundering Herd) 문제와 해결책",
+                            "Distributed Lock (Redlock) 구현"
+                        ]
+                    },
+                    "Message Queue": {
+                        "Lv1": [
+                            "Producer와 Consumer의 개념",
+                            "비동기 작업이 필요한 상황 예시"
+                        ],
+                        "Lv2": [
+                            "Celery 기본 구조 (Broker, Worker, Result Backend)",
+                            "Pub/Sub 패턴 vs Point-to-Point 패턴"
+                        ],
+                        "Lv3": [
+                            "Message Durability와 Persistence",
+                            "Idempotency(멱등성) 보장 전략",
+                            "Dead Letter Queue (DLQ) 활용 및 Retry 정책",
+                            "Kafka vs RabbitMQ 아키텍처 비교"
+                        ]
+                    }
+                }
+            },
             "Tier 3: Core Infrastructure Mastery": {
-                "Container Orchestration": [
-                    "여러 컨테이너를 관리해야 하는 이유",
-                    "Kubernetes의 역할 (오케스트레이션) 개요",
-                    "Kubernetes 기본 Object: Pod, ReplicaSet, Deployment, Service",
-                    "Cluster Networking: Service Discovery, Ingress Controller",
-                    "ConfigMap과 Secret을 이용한 설정 관리",
-                    "Pod Lifecycle과 Liveness/Readiness Probe 설정"
-                ],
-                "GPU Scaling": [
-                    "GPU가 CPU보다 딥러닝에 유리한 이유",
-                    "NVIDIA Driver와 CUDA의 개념",
-                    "NVIDIA Device Plugin for Kubernetes 동작 원리",
-                    "Kubernetes Resource Requests/Limits (CPU vs Memory vs GPU)",
-                    "HPA (Horizontal Pod Autoscaler) 및 Cluster Autoscaler 설정",
-                    "Multi-Instance GPU (MIG) 기술 이해"
-                ]
+                "Container Orchestration": {
+                    "Lv1": [
+                        "컨테이너 하나로는 부족한 이유 (Scaling)",
+                        "Kubernetes(K8s)란 무엇인가?"
+                    ],
+                    "Lv2": [
+                        "Pod, ReplicaSet, Deployment의 관계",
+                        "Service (ClusterIP, NodePort, LoadBalancer) 타입 이해",
+                        "ConfigMap과 Secret 활용"
+                    ],
+                    "Lv3": [
+                        "Ingress Controller와 Path Routing",
+                        "Liveness Probe vs Readiness Probe 설정",
+                        "Helm Chart를 이용한 패키지 관리",
+                        "Affinity/Anti-Affinity 및 Taint/Toleration 스케줄링"
+                    ]
+                },
+                "GPU Scaling": {
+                    "Lv1": [
+                        "GPU가 딥러닝에 유리한 이유 (병렬 처리)",
+                        "CUDA와 cuDNN의 역할"
+                    ],
+                    "Lv2": [
+                        "Kubernetes Resource Requests/Limits (GPU 할당)",
+                        "Node Selector와 Taint/Toleration 활용"
+                    ],
+                    "Lv3": [
+                        "NVIDIA Device Plugin 동작 원리",
+                        "HPA (Horizontal Pod Autoscaler) 설정 (Custom Metrics)",
+                        "MIG (Multi-Instance GPU) 기술과 활용"
+                    ]
+                }
             }
         }
     },
@@ -218,94 +363,190 @@ AI_TECH_TREE: Dict[str, Any] = {
         "description": "알고리즘 술사 (Deep Learning, Vision, NLP)",
         "tiers": {
             "Tier 1: Core Deep Learning Engine": {
-                "Tensor Operations": [
-                    "텐서(Tensor)란 무엇인가? (다차원 배열)",
-                    "텐서의 크기(Shape) 확인하기",
-                    "Tensor Shape 조작 (view vs reshape vs permute vs transpose)",
-                    "Broadcasting Rules: 차원이 다른 텐서 간 연산 원리",
-                    "Contiguous Tensor 개념과 메모리 레이아웃",
-                    "Vector/Matrix/Tensor Multiplication (@, matmul, bmm)"
-                ],
-                "AutoGrad & Backprop": [
-                    "미분(Derivative)과 기울기(Gradient)의 의미",
-                    "Loss Function(손실 함수)의 역할",
-                    "Computational Graph (Dynamic vs Static)",
-                    "Chain Rule을 이용한 Gradient 계산 과정",
-                    "requires_grad 속성과 `.detach()` `with torch.no_grad()`의 차이",
-                    "Gradient Accumulation 구현 원리"
-                ],
-                "Training Loop": [
-                    "학습 데이터(Training Set)와 테스트 데이터(Test Set) 분리 이유",
-                    "Epoch와 Batch의 개념",
-                    "Custom Dataset (`__len__`, `__getitem__`) 구현",
-                    "DataLoader의 `num_workers`, `collate_fn`, `pin_memory` 옵션 최적화",
-                    "Training Step vs Validation Step vs Test Step 구조",
-                    "Epoch vs Batch Size vs Iteration 용어 정의"
-                ]
-            },
-            "Tier 2: Branching Point": {
-                "Option 1: Vision Sage (시각 지능)": {
-                    "CNN Backbones": [
-                        "이미지가 픽셀(Pixel)로 표현되는 방식",
-                        "RGB 채널의 이해",
-                        "Convolution Operation: Kernel/Filter, Stride, Padding",
-                        "Pooling Layers (Max vs Average)와 Downsampling의 의미",
-                        "ResNet의 Residual Block과 Gradient Vanishing 해결",
-                        "EfficientNet의 Compound Scaling Method"
+                "Tensor Operations": {
+                    "Lv1": [
+                        "Tensor(텐서)의 정의와 Rank(차원)",
+                        "Tensor Shape 확인 및 기본 생성 (`torch.tensor`)"
                     ],
-                    "Object Detection": [
-                        "Classification과 Detection의 차이",
-                        "Bounding Box (x, y, w, h) 표현 방식",
-                        "IoU (Intersection over Union) 계산",
-                        "NMS (Non-Maximum Suppression) 알고리즘 동작 원리",
-                        "One-stage (YOLO) vs Two-stage (Faster R-CNN) Detector 차이",
-                        "Anchor Box의 개념과 역할"
+                    "Lv2": [
+                        "Reshape vs View 차이점 (Contiguous 개념)",
+                        "Tensor Broadcasting Rule 이해 및 예제",
+                        "Element-wise 연산 vs Matrix Multiplication"
                     ],
-                    "Generative Vision": [
-                        "이미지 생성 모델의 개념",
-                        "노이즈(Noise)에서 이미지를 만드는 기본 원리",
-                        "Diffusion Model의 Forward(Noise adding) / Reverse(Denoising) process",
-                        "Latent Diffusion Model (LDM) 구조와 VAE의 역할",
-                        "U-Net Architecture와 Cross-Attention (Text Conditioning)"
+                    "Lv3": [
+                        "Permute vs Transpose 차이와 메모리 레이아웃",
+                        "Fancy Indexing과 Masking 활용",
+                        "`torch.einsum`을 이용한 복잡한 연산 표현"
                     ]
                 },
-                "Option 2: Language Sage (언어 지능)": {
-                    "Transformer Arch": [
-                        "단어를 숫자로 바꾸는 이유 (임베딩)",
-                        "RNN과 LSTM의 한계점",
-                        "Self-Attention Mechanism (Query, Key, Value) 수식 이해",
-                        "Multi-Head Attention의 장점과 동작 방식",
-                        "Positional Encoding (Sinusoidal vs Rotary/RoPE)",
-                        "Encoder-only (BERT), Decoder-only (GPT), Encoder-Decoder (T5) 비교"
+                "AutoGrad & Backprop": {
+                    "Lv1": [
+                        "미분(Derivative)과 기울기(Gradient)의 의미",
+                        "Loss Function(손실 함수)의 역할"
                     ],
-                    "Tokenization": [
-                        "문장을 공백으로 나누기 vs 형태소 분석",
-                        "Subword Tokenization (BPE, WordPiece, Unigram) 알고리즘",
-                        "Special Tokens ([CLS], [SEP], [PAD], [EOS])의 역할",
-                        "Vocabulary Size가 모델 성능과 메모리에 미치는 영향"
+                    "Lv2": [
+                        "Chain Rule(연쇄 법칙)의 개념",
+                        "Computational Graph (Forward vs Backward Pass)",
+                        "`requires_grad=True`의 의미"
                     ],
-                    "PEFT": [
-                        "파인튜닝(Fine-tuning)의 개념",
-                        "모델의 모든 파라미터를 학습할 때의 문제점",
-                        "LoRA (Low-Rank Adaptation)의 행렬 분해 원리",
-                        "QLoRA: 4-bit Quantization + LoRA",
-                        "Prompt Tuning vs Prefix Tuning vs Adapter Layers"
+                    "Lv3": [
+                        "`with torch.no_grad()`와 `.detach()`의 차이",
+                        "Dynamic Computational Graph (PyTorch) vs Static (TensorFlow v1)",
+                        "Gradient Accumulation 원리 및 구현"
+                    ]
+                },
+                "Training Loop": {
+                    "Lv1": [
+                        "Epoch, Batch Size, Iteration 용어 정의",
+                        "Train / Validation / Test 데이터셋 분리 이유"
+                    ],
+                    "Lv2": [
+                        "Dataset 클래스 (`__len__`, `__getitem__`) 구현",
+                        "DataLoader 및 `batch_size`, `shuffle` 옵션 활용",
+                        "Optimizer (`step`, `zero_grad`)의 역할"
+                    ],
+                    "Lv3": [
+                        "Custom Collate Function (`collate_fn`) 구현",
+                        "DataLoader의 `num_workers`와 `pin_memory` 최적화",
+                        "Learning Rate Scheduler (Warmup, Cosine decay) 활용 전략"
                     ]
                 }
             },
+            "Tier 2: Branching Point": {
+                "Option 1: Vision Sage (시각 지능)": {
+                    "CNN Backbones": {
+                        "Lv1": [
+                            "픽셀(Pixel)과 RGB 채널의 이해",
+                            "Convolution 연산의 기본 개념"
+                        ],
+                        "Lv2": [
+                            "Kernel(Filter), Stride, Padding의 역할",
+                            "Pooling (Max, Average)의 의미와 차원 축소",
+                            "CNN이 위치 불변성(Translation Invariance)을 가지는 이유"
+                        ],
+                        "Lv3": [
+                            "ResNet의 Residual Connection (Skip Connection)과 Vanishing Gradient 해결",
+                            "Receptive Field의 개념과 계산",
+                            "ViT (Vision Transformer)의 Patch Embedding 및 구조",
+                            "EfficientNet의 Compound Scaling 전략"
+                        ]
+                    },
+                    "Object Detection": {
+                        "Lv1": [
+                            "Image Classification vs Object Detection 차이",
+                            "Bounding Box (x, y, w, h) 표현 방식"
+                        ],
+                        "Lv2": [
+                            "IoU (Intersection over Union) 계산 방법",
+                            "One-stage (YOLO) vs Two-stage (R-CNN) Detector 구조 차이",
+                            "Anchor Box의 개념"
+                        ],
+                        "Lv3": [
+                            "NMS (Non-Maximum Suppression) 알고리즘 상세 과정",
+                            "Focal Loss (Class Imbalance 문제 해결)",
+                            "mAP (mean Average Precision) 측정 방식"
+                        ]
+                    },
+                    "Generative Vision": {
+                        "Lv1": [
+                            "생성 모델(Generative Model)의 목표",
+                            "Noise에서 이미지를 생성하는 기본 아이디어"
+                        ],
+                        "Lv2": [
+                            "VAE (Variational AutoEncoder)와 Latent Space 개념",
+                            "Diffusion Model의 Forward vs Reverse Process 개요"
+                        ],
+                        "Lv3": [
+                            "Stable Diffusion의 Latent Diffusion 구조 (Pixel Space vs Latent Space)",
+                            "U-Net Architecture와 Cross-Attention (Text Conditioning) 연결",
+                            "CLIP 모델을 이용한 Text-Image Alignment 원리",
+                            "DDPM vs DDIM Sampling 차이"
+                        ]
+                    }
+                },
+                "Option 2: Language Sage (언어 지능)": {
+                    "Transformer Arch": {
+                        "Lv1": [
+                            "단어 임베딩(Embedding)의 필요성",
+                            "RNN/LSTM의 장기 의존성(Long-term Dependency) 문제"
+                        ],
+                        "Lv2": [
+                            "Attention Mechanism의 직관적 설명 (Query, Key, Value)",
+                            "Self-Attention vs Cross-Attention 차이",
+                            "Positional Encoding이 필요한 이유"
+                        ],
+                        "Lv3": [
+                            "Multi-Head Attention의 수식적 이해와 장점",
+                            "Encoder-only (BERT), Decoder-only (GPT), Encoder-Decoder (T5) 구조 비교",
+                            "RoPE (Rotary Positional Embedding) 등 최신 위치 인코딩",
+                            "Flash Attention의 I/O Aware 최적화 원리"
+                        ]
+                    },
+                    "Tokenization": {
+                        "Lv1": [
+                            "공백 기준 분절 vs 형태소 분석",
+                            "Token ID와 Decoding 개념"
+                        ],
+                        "Lv2": [
+                            "Subword Tokenization (BPE, WordPiece) 알고리즘 원리",
+                            "Special Token ([CLS], [SEP], [PAD])의 역할",
+                            "OOV (Out of Vocabulary) 문제 해결법"
+                        ],
+                        "Lv3": [
+                            "Byte-level BPE (BBPE)의 동작 방식",
+                            "Vocabulary Size와 모델 파라미터/메모리 관계",
+                            "Dynamic Padding을 통한 배치 처리 최적화"
+                        ]
+                    },
+                    "PEFT": {
+                        "Lv1": [
+                            "Pre-training vs Fine-tuning 차이",
+                            "모델 전체 학습(Full Fine-tuning)의 비용 문제"
+                        ],
+                        "Lv2": [
+                            "Parameter Efficient Fine-Tuning (PEFT) 개념",
+                            "LoRA (Low-Rank Adaptation)의 기본 아이디어",
+                            "Adapter Layer의 구조"
+                        ],
+                        "Lv3": [
+                            "LoRA의 Rank(r)와 Alpha값의 의미",
+                            "QLoRA (Quantized LoRA)와 4-bit Normal Float (NF4)",
+                            "Prompt Tuning vs Prefix Tuning 차이"
+                        ]
+                    }
+                }
+            },
             "Tier 3: Core Advanced Training": {
-                "Distributed Training": [
-                    "GPU 하나의 메모리 부족 문제",
-                    "Data Parallel (DP) vs Distributed Data Parallel (DDP) 차이",
-                    "Parameter Server vs All-Reduce 알고리즘",
-                    "FSDP (Fully Sharded Data Parallel)의 메모리 절감 전략 (Zero Redundancy)"
-                ],
-                "Memory Optimization": [
-                    "Out of Memory (OOM) 에러의 의미",
-                    "Mixed Precision Training (FP16/BF16)과 Loss Scaling",
-                    "Gradient Checkpointing (Activation Checkpointing)을 통한 메모리 절약",
-                    "CPU Offloading 기술"
-                ]
+                "Distributed Training": {
+                    "Lv1": [
+                        "배치 사이즈를 키우기 위해 여러 GPU가 필요한 이유",
+                        "GPU 메모리 부족 (OOM) 현상"
+                    ],
+                    "Lv2": [
+                        "Data Parallel (DP) 구조와 한계 (Master Node 병목)",
+                        "Distributed Data Parallel (DDP)의 개선점 (All-Reduce)"
+                    ],
+                    "Lv3": [
+                        "Model Parallelism (Tensor Parallel vs Pipeline Parallel)",
+                        "FSDP (Fully Sharded Data Parallel)의 메모리 분산 원리",
+                        "ZeRO (Zero Redundancy Optimizer) Stage 1, 2, 3 비교"
+                    ]
+                },
+                "Memory Optimization": {
+                    "Lv1": [
+                        "모델 파라미터 외에 메모리를 차지하는 것들 (Optimizer State, Gradient)",
+                        "Batch Size 조절의 영향"
+                    ],
+                    "Lv2": [
+                        "Mixed Precision Training (FP16/BF16) 개념",
+                        "Gradient Checkpointing (Activation Checkpointing) 원리"
+                    ],
+                    "Lv3": [
+                        "FP16 학습 시 Loss Scaling이 필요한 이유 (Underflow 방지)",
+                        "KV Cache 최적화 (PagedAttention)",
+                        "CPU Offloading의 장단점 (속도 vs 메모리)"
+                    ]
+                }
             }
         }
     },
@@ -313,87 +554,199 @@ AI_TECH_TREE: Dict[str, Any] = {
         "description": "에이전트 소환사 (Prompting, RAG, Agent)",
         "tiers": {
             "Tier 1: Core Context Integration": {
-                "Prompting Basics": [
-                    "프롬프트(Prompt)란 무엇인가?",
-                    "LLM에게 역할 부여하기 (Role Playing)",
-                    "Zero-shot vs Few-shot Learning의 차이와 In-context Learning",
-                    "System Prompt의 역할과 중요성",
-                    "Prompt Injection 공격 유형과 방어 전략",
-                    "LLM Hyperparameters: Temperature, Top-p(Nucleus), Top-k의 의미"
-                ],
-                "Chain of Thought": [
-                    "단계별로 생각하라고 지시하기",
-                    "Standard Prompting vs Chain of Thought (CoT) 성능 차이 원인",
-                    "Zero-shot CoT ('Let's think step by step')",
-                    "Tree of Thoughts (ToT)와 추론 탐색 과정"
-                ],
-                "Embeddings": [
-                    "텍스트 유사도(Similarity)의 개념",
-                    "단어의 의미를 벡터 공간에 표현하기",
-                    "Dense Vector vs Sparse Vector (Keyword) 차이",
-                    "Cosine Similarity vs Euclidean Distance vs Dot Product",
-                    "Embedding Model (OpenAI ada-002, BGE, E5) 선정 기준"
-                ],
-                "Vector DB": [
-                    "벡터 데이터베이스의 필요성",
-                    "HNSW (Hierarchical Navigable Small World) 알고리즘 개요",
-                    "Vector Indexing 후 Search Latency와 Recall의 트레이드오프",
-                    "Metadata Filtering의 동작 방식 (Pre-filtering vs Post-filtering)"
-                ]
-            },
-            "Tier 2: Branching Point": {
-                "Option 1: Agentic Workflow (자율 에이전트)": {
-                    "ReAct Pattern": [
-                        "LLM이 행동(Action)을 결정하는 방식",
-                        "Thought-Action-Observation Loop 구조 이해",
-                        "Reasoning Traces가 모델 성능에 미치는 영향"
+                "Prompting Basics": {
+                    "Lv1": [
+                        "Prompt Engineering이란?",
+                        "System Prompt vs User Prompt 차이"
                     ],
-                    "Tool Use": [
-                        "LLM이 계산기나 검색을 사용하는 이유",
-                        "OpenAI Function Calling API 구조 및 JSON Schema 정의",
-                        "Tool 실행 결과 파싱 및 에러 핸들링 전략",
-                        "Parallel Function Calling 처리"
+                    "Lv2": [
+                        "Zero-shot vs Few-shot Learning (In-context Learning)",
+                        "Role Playing 기법의 효과",
+                        "Prompt Injection 공격과 방어"
                     ],
-                    "Multi-Agent": [
-                        "한 명의 에이전트 vs 여러 명의 에이전트",
-                        "Single Agent vs Multi-Agent Systems (MAS) 장단점",
-                        "Orchestrator-Workers 패턴 vs Peer-to-Peer 패턴",
-                        "LangGraph의 StateGraph, Node, Edge 개념"
+                    "Lv3": [
+                        "LLM Hyperparameters (Temperature, Top-p) 튜닝 전략",
+                        "Chain of Thought (CoT) 프롬프팅 원리",
+                        "Structured Output (JSON Mode) 강제화 기법"
                     ]
                 },
-                "Option 2: Reliability & Eval (신뢰성 및 평가)": {
-                    "Advanced RAG": [
-                        "RAG (Retrieval-Augmented Generation) 기본 개념",
-                        "Hybrid Search (Keyword + Semantic) 구현과 Weighting",
-                        "Reranking Model (Cross-Encoder)을 이용한 정확도 향상",
-                        "HyDE (Hypothetical Document Embeddings) 기법",
-                        "Multi-Query / Query Expansion 전략"
+                "Chain of Thought": {
+                    "Lv1": [
+                        "생각의 사슬(Chain of Thought) 직관적 이해",
+                        "Step-by-step으로 생각하라고 지시하기"
                     ],
-                    "Chunking Strategy": [
-                        "문서를 나누는 이유 (Token Limit)",
-                        "Fixed-size Chunking vs Semantic Chunking",
-                        "Recursive Character Text Splitter 동작 원리",
-                        "Small-to-Big Retrieval (Parent Document Retriever)"
+                    "Lv2": [
+                        "Zero-shot CoT ('Let's think step by step')의 효과",
+                        "Few-shot CoT 예제 작성법"
                     ],
-                    "LLM Evaluation": [
-                        "LLM 답변을 평가하는 어려움",
-                        "Reference-based (BLEU, ROUGE) vs Model-based (LLM-as-a-Judge) 평가",
-                        "RAGAS Framework의 주요 지표 (Faithfulness, Answer Relevance, Context Recall)",
-                        "Hallucination 유형 (Factuality vs Faithfulness)과 탐지"
+                    "Lv3": [
+                        "Tree of Thoughts (ToT) 탐색 알고리즘 (BFS/DFS)",
+                        "Self-Consistency (Majority Voting) 기법",
+                        "Least-to-Most Prompting 전략"
+                    ]
+                },
+                "Embeddings": {
+                    "Lv1": [
+                        "텍스트를 벡터로 변환하는 이유",
+                        "유사도(Similarity) 개념"
+                    ],
+                    "Lv2": [
+                        "Sparse Vector (Keyword) vs Dense Vector (Semantic) 차이",
+                        "Cosine Similarity vs Euclidean Distance 비교",
+                        "OpenAI Embedding Model 활용"
+                    ],
+                    "Lv3": [
+                        "MTEB (Massive Text Embedding Benchmark) 이해",
+                        "Cross-Encoder vs Bi-Encoder 아키텍처 차이",
+                        "Matryoshka Embedding (차원 축소 지원) 개념"
+                    ]
+                },
+                "Vector DB": {
+                    "Lv1": [
+                        "일반 DB와 Vector DB의 차이점",
+                        "Nearest Neighbor Search 개념"
+                    ],
+                    "Lv2": [
+                        "Vector Indexing의 필요성 (속도 문제)",
+                        "Metadata Filtering 개념 (Pre vs Post filtering)",
+                        "Pinecone/Milvus 기본 사용법"
+                    ],
+                    "Lv3": [
+                        "HNSW (Hierarchical Navigable Small World) 알고리즘 원리",
+                        "IVF (Inverted File Index) 구조",
+                        "HNSW 파라미터 튜닝 (M, ef_construction, ef_search)",
+                        "Search Latency vs Recall(재현율) 트레이드오프 튜닝"
                     ]
                 }
             },
+            "Tier 2: Branching Point": {
+                "Option 1: Agentic Workflow (자율 에이전트)": {
+                    "ReAct Pattern": {
+                        "Lv1": [
+                            "AI Agent 정의: 생각하고 행동하는 AI",
+                            "ReAct (Reasoning + Acting) 약어 의미"
+                        ],
+                        "Lv2": [
+                            "ReAct Loop 구조: Thought -> Action -> Observation",
+                            "Planning 단계의 중요성"
+                        ],
+                        "Lv3": [
+                            "ReAct 프롬프트 템플릿 설계",
+                            "Hallucination during reasoning 문제 해결",
+                            "Reflexion (Self-reflection) 패턴 추가"
+                        ]
+                    },
+                    "Tool Use": {
+                        "Lv1": [
+                            "LLM이 외부 도구(계산기, 검색)를 쓰는 이유",
+                            "Function Calling 개념"
+                        ],
+                        "Lv2": [
+                            "OpenAI Function Calling JSON Schema 정의",
+                            "Tool 실행 결과 LLM에 다시 주입하기"
+                        ],
+                        "Lv3": [
+                            "Parallel Function Calling 처리",
+                            "Tool Output 에러 핸들링 및 재시도 전략",
+                            "Tool RAG (많은 도구 중 선택하기)"
+                        ]
+                    },
+                    "Multi-Agent": {
+                        "Lv1": [
+                            "Single Agent vs Multi-Agent 차이",
+                            "역할 분담의 필요성"
+                        ],
+                        "Lv2": [
+                            "Orchestrator-Workers (Manager-Subordinates) 패턴",
+                            "LangGraph의 State 및 Node/Edge 개념"
+                        ],
+                        "Lv3": [
+                            "Autonomous Agents 간의 Communication Protocol",
+                            "Multi-Agent Debate/Consensus 패턴",
+                            "Hierarchical Planning 구조 구현"
+                        ]
+                    }
+                },
+                "Option 2: Reliability & Eval (신뢰성 및 평가)": {
+                    "Advanced RAG": {
+                        "Lv1": [
+                            "RAG(검색 증강 생성) 기본 개념",
+                            "Context Window 한계 극복"
+                        ],
+                        "Lv2": [
+                            "Hybrid Search (Keyword + Semantic) 구현",
+                            "Reranking (Cross-Encoder)을 통한 정확도 향상",
+                            "Multi-Query (Query Expansion) 전략"
+                        ],
+                        "Lv3": [
+                            "HyDE (Hypothetical Document Embeddings) 기법",
+                            "Parent Document Retriever 구조",
+                            "GraphRAG: Knowledge Graph를 이용한 검색 증강",
+                            "Contextual Compression 및 Filtering"
+                        ]
+                    },
+                    "Chunking Strategy": {
+                        "Lv1": [
+                            "문서를 쪼개는 (Chunking) 이유",
+                            "Token 개수 제한"
+                        ],
+                        "Lv2": [
+                            "Fixed-size Chunking vs Recursive Character Splitting",
+                            "Overlap 설정의 중요성"
+                        ],
+                        "Lv3": [
+                            "Semantic Chunking (의미 기반 분할) 알고리즘",
+                            "Markdown/Structure Aware Chunking",
+                            "Small-to-Big Retrieval 전략"
+                        ]
+                    },
+                    "LLM Evaluation": {
+                        "Lv1": [
+                            "LLM 답변 평가가 어려운 이유",
+                            "정성 평가 vs 정량 평가"
+                        ],
+                        "Lv2": [
+                            "Reference-based Metrics (BLEU, ROUGE)의 한계",
+                            "LLM-as-a-Judge 개념 (GPT-4로 평가하기)"
+                        ],
+                        "Lv3": [
+                            "RAGAS Framework 평가지표 (Faithfulness, Answer Relevance, Context Recall)",
+                            "G-Eval 논문의 평가 방식",
+                            "Hallucination Detection 기법 (Self-CheckGPT)"
+                        ]
+                    }
+                }
+            },
             "Tier 3: Core Production Excellence": {
-                "Prompt Management": [
-                    "프롬프트 관리의 중요성",
-                    "Prompt Versioning 및 변경 이력 관리",
-                    "A/B Testing 설계: 프롬프트 변형에 따른 사용자 반응 측정"
-                ],
-                "Feedback Loop": [
-                    "사용자 피드백 수집 방법",
-                    "Implicit Feedback (체류 시간, 재요청) vs Explicit Feedback (좋아요/싫어요)",
-                    "DPO (Direct Preference Optimization)를 위한 데이터셋 구축"
-                ]
+                "Prompt Management": {
+                    "Lv1": [
+                        "프롬프트를 코드처럼 관리해야 하는 이유",
+                        "Prompt Template 개념"
+                    ],
+                    "Lv2": [
+                        "Prompt Versioning 및 Git 관리",
+                        "A/B Testing 설계 (Prompt A vs Prompt B)"
+                    ],
+                    "Lv3": [
+                        "Prompt Optimization 자동화 (DSPy 개념)",
+                        "Prompt Registry 시스템 구축"
+                    ]
+                },
+                "Feedback Loop": {
+                    "Lv1": [
+                        "사용자 피드백 수집 (좋아요/싫어요)",
+                        "데이터 플라이휠 개념"
+                    ],
+                    "Lv2": [
+                        "Implicit Feedback (체류시간, 복사) vs Explicit Feedback",
+                        "Feedback 데이터 DB 스키마 설계"
+                    ],
+                    "Lv3": [
+                        "RLHF (Reinforcement Learning from Human Feedback) 개요",
+                        "DPO (Direct Preference Optimization) 데이터셋 구축",
+                        "Online Learning 파이프라인"
+                    ]
+                }
             }
         }
     },
@@ -401,68 +754,140 @@ AI_TECH_TREE: Dict[str, Any] = {
         "description": "데이터 대장장이 (SQL, Big Data, Streaming)",
         "tiers": {
             "Tier 1: Core Data Flow": {
-                "SQL Mastery": [
-                    "SELECT, FROM, WHERE 기본 문법",
-                    "GROUP BY와 집계 함수 (COUNT, SUM, AVG)",
-                    "JOIN Types (Inner, Left, Right, Full, Cross)와 성능 이슈",
-                    "Window Functions (RANK, DENSE_RANK, ROW_NUMBER, LAG, LEAD) 활용",
-                    "Common Table Expressions (CTE)와 Recursive CTE",
-                    "Subquery vs Join 성능 비교"
-                ],
-                "Data Modeling": [
-                    "데이터 중복을 피해야 하는 이유 (정규화 기초)",
-                    "OLTP vs OLAP 시스템 차이",
-                    "Star Schema vs Snowflake Schema 장단점 비교",
-                    "Fact Table vs Dimension Table의 역할",
-                    "SCD (Slowly Changing Dimensions) Type 1, 2, 3 처리 전략"
-                ],
-                "Workflow Orchestration": [
-                    "크론탭(Crontab)과 스케줄링",
-                    "Airflow DAG 구조 (Task, Operator, Sensor) 이해",
-                    "Airflow Scheduler 동작 원리와 Backfill 개념",
-                    "Task Idempotency(멱등성) 확보의 중요성",
-                    "XCom을 이용한 Task 간 데이터 공유"
-                ]
-            },
-            "Tier 2: Branching Point": {
-                "Option 1: Big Data Master (대용량 처리)": {
-                    "Distributed Concept": [
-                        "데이터가 한 컴퓨터에 다 안 들어갈 때 해결법",
-                        "HDFS (Hadoop Distributed File System) Block 단위 저장 원리",
-                        "MapReduce 프로그래밍 모델 (Map -> Shuffle -> Reduce)",
-                        "CAP Theorem (Consistency, Availability, Partition Tolerance)"
+                "SQL Mastery": {
+                    "Lv1": [
+                        "SELECT, WHERE, ORDER BY, LIMIT 기본 문법",
+                        "GROUP BY와 집계 함수 (COUNT, SUM, AVG)"
                     ],
-                    "Spark Logic": [
-                        "메모리 기반 처리가 빠른 이유",
-                        "RDD vs DataFrame vs Dataset",
-                        "Spark Lazy Evaluation과 Action vs Transformation",
-                        "Wide Dependency (Shuffle) vs Narrow Dependency",
-                        "Broadcast Variable과 Accumulator 활용"
+                    "Lv2": [
+                        "JOIN (Inner, Left, Outer)의 차이와 활용",
+                        "Subquery vs JOIN 성능 차이",
+                        "CASE WHEN 구문 활용"
+                    ],
+                    "Lv3": [
+                        "Window Functions (RANK, ROW_NUMBER, LAG, LEAD) 활용",
+                        "CTE (Common Table Expression)와 재귀 쿼리",
+                        "Query Execution Plan 분석 및 인덱스 최적화"
                     ]
                 },
-                "Option 2: Real-time Master (실시간 처리)": {
-                    "Event Streaming": [
-                        "실시간 데이터 전송의 필요성",
-                        "Kafka Broker, Topic, Partition, Offset 개념",
-                        "Consumer Group과 Rebalancing 과정",
-                        "Kafka Replication Factor와 Leader/Follower",
-                        "Log Compaction 전략"
+                "Data Modeling": {
+                    "Lv1": [
+                        "ERD (Entity Relationship Diagram) 읽는 법",
+                        "정규화(Normalization)의 목적 (중복 제거)"
                     ],
-                    "Stream Processing": [
-                        "스트림 데이터란 무엇인가?",
-                        "Processing Time vs Event Time vs Ingestion Time",
-                        "Watermark 개념과 Late Data 처리",
-                        "Tumbling Window vs Sliding Window vs Session Window"
+                    "Lv2": [
+                        "Star Schema vs Snowflake Schema 구조 비교",
+                        "Fact Table vs Dimension Table 개념",
+                        "Denormalization(비정규화)을 하는 이유"
+                    ],
+                    "Lv3": [
+                        "SCD (Slowly Changing Dimensions) Type 1, 2, 3 구현",
+                        "Data Mart 설계 전략",
+                        "Columnar Storage (Parquet) vs Row-based Storage (CSV) 차이"
+                    ]
+                },
+                "Workflow Orchestration": {
+                    "Lv1": [
+                        "작업 스케줄링 (Cron)의 개념",
+                        "Airflow DAG과 Task 정의"
+                    ],
+                    "Lv2": [
+                        "Airflow Operator 활용 (Bash, Python)",
+                        "Task Dependency 설정 (>>)",
+                        "Idempotency(멱등성)의 중요성"
+                    ],
+                    "Lv3": [
+                        "Airflow Scheduler와 Executor 동작 원리",
+                        "Backfill과 Catchup 개념 및 주의점",
+                        "XCom을 이용한 데이터 공유와 한계"
                     ]
                 }
             },
+            "Tier 2: Branching Point": {
+                "Option 1: Big Data Master (대용량 처리)": {
+                    "Distributed Concept": {
+                        "Lv1": [
+                            "분산 처리의 필요성 (Scale-out vs Scale-up)",
+                            "HDFS (하둡 분산 파일 시스템) 기본 개념"
+                        ],
+                        "Lv2": [
+                            "MapReduce 모델 (Split -> Map -> Shuffle -> Reduce)",
+                            "CAP Theorem (Consistency, Availability, Partition Tolerance)"
+                        ],
+                        "Lv3": [
+                            "Data Skewness (데이터 쏠림) 현상과 해결책",
+                            "Data Partitioning 전략",
+                            "Replication Factor와 Fault Tolerance"
+                        ]
+                    },
+                    "Spark Logic": {
+                        "Lv1": [
+                            "Spark가 Hadoop MapReduce보다 빠른 이유 (In-memory)",
+                            "PySpark 기본 DataFrame 조작"
+                        ],
+                        "Lv2": [
+                            "RDD vs DataFrame vs Dataset 차이",
+                            "Lazy Evaluation과 Action/Transformation",
+                            "Spark Job, Stage, Task 계층 구조"
+                        ],
+                        "Lv3": [
+                            "Wide Dependency (Shuffle) vs Narrow Dependency",
+                            "Broadcast Join vs Shuffle Hash Join",
+                            "Spark Memory Management (Storage vs Execution)"
+                        ]
+                    }
+                },
+                "Option 2: Real-time Master (실시간 처리)": {
+                    "Event Streaming": {
+                        "Lv1": [
+                            "배치(Batch) vs 스트리밍(Streaming) 차이",
+                            "Kafka 기본 용어 (Topic, Producer, Consumer)"
+                        ],
+                        "Lv2": [
+                            "Kafka Partition과 Parallelism",
+                            "Consumer Group과 Offset 관리",
+                            "Replication Factor와 Leader/Follower"
+                        ],
+                        "Lv3": [
+                            "Kafka Delivery Semantics (At-least-once, Exactly-once)",
+                            "ACK 설정 (0, 1, all)과 데이터 내구성",
+                            "Log Compaction 동작 원리"
+                        ]
+                    },
+                    "Stream Processing": {
+                        "Lv1": [
+                            "Stateless vs Stateful 스트림 처리",
+                            "Windowing 개념 (시간 단위 묶기)"
+                        ],
+                        "Lv2": [
+                            "Tumbling vs Sliding vs Session Window 차이",
+                            "Event Time vs Processing Time 개념",
+                            "Late Data 처리 (Watermark)"
+                        ],
+                        "Lv3": [
+                            "Stream-Stream Join 시의 문제점과 해결",
+                            "Exactly-once Processing 구현 원리 (Checkpointing)",
+                            "Backpressure 처리 메커니즘"
+                        ]
+                    }
+                }
+            },
             "Tier 3: Core Data Architecture": {
-                "Modern Data Stack": [
-                    "데이터 웨어하우스(Data Warehouse)의 개념",
-                    "Data Lake vs Data Warehouse vs Data Lakehouse",
-                    "Table Formats (Delta Lake, Apache Iceberg, Hudi) 비교",
-                    "ELT (Extract-Load-Transform) vs ETL 차이와 dbt의 역할"
-                ]
+                "Modern Data Stack": {
+                    "Lv1": [
+                        "Data Warehouse vs Data Lake 개념",
+                        "ETL vs ELT 차이"
+                    ],
+                    "Lv2": [
+                        "Data Lakehouse 아키텍처 (Delta Lake, Iceberg)",
+                        "dbt (data build tool)의 역할과 장점"
+                    ],
+                    "Lv3": [
+                        "Table Format (ACID on Data Lake) 기술 비교",
+                        "Data Mesh / Data Fabric 개념",
+                        "Lambda vs Kappa Architecture"
+                    ]
+                }
             }
         }
     },
@@ -470,60 +895,137 @@ AI_TECH_TREE: Dict[str, Any] = {
         "description": "운영의 지배자 (CI/CD, Monitoring, FinOps)",
         "tiers": {
             "Tier 1: Core Automation Core": {
-                "Docker & Registry": [
-                    "도커 이미지를 저장하는 곳 (Registry)",
-                    "Image Tagging 전략 (Semantic Versioning vs Git Hash)",
-                    "Docker Registry (ECR, Docker Hub) 권한 관리",
-                    "Image Size 최적화 (Alpine/Distroless 이미지 활용)"
-                ],
-                "CI/CD Pipelines": [
-                    "코드를 자동으로 배포해야 하는 이유",
-                    "CI/CD 단계별 구성 (Lint -> Build -> Unit Test -> Integration Test -> Deploy)",
-                    "GitHub Actions Workflow Syntax (on, jobs, steps, uses)",
-                    "Blue-Green Deployment vs Canary Deployment 전략"
-                ],
-                "Model Logging": [
-                    "실험 기록을 남겨야 하는 이유",
-                    "Experiment Tracking (Hyperparams, Metrics, Artifacts)",
-                    "Model Registry와 Staging/Production 단계 관리",
-                    "Reproducibility(재현성) 확보를 위한 시드 및 환경 고정"
-                ]
+                "Docker & Registry": {
+                    "Lv1": [
+                        "이미지 레지스트리(ECR, DockerHub) 역할",
+                        "Image Build 기본 명령어"
+                    ],
+                    "Lv2": [
+                        "Semantic Versioning을 이용한 Image Tagging 전략",
+                        "Dockerfile Layer Caching을 이용한 빌드 속도 향상"
+                    ],
+                    "Lv3": [
+                        "Multi-stage Build를 통한 Image Size 최소화",
+                        "Distroless/Alpine 이미지 활용 및 보안 이점",
+                        "Private Registry 인증 및 권한 관리"
+                    ]
+                },
+                "CI/CD Pipelines": {
+                    "Lv1": [
+                        "CI(지속적 통합)와 CD(지속적 배포)의 의미",
+                        "GitHub Actions 기본 YAML 구조"
+                    ],
+                    "Lv2": [
+                        "CI 파이프라인 단계 (Lint -> Test -> Build)",
+                        "Secrets 관리 및 환경변수 주입",
+                        "CD 전략: Rolling Update"
+                    ],
+                    "Lv3": [
+                        "Blue-Green vs Canary Deployment 구현 차이",
+                        "Self-hosted Runner 구축 및 활용",
+                        "GitOps 개념 (ArgoCD)"
+                    ]
+                },
+                "Model Logging": {
+                    "Lv1": [
+                        "실험 관리(Experiment Tracking)의 필요성",
+                        "모델의 Hyperparameter와 Metric 기록"
+                    ],
+                    "Lv2": [
+                        "MLflow/WandB 기본 사용법",
+                        "Model Artifact (가중치 파일) 저장 및 버전 관리"
+                    ],
+                    "Lv3": [
+                        "Model Registry의 Stage 관리 (Staging -> Production)",
+                        "Reproducibility(재현성)를 위한 Random Seed 및 환경 고정",
+                        "Model Card 작성 및 메타데이터 관리"
+                    ]
+                }
             },
             "Tier 2: Branching Point": {
                 "Option 1: FinOps (비용 최적화)": {
-                    "Resource Mgmt": [
-                        "클라우드 비용이 발생하는 원인",
-                        "Spot Instance 활용 전략 및 중단 시 처리 방안",
-                        "GPU Utilization 모니터링 및 병목 현상 분석",
-                        "Multi-Tenancy 환경에서의 Resource Quota 설정"
-                    ],
-                    "IaC": [
-                        "코드로 인프라를 관리하면 좋은 점",
-                        "Infrastructure as Code (IaC)의 장점과 선언적 구성",
-                        "Terraform State File 관리와 Backend 설정 (S3, DynamoDB)",
-                        "Terraform Module을 이용한 리소스 재사용"
-                    ]
+                    "Resource Mgmt": {
+                        "Lv1": [
+                            "클라우드 비용 구성 요소 (Compute, Storage, Network)",
+                            "Unused Resource 찾기"
+                        ],
+                        "Lv2": [
+                            "Spot Instance 활용 및 중단 처리 전략",
+                            "Auto Scaling Group (ASG) 설정",
+                            "GPU Sharing (MIG, Time-slicing) 기술"
+                        ],
+                        "Lv3": [
+                            "Kubernetes Resource Quota 및 LimitRange 설정",
+                            "FinOps 프레임워크 및 비용 할당(Tagging) 전략",
+                            "Reserved Instance (RI) / Savings Plan 활용"
+                        ]
+                    },
+                    "IaC": {
+                        "Lv1": [
+                            "IaC (Infrastructure as Code) 개념",
+                            "Terraform 기본 문법 (HCL)"
+                        ],
+                        "Lv2": [
+                            "Terraform `plan` vs `apply` 차이",
+                            "State File의 역할과 관리 (S3 Backend)",
+                            "Resource Dependency 처리"
+                        ],
+                        "Lv3": [
+                            "Terraform Module을 이용한 코드 재사용성",
+                            "State Locking을 이용한 협업 안전성 확보",
+                            "Drift Detection (실제 인프라와 코드의 차이 감지)"
+                        ]
+                    }
                 },
                 "Option 2: Model Health (품질 모니터링)": {
-                    "Drift Detection": [
-                        "모델 성능이 시간이 지나면 떨어지는 이유",
-                        "Data Drift (Feature 분포 변화) vs Concept Drift (Target 관계 변화)",
-                        "Lable Shift vs Prediction Drift",
-                        "KS Test, PSI (Population Stability Index) 등 통계적 감지 기법"
+                    "Drift Detection": {
+                        "Lv1": [
+                            "Model Decay (성능 저하) 현상 이해",
+                            "Training 데이터와 Serving 데이터의 차이"
+                        ],
+                        "Lv2": [
+                            "Data Drift (Covariate Shift) 개념",
+                            "Concept Drift (Target Shift - P(y|x) 변화) 개념",
+                            "기본 통계적 감지 (Mean, Variance 변화)"
+                        ],
+                        "Lv3": [
+                            "KS Test, PSI (Population Stability Index) 활용",
+                            "KL Divergence, JS Divergence 측정",
+                            "Label Delay 문제와 해결 전략"
+                        ]
+                    },
+                    "Observability": {
+                        "Lv1": [
+                            "Logging의 중요성 (Access Log, Error Log)",
+                            "Metrics (CPU, Memory) 모니터링"
+                        ],
+                        "Lv2": [
+                            "Logging vs Metrics vs Tracing (3 Pillars)",
+                            "Prometheus Pull 방식 아키텍처",
+                            "Grafana Dashboard 패널 생성"
+                        ],
+                        "Lv3": [
+                            "Distributed Tracing (OpenTelemetry, Jaeger)",
+                            "Prometheus AlertManager Rule 설정",
+                            "Custom Metric Exporter 개발 (FastAPI middleware)"
+                        ]
+                    }
+                }
+            },
+            "Tier 3: Core Monitoring Mastery": {
+                "Continuous Training": {
+                    "Lv1": [
+                        "재학습(Retraining) 프로세스 개요",
+                        "Manual Retraining vs Automated Retraining"
                     ],
-                    "Observability": [
-                        "서버 로그를 확인하는 이유",
-                        "Logging vs Tracing vs Metrics 차이",
-                        "Prometheus Pull 방식 vs Push Gateway",
-                        "Grafana Dashboard 패널 구성 및 Alert Rule 설정"
-                    ]
-                },
-                "Tier 3: Core Monitoring Mastery": {
-                    "Continuous Training": [
-                        "모델을 주기적으로 다시 학습시키는 이유",
-                        "CT Pipeline Trigger 조건 (Drift 감지 시, 주기적, 성능 저하 시)",
-                        "Data Validation (TFDV) 및 Model Validation (TFMA) 단계",
-                        "Online Learning vs Batch Learning"
+                    "Lv2": [
+                        "CT Pipeline 구성 요소 (Data Val -> Train -> Eval -> Deploy)",
+                        "Retraining Trigger 조건 (시간 기반 vs 성능 기반)"
+                    ],
+                    "Lv3": [
+                        "TFDV (TensorFlow Data Validation) 활용",
+                        "TFMA (TensorFlow Model Analysis) 슬라이싱 평가",
+                        "Online Learning vs Batch Learning 시스템 아키텍처"
                     ]
                 }
             }
