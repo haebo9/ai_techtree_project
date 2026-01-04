@@ -9,20 +9,20 @@
 
 ---
 
-## 🏁 Tier 0: The Origin (공통 필수 기반)
+## 🏁 Track 0: The Origin (공통 필수 기반)
 
 **모든 AI 클래스로 전직하기 위한 선행 조건입니다.**
 
-* **Python Mastery**
+* **[Tier 1: Core] Python Mastery**
   * 🔹 `Python Syntax & Types` : 변수, 자료형, 기초 문법
   * 🔹 `Data Structure Core` : List, Dict, Set의 메모리 구조 및 효율성
   * 🔹 `OOP & Functional` : Class, Decorator, Generator, Lambda
 
-* **DevOps Foundations**
+* **[Tier 2: Core] DevOps Foundations**
   * 🔹 `Linux CLI` : 파일 시스템, 권한, 프로세스 관리
   * 🔹 `Git Version Control` : Commit, Branch, Merge, Rebase
 
-* **[Required] Math & Logic**
+* **[Tier 3: Core] Math & Logic**
   * 🔹 `Linear Algebra & Statistics` : 선형대수, 기초 통계학 (AI 구동 원리 이해)
 
 ---
