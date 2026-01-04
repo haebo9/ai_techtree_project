@@ -17,9 +17,9 @@
 * `agent_workflow.md`: AI 에이전트 동작 흐름 [[바로가기](https://github.com/haebo9/ai_techtree_project/blob/main/docs/2_design/agent_workflow.md)]
 * `mcp_server.md`: MCP 서버 설계 [[바로가기](https://github.com/haebo9/ai_techtree_project/blob/main/docs/2_design/mcp_server.md)]
 * `db_schema.md`: MongoDB 데이터 모델 [[바로가기](https://github.com/haebo9/ai_techtree_project/blob/main/docs/2_design/db_schema.md)]
-
+* `track.md`: AI Tech Tree 스킬 트리 정의 (Track & Tier) [[바로가기](https://github.com/haebo9/ai_techtree_project/blob/main/docs/2_design/track.md)]
 ## 📚 3. knowledge (지식)
-**"무엇을 참고하고 배웠는가?"** (기술 의사결정 및 트러블슈팅)
+**"무엇을 참고하고 배웠는가?"** (기술 의사결정 및 참고 자료)
 
 * `tech_decisions.md`: 기술 스택 선정 이유 [[바로가기](https://github.com/haebo9/ai_techtree_project/blob/main/docs/3_knowledge/tech_decisions.md)]
 * `references.md`: 주요 참고 문서 및 튜토리얼 링크 모음 [[바로가기](https://github.com/haebo9/ai_techtree_project/blob/main/docs/3_knowledge/references.md)]
