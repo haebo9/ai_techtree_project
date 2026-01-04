@@ -221,7 +221,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                 }
             },
             "Tier 2: Branching Point": {
-                "Option 1: Serving Specialist (추론 최적화)": {
+                "Option 1: Serving Specialist": {
                     "Model Serialization": {
                         "Lv1": [
                             "모델 파일 저장(.pt, .pkl)과 불러오기 기초",
@@ -271,7 +271,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                         ]
                     }
                 },
-                "Option 2: App Architect (서비스 아키텍처)": {
+                "Option 2: App Architect": {
                     "Database Design": {
                         "Lv1": [
                             "Table, Row, Column 개념",
@@ -360,7 +360,7 @@ AI_TECH_TREE: Dict[str, Any] = {
         }
     },
     "Track 2: AI Modeler / Researcher": {
-        "description": "알고리즘 술사 (Deep Learning, Vision, NLP)",
+        "description": "알고리즘 모델링 및 연구 (Deep Learning, Vision, NLP)",
         "tiers": {
             "Tier 1: Core Deep Learning Engine": {
                 "Tensor Operations": {
@@ -413,7 +413,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                 }
             },
             "Tier 2: Branching Point": {
-                "Option 1: Vision Sage (시각 지능)": {
+                "Option 1: Vision Sage": {
                     "CNN Backbones": {
                         "Lv1": [
                             "픽셀(Pixel)과 RGB 채널의 이해",
@@ -464,7 +464,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                         ]
                     }
                 },
-                "Option 2: Language Sage (언어 지능)": {
+                "Option 2: Language Sage": {
                     "Transformer Arch": {
                         "Lv1": [
                             "단어 임베딩(Embedding)의 필요성",
@@ -551,7 +551,7 @@ AI_TECH_TREE: Dict[str, Any] = {
         }
     },
     "Track 3: LLM Application Engineer": {
-        "description": "에이전트 소환사 (Prompting, RAG, Agent)",
+        "description": "에이전트 개발가 (Prompting, RAG, Agent)",
         "tiers": {
             "Tier 1: Core Context Integration": {
                 "Prompting Basics": {
@@ -620,7 +620,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                 }
             },
             "Tier 2: Branching Point": {
-                "Option 1: Agentic Workflow (자율 에이전트)": {
+                "Option 1: Agentic Workflow": {
                     "ReAct Pattern": {
                         "Lv1": [
                             "AI Agent 정의: 생각하고 행동하는 AI",
@@ -667,7 +667,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                         ]
                     }
                 },
-                "Option 2: Reliability & Eval (신뢰성 및 평가)": {
+                "Option 2: Reliability & Eval": {
                     "Advanced RAG": {
                         "Lv1": [
                             "RAG(검색 증강 생성) 기본 개념",
@@ -804,7 +804,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                 }
             },
             "Tier 2: Branching Point": {
-                "Option 1: Big Data Master (대용량 처리)": {
+                "Option 1: Big Data Master": {
                     "Distributed Concept": {
                         "Lv1": [
                             "분산 처리의 필요성 (Scale-out vs Scale-up)",
@@ -837,7 +837,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                         ]
                     }
                 },
-                "Option 2: Real-time Master (실시간 처리)": {
+                "Option 2: Real-time Master": {
                     "Event Streaming": {
                         "Lv1": [
                             "배치(Batch) vs 스트리밍(Streaming) 차이",
@@ -943,7 +943,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                 }
             },
             "Tier 2: Branching Point": {
-                "Option 1: FinOps (비용 최적화)": {
+                "Option 1: FinOps": {
                     "Resource Mgmt": {
                         "Lv1": [
                             "클라우드 비용 구성 요소 (Compute, Storage, Network)",
@@ -977,7 +977,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                         ]
                     }
                 },
-                "Option 2: Model Health (품질 모니터링)": {
+                "Option 2: Model Health": {
                     "Drift Detection": {
                         "Lv1": [
                             "Model Decay (성능 저하) 현상 이해",
