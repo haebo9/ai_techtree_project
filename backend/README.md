@@ -20,12 +20,12 @@ backend/
 │   │   │   ├── qamaker_agent.py                # [Tool] 질문 생성 (Async)
 │   │   │   ├── interviewer_agent.py            # [Tool] 대화 및 꼬리질문
 │   │   │   └── evaluator_agent.py              # [Tool] 평가 및 리포트 작성
-│   │   ├── source/
-│   │   └── prompts/
+│   │   ├── source/                           # AI Agent Source Code    
+│   │   └── prompts/                          # AI Agent Prompts
 │   ├── schemas_db/                     # MongoDB Schemas (Used by Legacy API)
 │   ├── schemas_api/                    # API DTO Schemas
 │   └── services/                       # Business Logic & CRUD
-├── tests/
+├── tests/                              # Unit Tests
 ├── .env
 ├── .gitignore
 ├── Dockerfile

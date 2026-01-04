@@ -1,5 +1,6 @@
 # --- System ---
 .DS_Store
+.pytest_cache
 Thumbs.db
 
 # --- Editor ---

@@ -13,8 +13,9 @@
 ## 2026년 1월
 | Date | Tag | Category | Details |
 |:---:|:---:|:---:|:---|
-| **26.01.04(일)** | 🔵 | **Update** | track.md 문서 검토 및 수정 |
-| | 🟣 | **Update** | topic 레벨별 기술 트리 작성 |
+| **26.01.04(일)** | 🔵 | **Update** | track.md(TechTree 구조) 문서 검토 및 수정 |
+| | 🟣 | **Update** | topic Track/Tier/Level별 기술 트리 작성 |
+| | 🟣 | **Add** | Interviewer Agent 초기 대화 흐름 구현 / 테스트 코드 추가 |
 | **26.01.03(토)** | 🟢 | **Refactor** | Stateless MCP와 Stateful api server 폴더 분리 |
 | | 🟣 | **Feat** | main_agent 로직 구현, sub_agent 코드 검토 |
 | | 🔵 | **Refactor** | Agent 아키텍처(Main-sub) 및 MCP 구조 변경 문서 작성|
