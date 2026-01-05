@@ -73,13 +73,19 @@ sequenceDiagram
 
 ### 🟡 도구 상세 로직
 
-#### 🔵 1. 문제 생성 (`generate_questions`)
+#### 🔵 1. 면접 시작 및 주제 추천 (`start_interview`)
+*   **Flow**: `Main` -> `Interviewer` (의도 파악 및 커리큘럼 조회) -> `Main` (추천 멘트 반환)
+*   **설명**: 사용자의 첫 인사나 모호한 요청(예: "면접 볼래")을 분석하여 적합한 면접 주제(Track/Tier)를 제안합니다.
+*   **입력**: `user_input` (String)
+*   **출력**: 추천 멘트 w/ 커리큘럼 요약 (String)
+
+#### 🔵 2. 문제 생성 (`generate_questions`)
 *   **Flow**: `Main` -> `QAMaker` (문제 생성) -> `Main` (반환)
 *   **설명**: 특정 주제와 난이도에 맞는 면접 질문을 즉석에서 생성합니다.
 *   **입력**: `topic`, `level`, `count`
 *   **출력**: 질문 리스트 (JSON)
 
-#### 🔵 2. 답변 평가 및 피드백 (`evaluate_answer`)
+#### 🔵 3. 답변 평가 및 피드백 (`evaluate_answer`)
 *   **Flow**: 
     1. `Main` -> `Evaluator`: 답변 채점 요청 (Score, Pass/Fail, Missing Points 반환)
     2. `Main` -> `Interviewer`: 채점 결과를 바탕으로 **피드백 멘트 및 꼬리 질문** 작성 요청 (Persona 반영)
@@ -92,7 +98,7 @@ sequenceDiagram
     *   `feedback_message`: 사용자에게 보여줄 면접관의 말 (String)
     *   `next_action`: `PASS` (다음 문제) or `DEEP_DIVE` (꼬리 질문)
 
-#### 🔵 3. 종합 리포트 (`summarize_result`)
+#### 🔵 4. 종합 리포트 (`summarize_result`)
 *   **Flow**: `Main` -> `Evaluator` (분석) -> `Interviewer` (리포트 톤앤매너 정제) -> `Main`
 *   **설명**: 전체 인터뷰 기록을 분석하여 강점/약점 및 향후 학습 가이드를 포함한 리포트를 작성합니다.
 *   **입력**: `conversation_history`

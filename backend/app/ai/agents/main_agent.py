@@ -12,6 +12,9 @@ from app.ai.agents import qamaker_agent, interviewer_agent, evaluator_agent
 # Main Agent acts as a provider/registry of these tools.
 # -------------------------------------------------------------------------
 
+@tool("start_interview", decription= "Start the interview session.")
+
+
 @tool("generate_questions", description="Generate interview questions based on topic and difficulty level.")
 async def generate_questions(topic: str, level: str, count: int = 1) -> List[Dict[str, Any]]:
     """
@@ -37,7 +40,7 @@ async def evaluate_answer(question: str, user_answer: str, level: str) -> Dict[s
     """
     print(f"🤔 [Tool:evaluate_answer] Evaluating answer for {level}...")
 
-    # Reuse evaluator agent logic
+    # 1. Evaluator: 점수 및 팩트 체크 (Judge)
     eval_result = await evaluator_agent.evaluate_answer(
         question=question,
         user_answer=user_answer,
@@ -45,39 +48,43 @@ async def evaluate_answer(question: str, user_answer: str, level: str) -> Dict[s
         evaluation_criteria=[f"Level: {level}"]
     )
     
+    score = eval_result.get("score", 0)
     is_pass = eval_result.get("is_passed", False)
+    eval_feedback = eval_result.get("feedback", "")
+    
+    # 2. Interviewer: 피드백 멘트 및 꼬리 질문 생성 (Persona/Writer)
+    final_message = await interviewer_agent.generate_feedback_message(
+        question=question,
+        user_answer=user_answer,
+        score=score,
+        is_pass=is_pass,
+        feedback=eval_feedback
+    )
+
+    # 3. Next Action 결정
+    # 점수가 낮거나(Fail), 점수는 높지만 검증이 더 필요하다는 뉘앙스(꼬리질문)가 있다면 DEEP_DIVE
     next_action = "PASS" if is_pass else "DEEP_DIVE"
     
     return {
-        "score": eval_result.get("score", 0),
-        "feedback": eval_result.get("feedback", ""),
+        "score": score,
+        "feedback": final_message, # 단순 Fact가 아닌 Interviewer가 가공한 친절한 멘트
         "is_pass": is_pass,
         "next_action": next_action
     }
 
-
-@tool("generate_followup", description="Generate a sharp follow-up question for deep dive.")
-async def generate_followup(previous_question: str, user_answer: str, level: str) -> str:
+@tool("start_interview", description="Initiate the interview session and recommend topics.")
+async def start_interview(user_input: str) -> str:
     """
-    Generate a follow-up (deep dive) question when the user's answer requires further probing.
-    Use this tool when 'evaluate_answer' returns 'next_action' as 'DEEP_DIVE'.
+    Start the interview session.
+    Use this tool when the user greets or asks for an interview without a specific ongoing topic.
+    It will analyze the user's intent and recommend suitable interview topics from the curriculum.
     """
-    context_prompt = f"""
-    [상황]
-    - 이전 질문: {previous_question}
-    - 사용자 답변: {user_answer}
-    - 레벨: {level}
+    print(f"👋 [Tool:start_interview] User Input: {user_input}")
     
-    사용자의 답변이 부족하거나 더 검증이 필요합니다. 
-    관련된 개념의 트레이드오프나 엣지 케이스를 묻는 날카로운 '꼬리 질문(Follow-up)'을 하나만 생성하세요.
-    """
+    # Interviewer에게 커리큘럼 기반 추천 멘트 생성을 요청
+    response = await interviewer_agent.recommend_topic_response(user_input)
     
-    followup_q = await interviewer_agent.generate_interview_response(
-        user_input=context_prompt,
-        history=[] 
-    )
-    
-    return followup_q
+    return response
 
 
 @tool("summarize_result", description="Analyze conversation logic and generate a final report.")
@@ -88,26 +95,20 @@ async def summarize_result(conversation_history: List[str]) -> str:
     """
     full_log = "\n".join(conversation_history)
     
+    # 1. Evaluator: 로직 분석
     report_prompt = f"""
-    당신은 AI TechTree의 최종 평가관입니다.
-    다음 인터뷰 로그를 바탕으로 종합 리포트를 작성해주세요.
-    
     [로그]
     {full_log}
     
-    [출력 형식]
-    Markdown 포맷으로 다음 내용을 포함:
-    1. 종합 점수 및 등급
-    2. 강점 (Strengths)
-    3. 보완점 (Weaknesses)
-    4. 향후 학습 가이드
+    위 로그를 분석하여 강점, 약점, 종합 점수를 도출하세요.
     """
+    raw_analysis = await evaluator_agent.llm.ainvoke([HumanMessage(content=report_prompt)])
     
-    # Direct invocation of Evaluator LLM
-    response = await evaluator_agent.llm.ainvoke([HumanMessage(content=report_prompt)])
+    # 2. Interviewer: 최종 리포트 포맷팅
+    final_report = await interviewer_agent.format_final_report(raw_analysis.content)
     
-    return response.content
+    return final_report
 
 # List of tools exported for easy registration
-TOOLS = [generate_questions, evaluate_answer, generate_followup, summarize_result]
+TOOLS = [start_interview, generate_questions, evaluate_answer, summarize_result]
 
