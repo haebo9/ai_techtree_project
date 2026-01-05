@@ -1,35 +1,28 @@
-import json
-from typing import List, Optional, Dict, Any, TypedDict, Annotated
+from typing import List, Optional, Dict, Any
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage, ToolMessage
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 from langchain_core.tools import tool
-from langgraph.graph import StateGraph, END, START
-from langgraph.prebuilt import ToolNode, tools_condition
-from langgraph.graph.message import add_messages
-
 from app.core.config import settings
 from app.ai.source.topics import AI_TECH_TREE
+import json
 
 # 1. 모델 초기화
 llm = ChatOpenAI(
-    model="gpt-5-nano",
-    temperature=0.5,
+    model="gpt-5-mini",  # Writer 역할이므로 좀 더 똑똑한 모델 사용 권장
+    temperature=0.7, # 창의적인 멘트 생성을 위해 약간 높임
     api_key=settings.OPENAI_API_KEY
 )
 
-# 2. Tool 정의: 에이전트가 호출할 수 있는 함수
-@tool
+# ---------------------------------------------------------------------
+# Tools for Curriculum Navigation (Optional, if needed for Topic Selection)
+# ---------------------------------------------------------------------
+
 def get_curriculum_context(track: Optional[str] = None, tier: Optional[str] = None) -> str:
     """
     Retrieves specific curriculum data from the AI Tech Tree.
-    Call this tool to navigate the curriculum hierarchy: Track -> Tier -> (Option).
-    
-    Args:
-        track: The name of the track (e.g., "Track 1: AI Engineer").
-        tier: The name of the tier (e.g., "Tier 1: System Foundation").
+    Useful for understanding the context of the interview topic.
     """
-    # 1. Track 미선택: 전체 Track 목록 반환
     if not track:
         summary = {k: v.get("description", "") for k, v in AI_TECH_TREE.items()}
         return f"[Available Tracks]\n{json.dumps(summary, ensure_ascii=False, indent=2)}"
@@ -38,144 +31,119 @@ def get_curriculum_context(track: Optional[str] = None, tier: Optional[str] = No
     if not track_data:
         return "Selected Track information not found."
 
-    # 2. Tier 미선택: 해당 Track의 Tier 목록 반환
     if not tier:
         tiers_summary = list(track_data.get("tiers", {}).keys())
         return f"[Selected Track: {track}]\nAvailable Tiers: {json.dumps(tiers_summary, ensure_ascii=False, indent=2)}"
     
-    tiers = track_data.get("tiers", {})
-    tier_data = tiers.get(tier)
-    
+    tier_data = track_data.get("tiers", {}).get(tier)
     if not tier_data:
         return f"Selected Tier '{tier}' not found in {track}."
     
-    # 3. Tier 선택됨: 
-    # 만약 "Option"으로 시작하는 키가 있다면, 옵션 목록을 반환하여 선택 유도.
-    # 옵션이 없다면, 해당 Tier의 전체 Subject 목록을 반환하여 Tier 확정 유도.
-    
-    # Check for Options
-    options = [k for k in tier_data.keys() if k.startswith("Option")]
-    
-    if options:
-        # 옵션들이 있으면, 그 옵션들의 키만 보여줌 (내부 Subject는 아직 숨김)
-        return f"[Selected Tier: {tier}]\nThis Tier has Options. Please ask user to select one:\n{json.dumps(options, ensure_ascii=False, indent=2)}"
-    
-    # 옵션이 없으면 (공통 Tier), 해당 Tier의 내용을 통째로 보여주며 "이 범위로 진행하시겠습니까?" 유도
-    context_data = {
-        "track": track,
-        "tier": tier,
-        "contents": list(tier_data.keys()) # Subject 목록만 보여줌
-    }
-    return f"[Current Focus: {tier}]\nNo separate options. Ready to recommend this Tier.\n{json.dumps(context_data, ensure_ascii=False, indent=2)}"
+    return f"[Current Focus: {tier}]\nContents: {list(tier_data.keys())}"
+
+# ---------------------------------------------------------------------
+# Functional Chains (LangChain LCEL)
+# ---------------------------------------------------------------------
+
+# 1. Feedback Generation Chain
+FEEDBACK_SYSTEM_PROMPT = """
+당신은 AI TechTree의 친절하고 전문적인 면접관입니다.
+지원자(사용자)의 답변에 대한 평가 결과를 바탕으로, 지원자에게 전달할 자연스러운 피드백 멘트를 작성하세요.
+
+[입력 정보]
+- 현재 질문: {question}
+- 사용자 답변: {user_answer}
+- 평가 점수: {score}점
+- 통과 여부: {is_pass}
+- 평가 상세(Feedback): {feedback}
+
+[작성 가이드]
+1. 말투: 정중하고 부드러운 '해요체'를 사용하세요. (예: "~~하셨군요!", "아, 이 부분은 ~~입니다.")
+2. 내용: 
+    - 점수가 높으면(70점 이상) 칭찬과 함께 답변의 핵심을 재확인해주세요.
+    - 점수가 낮으면(70점 미만) 틀린 부분을 부드럽게 지적하고 격려해주세요.
+3. 꼬리 질문(Deep Dive):
+    - 만약 '통과 여부'가 False이거나, 답변이 완벽하지 않다면 핵심을 찌르는 꼬리 질문을 **하나만** 덧붙여주세요.
+    - 이미 완벽하다면 꼬리 질문 없이 다음 문제로 넘어가자고 하세요.
+
+[출력 예시]
+"아, Dropout에 대해 잘 설명해주셨네요! 
+하지만 데이터가 매우 적을 때 Dropout만으로 충분할까요? 이때 사용할 수 있는 다른 기법에 대해서도 말씀해 주시겠어요?"
+"""
+
+feedback_prompt = ChatPromptTemplate.from_messages([
+    ("system", FEEDBACK_SYSTEM_PROMPT),
+    ("human", "위 평가 내용을 바탕으로 면접관 멘트를 작성해주세요.")
+])
+
+feedback_chain = feedback_prompt | llm | StrOutputParser()
 
 
-@tool
-def recommend_interview_topic(track: str, tier: str, option: Optional[str] = None, reason: str = "") -> str:
+async def generate_feedback_message(question: str, user_answer: str, score: int, is_pass: bool, feedback: str) -> str:
     """
-    Finalizes the interview scope selection.
-    Call this tool when the user agrees on a specific Track and Tier (and Option if applicable).
-    
-    Args:
-        track: The selected track name.
-        tier: The selected tier name.
-        option: The selected option name (e.g., "Option 1: FastAPI"). Only if the Tier has options.
-        reason: Brief reason for recommendation.
+    평가 결과를 바탕으로 사용자에게 보낼 피드백 메시지(꼬리질문 포함)를 생성합니다.
     """
-    recommendation = {
-        "status": "TOPIC_SELECTED",
-        "track": track,
-        "tier": tier,
-        "option": option,
-        "reason": reason
-    }
-    return json.dumps(recommendation, ensure_ascii=False)
+    return await feedback_chain.ainvoke({
+        "question": question,
+        "user_answer": user_answer,
+        "score": score,
+        "is_pass": is_pass,
+        "feedback": feedback
+    })
 
 
-# 3. State 정의
-class InterviewerState(TypedDict):
-    messages: Annotated[List[BaseMessage], add_messages]
+# 2. Report Formatting Chain (Optional)
+REPORT_SYSTEM_PROMPT = """
+당신은 AI TechTree의 면접 결과 리포트 작성자입니다.
+Evaluator가 분석한 데이터를 바탕으로, 지원자가 읽기 편한 Markdown 형식의 종합 리포트를 작성하세요.
+격식 있고 깔끔한 톤을 유지하세요.
+"""
 
-# 4. Graph Node 정의
-def interviewer_node(state: InterviewerState):
-    messages = state["messages"]
-    # Tool Binding: Navigating, Recommending
-    tools = [get_curriculum_context, recommend_interview_topic]
-    llm_with_tools = llm.bind_tools(tools)
-    return {"messages": [llm_with_tools.invoke(messages)]}
+report_prompt = ChatPromptTemplate.from_messages([
+    ("system", REPORT_SYSTEM_PROMPT),
+    ("human", "[분석 데이터]\n{analysis_data}\n\n위 데이터를 예쁘게 포맷팅해주세요.")
+])
 
-# 5. Graph 구축
-workflow = StateGraph(InterviewerState)
+report_chain = report_prompt | llm | StrOutputParser()
 
-# 노드 추가
-workflow.add_node("interviewer", interviewer_node)
-workflow.add_node("tools", ToolNode([get_curriculum_context, recommend_interview_topic]))
+# 3. Topic Recommendation Chain
+RECOMMEND_SYSTEM_PROMPT = """
+당신은 AI TechTree의 면접 가이드입니다.
+사용자의 관심사나 요청을 듣고, 제공된 [커리큘럼 목록] 중에서 가장 적합한 Track이나 Tier를 추천해주세요.
 
-# 엣지 연결
-workflow.add_edge(START, "interviewer")
-workflow.add_conditional_edges("interviewer", tools_condition) # Tool 호출 여부 판단
-workflow.add_edge("tools", "interviewer") # Tool 결과 받고 다시 LLM으로
+[커리큘럼 목록]
+{context}
 
-# 컴파일
-interviewer_app = workflow.compile()
+[가이드]
+1. 사용자가 구체적인 주제를 언급하지 않았다면, 전체 Track을 간략히 소개하고 선택을 유도하세요.
+2. 사용자가 특정 관심사(예: "백엔드", "AI")를 보였다면, 관련 Track과 그 안의 Tier들을 구체적으로 제안하세요.
+3. 말투는 친절하고 전문적인 '해요체'를 사용하세요.
+4. 이미 주제가 명확하다면 "그럼 [주제]로 면접을 시작할까요?" 라고 확인해주세요.
+"""
 
+recommend_prompt = ChatPromptTemplate.from_messages([
+    ("system", RECOMMEND_SYSTEM_PROMPT),
+    ("human", "{user_input}")
+])
 
-# 6. 실행 함수 (Interface)
-async def generate_interview_response(
-    user_input: str, 
-    history: List[BaseMessage] = [],
-    initial_context: Optional[Dict[str, str]] = None
-) -> str:
+recommend_chain = recommend_prompt | llm | StrOutputParser()
+
+async def recommend_topic_response(user_input: str) -> str:
     """
-    사용자의 입력과 대화 내역을 받아, 에이전트가 스스로 필요한 커리큘럼을 조회(Tool Call)하고 응답을 생성합니다.
+    사용자의 초기 입력에 대응하여 커리큘럼을 소개하거나 주제를 추천하는 멘트를 생성합니다.
     """
+    # 1. 커리큘럼 정보 로드 (우선 전체 목록 조회)
+    # TODO: 사용자 입력에서 키워드를 추출하여 특정 Track만 조회하는 로직으로 고도화 가능
+    context_str = get_curriculum_context(track=None)
     
-    # 기본 시스템 프롬프트
-    base_prompt = """
-        당신은 AI TechTree의 IT 기술 면접관입니다.
-
-        [행동 지침]
-        1. 사용자의 의도를 파악하고, `get_curriculum_context`를 사용하여 'Track'과 'Tier'를 확정하세요.
-        2. 만약 해당 Tier에 'Option'(선택지)이 있다면, 반드시 사용자에게 하나를 선택하게 하세요.
-        3. 세부적인 'Subject' 단위까지 내려가지 마세요. Tier(혹은 Option) 단위에서 범위를 정하는 것이 목표입니다.
-        4. 범위가 확정되면 `recommend_interview_topic` 도구를 호출하여 추천을 확정하고 대화를 종료하세요.
-        5. 항상 정중한 존댓말을 사용하세요.
-        """
-
-    messages = [SystemMessage(content=base_prompt)]
-
-    # 웹 서비스 연동: 초기 컨텍스트가 주입된 경우
-    if initial_context:
-        # 1. 컨텍스트 내용을 로드 (Tool을 직접 사용하여 내용 확보)
-        context_str = get_curriculum_context.invoke(input=initial_context)
-        
-        # 2. System 프롬프트에 컨텍스트 강제 주입 & 지시사항 추가
-        context_injection = f"""
-            [Current Interview Context]
-            사용자가 웹 UI를 통해 이미 다음 주제를 선택했습니다. 즉시 `recommend_interview_topic` 도구를 호출하여 해당 주제를 추천하세요.
-
-            {context_str}
-            """
-        messages.append(SystemMessage(content=context_injection))
-
-    # 히스토리 및 사용자 입력 추가
-    messages.extend(history)
-    messages.append(HumanMessage(content=user_input))
+    # 2. 추천 멘트 생성
+    response = await recommend_chain.ainvoke({
+        "context": context_str,
+        "user_input": user_input
+    })
     
-    inputs = {"messages": messages}
-    
-    # 그래프 실행
-    final_state = await interviewer_app.ainvoke(inputs)
-    
-    # 마지막 응답 추출 (ToolMessage 등이 섞여있을 수 있음)
-    last_message = final_state["messages"][-1]
-    
-    return last_message.content
+    return response
 
 
-
-
-## 사용법 예시 
-# from app.ai.agents.interviewer import generate_interview_response
-# # 사용자가 "안녕하세요" 라고 했을 때
-# ai_reply = await generate_interview_response("안녕하세요", history=[])
-# print(ai_reply) # "반갑습니다. 혹시 주로 사용하는 언어가 무엇인가요?"
+async def format_final_report(analysis_data: str) -> str:
+    return await report_chain.ainvoke({"analysis_data": analysis_data})

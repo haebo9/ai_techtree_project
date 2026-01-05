@@ -11,34 +11,37 @@
 ```mermaid
 sequenceDiagram
     participant User as 사용자 (Web)
-    participant PlayMCP as 🟡 PlayMCP (Client/Host)
-    participant MyServer as ☁️ My Server (AWS EC2)
-    participant LLM as 🧠 LLM (Logic)
+    participant PlayMCP as 🟡 PlayMCP (Client)
+    participant Main as 🤖 Main Agent (Orchestrator)
+    participant QA as 🏦 QAMaker
+    participant Eval as ⚖️ Evaluator (Judge)
+    participant Inter as 🎙️ Interviewer (Persona)
 
-    Note over User, LLM: 1. 진단 시작 (Stateless)
-    User->>PlayMCP: "나 개발자인데 AI 실력 테스트 할래"
-    PlayMCP->>MyServer: generate_questions(topic="AI", level="Intermediate")
-    MyServer->>LLM: 프롬프트 엔지니어링 수행
-    LLM-->>MyServer: 맞춤형 문제 세트 생성
-    MyServer-->>PlayMCP: 문제 리스트 반환 (JSON)
+    Note over User, Inter: 1. 진단 시작
+    PlayMCP->>Main: generate_questions(topic, level)
+    Main->>QA: 문제 생성 요청
+    QA-->>Main: JSON 문제 리스트
+    Main-->>PlayMCP: 결과 반환
 
-    Note over User, LLM: 2. 실시간 문답 (Interactive)
-    loop 클라이언트가 상태 관리
-        PlayMCP->>User: "Q1. Overfitting 해결 방법은?"
-        User->>PlayMCP: "Dropout과 데이터 증강..."
-        
-        PlayMCP->>MyServer: evaluate_answer(question="...", answer="Dropout...", rubric="...")
-        MyServer->>LLM: 정답 비교 및 점수 산출
-        LLM-->>MyServer: 평가 결과 및 피드백 생성
-        MyServer-->>PlayMCP: 결과 반환 (Score, Feedback)
+    Note over User, Inter: 2. 답변 평가 (반복)
+    loop 인터뷰 진행 (Q&A Loop)
+        User->>PlayMCP: 답변 제출
+        PlayMCP->>Main: evaluate_answer(Q, A)
+        Main->>Eval: 채점 요청 (Score)
+        Eval-->>Main: 점수 & 팩트체크 (60점, ...)
+        Main->>Inter: 피드백/꼬리질문 멘트 생성 요청
+        Inter-->>Main: "아쉽네요... (질문)"
+        Main-->>PlayMCP: 최종 결과 (Score + Message)
+        PlayMCP->>User: 결과 출력
     end
 
-    Note over User, LLM: 3. 결과 리포트
-    PlayMCP->>MyServer: summarize_result(history=[...])
-    MyServer->>LLM: 전체 대화 로그 분석
-    LLM-->>MyServer: 종합 피드백 요약
-    MyServer-->>PlayMCP: 최종 리포트 텍스트
-    PlayMCP->>User: 결과 출력
+    Note over User, Inter: 3. 결과 리포트
+    PlayMCP->>Main: summarize_result(History)
+    Main->>Eval: 분석 요청
+    Eval-->>Main: 강약점 데이터
+    Main->>Inter: 리포트 포맷팅 (톤앤매너)
+    Inter-->>Main: 최종 리포트 텍스트
+    Main-->>PlayMCP: 반환
 ```
 
 ---
@@ -58,43 +61,48 @@ sequenceDiagram
 
 ## 3. 핵심 도구 (MCP Tools - Pure Logic)
 
-이 서버는 데이터를 저장하지 않습니다. 들어온 입력을 처리하여 지능적인 출력을 반환하는 **함수형 도구**들을 제공합니다.
+이 서버는 데이터를 저장하지 않습니다. **`Main Agent`** 가 **PD(Producer)** 로서 전체 흐름을 조율하고, 각 전문 에이전트에게 작업을 지시하여 최종 결과물을 생성합니다.
 
-### 🟡 문제 생성기 (`generate_questions`)
-*   **Based on**: `QAmaker Agent`
+### 🟡 Agent 역할 정의 (R&R)
+1.  **Main Agent (PD)**: 사용자 요청을 수신, 하위 에이전트(`Interviewer`, `Evaluator`, `QAMaker`) 호출 및 결과 조립, 최종 응답 반환.
+2.  **Interviewer Agent (MC/Writer)**: 사용자에게 전달할 **대화 텍스트(멘트)** 작성, 페르소나(친절함/냉철함) 유지, 꼬리 질문 생성.
+3.  **Evaluator Agent (Judge)**: 답변의 기술적 정확성 채점, 합불 여부 판단 (감정 없는 팩트 체크).
+4.  **QAMaker Agent (Bank)**: 주제별 문제 출제 (JSON 데이터 생성).
+
+---
+
+### 🟡 도구 상세 로직
+
+#### 🔵 1. 면접 시작 및 주제 추천 (`start_interview`)
+*   **Flow**: `Main` -> `Interviewer` (의도 파악 및 커리큘럼 조회) -> `Main` (추천 멘트 반환)
+*   **설명**: 사용자의 첫 인사나 모호한 요청(예: "면접 볼래")을 분석하여 적합한 면접 주제(Track/Tier)를 제안합니다.
+*   **입력**: `user_input` (String)
+*   **출력**: 추천 멘트 w/ 커리큘럼 요약 (String)
+
+#### 🔵 2. 문제 생성 (`generate_questions`)
+*   **Flow**: `Main` -> `QAMaker` (문제 생성) -> `Main` (반환)
 *   **설명**: 특정 주제와 난이도에 맞는 면접 질문을 즉석에서 생성합니다.
-*   **입력**: `topic` (주제), `level` (난이도, Lv1~3), `count` (문제 수)
+*   **입력**: `topic`, `level`, `count`
 *   **출력**: 질문 리스트 (JSON)
-*   **Logic**:
-    *   **Lv.1 (Basic)**: 용어와 정의 중심의 기초 질문 생성.
-    *   **Lv.3 (Advanced)**: 트레이드오프와 아키텍처 설계 중심의 심화 질문 생성.
 
-### 🟡 답변 평가기 (`evaluate_answer`)
-*   **Based on**: `Interviewer Agent` (Decision Step)
-*   **설명**: 사용자의 답변이 현재 레벨 기준을 충족하는지 판단합니다. (실시간 흐름 제어용)
-*   **입력**: `question`, `user_answer`, `level` (필수)
-*   **출력**: `score`, `feedback`, `is_pass` (통과 여부), `next_action` (PASS or DEEP_DIVE)
-*   **Logic (Persona)**:
-    *   **Decision**: 답변이 충분하면 `PASS`, 부족하면 `DEEP_DIVE`를 반환하여 클라이언트가 다음 행동(`generate_followup` or `get_next_problem`)을 취하도록 유도합니다.
-    *   **Persona**:
-        *   **Lv.1**: 긍정적인 피드백 위주.
-        *   **Lv.3**: 논리적 허점을 파고드는 날카로운 판단.
+#### 🔵 3. 답변 평가 및 피드백 (`evaluate_answer`)
+*   **Flow**: 
+    1. `Main` -> `Evaluator`: 답변 채점 요청 (Score, Pass/Fail, Missing Points 반환)
+    2. `Main` -> `Interviewer`: 채점 결과를 바탕으로 **피드백 멘트 및 꼬리 질문** 작성 요청 (Persona 반영)
+    3. `Main`: 최종 결과 조립 (`score` + `message` + `next_action`) 후 반환
+*   **설명**: 사용자의 답변을 평가하고, 면접관의 페르소나를 담은 자연스러운 피드백을 제공합니다.
+*   **입력**: `question`, `user_answer`, `level`
+*   **출력**: 
+    *   `score`: 점수 (0~100)
+    *   `is_pass`: 통과 여부
+    *   `feedback_message`: 사용자에게 보여줄 면접관의 말 (String)
+    *   `next_action`: `PASS` (다음 문제) or `DEEP_DIVE` (꼬리 질문)
 
-### 🟡 꼬리 질문 생성기 (`generate_followup`)
-*   **Based on**: `Interviewer Agent` (Deep Dive Step)
-*   **설명**: 답변이 부족하거나 검증이 필요할 때, 심층 질문(Deep Dive)을 생성합니다.
-*   **입력**: `previous_question`, `user_answer`, `level`
-*   **출력**: 꼬리 질문 텍스트 (String)
-*   **Logic**:
-    *   단순히 "왜요?"라고 묻는 게 아니라, 사용자의 답변에서 언급된 기술의 부작용이나 엣지 케이스를 파고듭니다.
-
-### 🟡 종합 리포트 작성 (`summarize_result`)
-*   **Based on**: `Evaluator Agent`
-*   **설명**: 전체 인터뷰 기록을 입력받아 합격 여부를 포함한 최종 리포트를 작성합니다.
-*   **입력**: `conversation_history`, `rubric`
-*   **출력**: 종합 등급, 강점/약점 분석, 학습 가이드 (Markdown)
-*   **Logic**:
-    *   전체 대화의 논리적 일관성과 기술적 깊이를 평가하여 최종 점수를 산출합니다.
+#### 🔵 4. 종합 리포트 (`summarize_result`)
+*   **Flow**: `Main` -> `Evaluator` (분석) -> `Interviewer` (리포트 톤앤매너 정제) -> `Main`
+*   **설명**: 전체 인터뷰 기록을 분석하여 강점/약점 및 향후 학습 가이드를 포함한 리포트를 작성합니다.
+*   **입력**: `conversation_history`
+*   **출력**: 종합 리포트 (Markdown)
 
 ---
 
