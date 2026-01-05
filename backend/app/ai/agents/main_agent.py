@@ -100,19 +100,16 @@ async def summarize_result(conversation_history: List[str]) -> str:
     Analyze the full conversation history and generate a comprehensive final report.
     Use this tool when the interview session is finished.
     """
-    full_log = "\n".join(conversation_history)
+    print("📝 [Tool:summarize_result] Analyzing interview session...")
     
-    # 1. Evaluator: 로직 분석
-    report_prompt = f"""
-    [로그]
-    {full_log}
+    # 1. Evaluator: 종합 분석 (Structured Data)
+    analysis_data = await evaluator_agent.analyze_interview_result(conversation_history)
     
-    위 로그를 분석하여 강점, 약점, 종합 점수를 도출하세요.
-    """
-    raw_analysis = await evaluator_agent.llm.ainvoke([HumanMessage(content=report_prompt)])
-    
-    # 2. Interviewer: 최종 리포트 포맷팅
-    final_report = await interviewer_agent.format_final_report(raw_analysis.content)
+    # 2. Interviewer: 최종 리포트 포맷팅 (Markdown Text)
+    # analysis_data는 dict이므로 JSON 문자열 등으로 변환하여 넘기거나,
+    # interviewer의 format 함수가 dict를 받을 수 있게 처리하면 베스트.
+    # 여기서는 간단히 문자열로 변환 전달.
+    final_report = await interviewer_agent.format_final_report(str(analysis_data))
     
     return final_report
 

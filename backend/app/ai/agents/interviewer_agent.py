@@ -134,7 +134,7 @@ async def recommend_topic_response(user_input: str) -> str:
     """
     # 1. 커리큘럼 정보 로드 (우선 전체 목록 조회)
     # TODO: 사용자 입력에서 키워드를 추출하여 특정 Track만 조회하는 로직으로 고도화 가능
-    context_str = get_curriculum_context.invoke({"track": None})
+    context_str = get_curriculum_context(track=None)
     
     # 2. 추천 멘트 생성
     response = await recommend_chain.ainvoke({
