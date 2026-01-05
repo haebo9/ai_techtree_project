@@ -14,7 +14,7 @@
 | Date | Tag | Category | Details |
 |:---:|:---:|:---:|:---|
 | **26.01.05(월)** | 🟣 | **Add** | Evaluator, QAmaker agent 로직 구현 및 연결 |
-| | 🔵 | **Update** | MCP-server 문서 수정(subagent tool 구조 적용) |
+| | 🔵 | **Init** | MCP 문서 초기화 (subagent 구동 -> 단순 method 제공) |
 | **26.01.04(일)** | 🟣 | **Update** | topic Track/Tier/Level별 기술 트리 작성 |
 | | 🟣 | **Add** | Interviewer Agent 초기 대화 흐름 구현 / 테스트 코드 추가 |
 | | 🔵 | **Update** | track.md(TechTree 구조) 문서 검토 및 수정 |
