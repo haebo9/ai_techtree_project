@@ -12,9 +12,6 @@ from app.ai.agents import qamaker_agent, interviewer_agent, evaluator_agent
 # Main Agent acts as a provider/registry of these tools.
 # -------------------------------------------------------------------------
 
-@tool("start_interview", decription= "Start the interview session.")
-
-
 @tool("generate_questions", description="Generate interview questions based on topic and difficulty level.")
 async def generate_questions(topic: str, level: str, count: int = 1) -> List[Dict[str, Any]]:
     """
@@ -23,13 +20,23 @@ async def generate_questions(topic: str, level: str, count: int = 1) -> List[Dic
     """
     print(f"🕵️‍♂️ [Tool:generate_questions] Generating {count} questions for {topic} ({level})...")
     
-    tasks = [
-        qamaker_agent.generate_single_question(skill=topic, topic=topic, level=level) 
-        for _ in range(count)
-    ]
-    
-    results = await asyncio.gather(*tasks)
-    return results
+    # QAMaker에게 한 번에 요청 (중복 방지 및 최적화)
+    try:
+        results = await qamaker_agent.generate_questions(
+            skill=topic, 
+            topic=topic, 
+            level=level, 
+            count=count
+        )
+        
+        if not results:
+            return [{"error": "Failed to generate questions. Please try again."}]
+            
+        return results
+        
+    except Exception as e:
+        print(f"Error in generate_questions tool: {e}")
+        return [{"error": f"An error occurred: {str(e)}"}]
 
 
 @tool("evaluate_answer", description="Evaluate user Answer and decide Next Action (PASS/DEEP_DIVE).")

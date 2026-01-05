@@ -9,7 +9,7 @@ import json
 
 # 1. 모델 초기화
 llm = ChatOpenAI(
-    model="gpt-4o",  # Writer 역할이므로 좀 더 똑똑한 모델 사용 권장
+    model="gpt-5-mini",  # Writer 역할이므로 좀 더 똑똑한 모델 사용 권장
     temperature=0.7, # 창의적인 멘트 생성을 위해 약간 높임
     api_key=settings.OPENAI_API_KEY
 )
@@ -18,7 +18,6 @@ llm = ChatOpenAI(
 # Tools for Curriculum Navigation (Optional, if needed for Topic Selection)
 # ---------------------------------------------------------------------
 
-@tool
 def get_curriculum_context(track: Optional[str] = None, tier: Optional[str] = None) -> str:
     """
     Retrieves specific curriculum data from the AI Tech Tree.
