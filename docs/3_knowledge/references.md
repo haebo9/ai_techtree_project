@@ -22,6 +22,9 @@
 * **[Docker](https://docs.docker.com/)**: 컨테이너 표준화 및 배포 환경 구축.
 
 ## 5. 기술 블로그 참고자료
+* [우아한기술블로그 (MCP)](https://techblog.woowahan.com/22342/) : 우리 서비스와 연결된 MCP Server 빠르게 구현해보기: MCP 해커톤 후기
+
+## 이후에 보기 위해 스크랩
 * [우아한형제들 (물어보새/Text-to-SQL)](https://techblog.woowahan.com/18144/)
 * [당근 (AI 검색 의도 파악)](https://medium.com/daangn/검색어에-숨겨진-의도를-더-정확하게-검색을-바꾸는-ai-실험들-14d01677c273)
 * [당근 (LLM 비용 절감/시맨틱 캐싱)](https://medium.com/daangn/연간-llm-호출-비용-25-절감-인턴이-도전한-시맨틱-캐싱-도입-기록-af3de9a74d0c)
