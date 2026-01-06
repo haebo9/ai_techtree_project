@@ -6,7 +6,7 @@ from typing import Dict, Any
 
 AI_TECH_TREE: Dict[str, Any] = {
     "Track 0: The Origin": {
-        "description": "공통 필수 기반 (Python, DevOps, Math)",
+        "description": "모든 AI 클래스로 전직하기 위한 선행 조건입니다.",
         "tiers": {
             "Tier 1: Core Python Mastery": {
                 "Python Syntax & Types": {
@@ -143,7 +143,7 @@ AI_TECH_TREE: Dict[str, Any] = {
         }
     },
     "Track 1: AI Engineer": {
-        "description": "시스템 구축가 (FastAPI, Docker, GPU Serving)",
+        "description": "모델을 실제 서비스 환경에 이식하고 가동합니다.",
         "tiers": {
             "Tier 1: Core System Foundation": {
                 "FastAPI Essentials": {
@@ -360,7 +360,7 @@ AI_TECH_TREE: Dict[str, Any] = {
         }
     },
     "Track 2: AI Modeler / Researcher": {
-        "description": "알고리즘 모델링 및 연구 (Deep Learning, Vision, NLP)",
+        "description": "데이터를 지능으로 변환하는 핵심 모델을 설계합니다.",
         "tiers": {
             "Tier 1: Core Deep Learning Engine": {
                 "Tensor Operations": {
@@ -551,7 +551,7 @@ AI_TECH_TREE: Dict[str, Any] = {
         }
     },
     "Track 3: LLM Application Engineer": {
-        "description": "에이전트 개발가 (Prompting, RAG, Agent)",
+        "description": "LLM을 활용하여 지능형 앱과 자율 에이전트를 개발합니다.",
         "tiers": {
             "Tier 1: Core Context Integration": {
                 "Prompting Basics": {
@@ -751,7 +751,7 @@ AI_TECH_TREE: Dict[str, Any] = {
         }
     },
     "Track 4: Data Engineer": {
-        "description": "데이터 대장장이 (SQL, Big Data, Streaming)",
+        "description": "안정적인 데이터 파이프라인과 대규모 데이터 인프라를 관리합니다.",
         "tiers": {
             "Tier 1: Core Data Flow": {
                 "SQL Mastery": {
@@ -892,7 +892,7 @@ AI_TECH_TREE: Dict[str, Any] = {
         }
     },
     "Track 5: MLOps Engineer": {
-        "description": "운영의 지배자 (CI/CD, Monitoring, FinOps)",
+        "description": "전체 ML 생명 주기를 자동화하고 운영 효율을 극대화합니다.",
         "tiers": {
             "Tier 1: Core Automation Core": {
                 "Docker & Registry": {
