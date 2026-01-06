@@ -1,0 +1,490 @@
+[
+  {
+    "title": "[GN#284] 2025년을 위한 7개의 데이터베이스 | GeekNews",
+    "link": "https://news.hada.io/weekly/202451",
+    "summary": "조금 규모 있는 서비스를 개발하기 시작하면 DB를 뭘 써야 할지 고민에 빠지게 됩니다. 익숙한 DB가 있으면 편하게 선택하기도 하지만, 프로젝트에 맞는 DB는 다를 수도 있기에 고민하게 되죠. \"2025년을 위한 7개의 데이터베이스\" 글은 최근 많이 사용되는 DB들을 분야에 맞게 정리하고 있습니다. 가장 범용적인 Postgres부터 로컬용 SQLite, 임베디드 OLAP용 DuckDB, 대규모 분석용 ClickHouse, 레이어드 DB인 FoundationDB, 금융 트랜잭션에 특화된 TigerBeetle, 분산 데이터베이스 Coc...",
+    "tags": [
+      "데이터베이스",
+      "db",
+      "데이터 관리",
+      "데이터베이스 트렌드"
+    ],
+    "collected_at": "2026-01-06T12:47:34.772365"
+  },
+  {
+    "title": "arXiv:2502.05352v1 [cs.AI] 7 Feb 2025",
+    "link": "https://arxiv.org/pdf/2502.05352?",
+    "summary": "database. [...] Accessed: 2025-01-30.\nDatadog.\n\nAc-cessed: 2024-11-30.\nDynatrace.\n\nAc-cessed: 2024-11-30.\nGrafana.  Accessed: 2025-01-30.\nInstana.\n instana. Accessed: 2024-11-30.\nJaeger. [...] More recently, LMs are used in agentic workflows, engaging with real or virtual environments, using several...",
+    "tags": [
+      "데이터베이스",
+      "db",
+      "데이터 관리",
+      "데이터베이스 트렌드"
+    ],
+    "collected_at": "2026-01-06T12:47:34.772408"
+  },
+  {
+    "title": "https://huggingface.co/Abacusajay/en_pipeline/comm...",
+    "link": "https://huggingface.co/Abacusajay/en_pipeline/commit/6ce694d54477a93de8dd68611901a06f9aaced20.diff?file=vocab%2Fstrings.json",
+    "summary": "\"-302021\", + \"-302029\", \"-31\", \"-311201\", \"-331301\", \"-34\", \"-35\", \"-36\", + \"-4\", + \"-40\", \"-400097\", \"-422\", + \"-45\", \"-452010\", + \"-46\", + \"-47\", \"-50\", \"-52\", \"-524002\", + \"-55\", \"-560054\", + \"-560068\", + \"-560083\", \"-585103\", \"-5star\", \"-6-\", \"-64\", \"-66\", \"-67\", + \"-69\", \"-6TH\", \"-6th\", \"-7.00\"...",
+    "tags": [
+      "데이터베이스",
+      "db",
+      "데이터 관리",
+      "데이터베이스 트렌드"
+    ],
+    "collected_at": "2026-01-06T12:47:34.772421"
+  },
+  {
+    "title": "A Systematic Mapping Study on Risks and Vulnerabilities ...",
+    "link": "https://arxiv.org/html/2512.11940v1",
+    "summary": "distributed system [paraiso2016model], [dua2014virtualization], [han2025dmscts]. [...] | Database | Filters | Results |\n --- \n| IEEE Xplore | Searched Full text and metadata, year: 2000 to 2024, publication source: conference, journal articles, magazine, early access articles, standards | 11923 |\n| ...",
+    "tags": [
+      "데이터베이스",
+      "db",
+      "데이터 관리",
+      "데이터베이스 트렌드"
+    ],
+    "collected_at": "2026-01-06T12:47:34.772432"
+  },
+  {
+    "title": "Summer 2026 Tech Internships by Pitt CSC & Simplify",
+    "link": "https://github.com/SimplifyJobs/Summer2026-Internships",
+    "summary": "Use this repo to share and keep track of Summer 2026 tech internships across software, data science, quant, and more....",
+    "tags": [
+      "데이터베이스",
+      "db",
+      "데이터 관리",
+      "데이터베이스 트렌드"
+    ],
+    "collected_at": "2026-01-06T12:47:34.772443"
+  },
+  {
+    "title": "arXiv:2504.17438v1 [cs.DB] 24 Apr 2025",
+    "link": "https://arxiv.org/pdf/2504.17438",
+    "summary": "새로운 MongoDB 구현은 Cassandra 기반 초기 구현과 달리 모든 데이터를 한 번에 반환하는 배치 처리 대신 점진적(순차적) 처리로 global 쿼리의 확장성을 높이고 메모리 부족 문제를 방지합니다. 또한 MongoDB를 활용한 정점 중심(vertex-centric) 저장 모델을 도입해 시간 정보를 속성으로 다루는 오프라인 그래프 저장과 조회를 더 효율적으로 수행하고 중복을 줄이면서 지역적·전역 쿼리에 빠르게 접근할 수 있도록 최적화합니다. 이 구현은 Cassandra 기반 버전과의 비교를 통해 더 복잡한 분석을 수행할 수 있음을 시사합니다.",
+    "tags": [
+      "mongodb",
+      "몽고db",
+      "nosql",
+      "mongodb 트렌드"
+    ],
+    "collected_at": "2026-01-06T12:59:26.757629"
+  },
+  {
+    "title": "The Future of AI's Data Infrastructure: Unlocking the Power of ...",
+    "link": "https://techcrunch.com/video/the-future-of-ais-data-infrastructure-unlocking-the-power-of-gen-ai-with-mongodb-and-capgemini/",
+    "summary": "TechCrunch Disrupt 2024의 “The Future of AI’s Data Infrastructure: Unlocking the Power of Gen AI with MongoDB and Capgemini”는 차세대 비즈니스 애플리케이션이 AI를 사용하는 네이티브 아키텍처로 재구성되어야 한다고 강조합니다. AI 애플리케이션의 성능을 위해서는 데이터 정확성 최적화와 구조화 데이터와 비구조화 데이터의 통합이 핵심이며, Capgemini와 MongoDB가 이를 구현하는 방법을 다룹니다. 이 논의는 GenAI를 실무에 확장하기 위한 데이터 인프라의 미래 방향성을 제시합니다.",
+    "tags": [
+      "mongodb",
+      "몽고db",
+      "nosql",
+      "mongodb 트렌드"
+    ],
+    "collected_at": "2026-01-06T12:59:38.646186"
+  },
+  {
+    "title": "Minimizing Breaking Changes and Redundancy in ...",
+    "link": "https://arxiv.org/html/2511.06762v1",
+    "summary": "DepUpdater는 Maven Central Repository의 모든 버전 및 의존성 관계를 미리 계산해 로컬 MongoDB에 저장하고, 업그레이드 시 후보 버전과 의존성 그래프를 빠르게 조회하도록 한다. 메타데이터는 MCR 피드에서 크롤링해 15,399,676개 버전과 POM 파싱으로 얻은 12,746,588개의 의존성 관계를 도출했고, 로컬 DB 구축에는 약 80인력시간이 소요되었으며 커트오프 날짜는 2024년 7월이다. 또한 업그레이드 시 선행 노드를 현재 그래프에서 추출해 미리 구축된 MongoDB를 통해 새로운 선행 노드를 질의하고, 의존성 범위를 컴파일/런타임으로 한정한 뒤 선택적 의존성은 제거하는 그래프 정제를 수행한다.",
+    "tags": [
+      "mongodb",
+      "몽고db",
+      "nosql",
+      "mongodb 트렌드"
+    ],
+    "collected_at": "2026-01-06T12:59:52.878534"
+  },
+  {
+    "title": "December 9, 2025—KB5072033 (OS Build 26100.7462)",
+    "link": "https://support.microsoft.com/en-us/topic/december-9-2025-kb5072033-os-build-26100-7462-fca31d8d-5fe8-4b5e-9591-6641ef1d26a1",
+    "summary": "- 2025년 12월 9일에 발표된 Windows OS 업데이트 KB5072033은 OS 빌드 26100.7462로 배포됩니다. \n- 문서에는 Release Date와 Version 정보가 나와 있지만, 구체적 수정 내용이나 변경 사항은 제시되어 있지 않고 Global/Available/Next Step 같은 항목만 간략히 표시되어 있습니다.",
+    "tags": [
+      "mongodb",
+      "몽고db",
+      "nosql",
+      "mongodb 트렌드"
+    ],
+    "collected_at": "2026-01-06T13:00:02.817479"
+  },
+  {
+    "title": "Creating a Cooperative AI Policymaking Platform through ...",
+    "link": "https://arxiv.org/html/2412.06936v1",
+    "summary": "연속값 시간 시계열 데이터와 텍스트 정보를 동시에 다룰 수 있는 멀티모달 정책결정 플랫폼을 구축하기 위해 트랜스포머 아키텍처와 확산 모델의 최신 성과를 확장하는 방법을 제시한다. 확산 손실(Diffusion Loss) 등 새로운 기술 요소를 도입해 두 데이터 유형의 특성을 보존하면서 효과적으로 결합하는 접근의 필요성과 현재의 한계를 강조한다. 비영리 설정과 학계 협력을 통해 공익 우선의 인센티브 정렬을 추진하며, 2024-2025 로드맵에 따라 데이터 수집, 모델 개발, 반복 개선을 거쳐 2025년 중반 학술대회 제출과 연말 공개 도구 출시를 목표로 한다.",
+    "tags": [
+      "mongodb",
+      "몽고db",
+      "nosql",
+      "mongodb 트렌드"
+    ],
+    "collected_at": "2026-01-06T13:00:16.821059"
+  },
+  {
+    "title": "Model deployment, monitoring, feature stores, and ML ...",
+    "link": "https://github.com/umitkacar/MLOps",
+    "summary": "- 2024-2025 MLOps Ecosystem 레포는 데이터 주석부터 모델 배포 및 모니터링까지 ML 라이프사이클 전반의 생산급 시스템 구축에 필요한 강력하고 트렌드에 맞는 도구를 모아 정리한 가이드다.\n- 업데이트의 핵심은 품질 지표의 대폭 향상으로, 테스트 커버리지 98.28%, 테스트 속도 18초(3.3배 빨라짐), 코드 품질 0 linting 에러, 보안 취약점 0건, 타입 힌트 100%, 20건 이상의 pre-commit 체크를 자랑하며, LLMOps/GenAI와 Feature Stores를 중심으로 Prefect, Dagster, Apache Airflow, Metaflow, Kubeflow Pipelines, ZenML 등의 도구가 트렌드로 제시된다.",
+    "tags": [
+      "mlops",
+      "mlops engineer",
+      "머신러닝 운영",
+      "mlops 트렌드"
+    ],
+    "collected_at": "2026-01-06T13:04:21.262263"
+  },
+  {
+    "title": "Machine Learning Security Operations aka MLSecOps",
+    "link": "https://github.com/Benjamin-KY/MLSecOps",
+    "summary": "MLSecOps는 ML 시스템의 데이터 준비부터 배포 및 모니터링에 이르는 전 생애주기에 보안을 반영하는 실천으로, 2024-2025년 사이 프레임워크 확장과 에이전트형 AI 보안의 부상 등 큰 진화를 겪었습니다. 2025년 주요 뉴스로 산업 재편이 이어졌고 Palo Alto Networks가 Protect AI를 인수하는 등 생태계 확장과 함께 에이전트형 AI 보안의 등장도 예고되었습니다. 또한 LLM 응답의 GPU 메모리 누출, MLflow의 로컬/원격 파일 포함 취약점으로 클라우드 계정 접근 및 모델 도용 위험, HuggingFace의 Pickle 익스플로잇과 3,300+개의 안전하지 않은 모델 식별, BentoML/LangChain의 RCE, LangSmith API 키 노출 등의 구체적 보안 이슈가 보고되었습니다.",
+    "tags": [
+      "mlops",
+      "mlops engineer",
+      "머신러닝 운영",
+      "mlops 트렌드"
+    ],
+    "collected_at": "2026-01-06T13:04:38.449611"
+  },
+  {
+    "title": "GitHub - ApexIQ/MLOPs-Roadmap-2025",
+    "link": "https://github.com/ApexIQ/MLOPs-Roadmap-2025",
+    "summary": "이 GitHub 레포의 2025년 MLOps 로드맵은 버전 관리(Git/DVC/LakeFS)에서부터 실험 추적(MLflow/W&B), 파이프라인(Airflow/Prefect/Kubeflow), 패키징·서빙(Docker/FastAPI/TensorFlow Serving/TorchServe), 모니터링(Prometheus/Grafana/Evidently AI)과 책임 AI 도구(Fairlearn/AIF360/SHAP/LIME), 클라우드 MLOps(Azure ML/Vertex AI) 및 IaC(Terraform/Bicep/Deployment Manager)까지 포괄적인 도구 스택을 제시한다.  \n학습 목표는 생산급 ML 파이프라인 구축, 자동화된 학습/검증/배포, 실험·모델·데이터의 버전 관리, 확장 가능한 API로의 모델 서빙, 드리프트 탐지 및 자동 재학습, 책임 AI 구현과 Azure/GCP/하이브리드 환경 배포를 포함한다.  \n추가로 Phase 7은 책임 AI와 거버넌스, Phase 8은 Azure/GCP 특화 MLOps, Phase 9는 실무 사례와 대기업의 MLOps 사례를 다루는 capstone 프로젝트로 구성된다.",
+    "tags": [
+      "mlops",
+      "mlops engineer",
+      "머신러닝 운영",
+      "mlops 트렌드"
+    ],
+    "collected_at": "2026-01-06T13:04:54.013973"
+  },
+  {
+    "title": "MLops - TechCrunch",
+    "link": "https://techcrunch.com/tag/mlops/",
+    "summary": "TechCrunch의 MLOps 섹션은 Diveplane(25M), Arize(38M), Tecton(100M) 등 다수의 펀딩 소식과 Modular의 시드 투자, Grid.ai의 리브랜딩-Lightning AI(40M), Continual의 시리즈 A(14.5M) 등 플랫폼 확장 소식을 전하며 ML 생애주기 관리 도구에 대한 투자 열풍을 보여주고 있다. 이들 기업은 데이터 관리, 모델 배포, 관찰성(모니터링)을 아우르는 엔드투엔드 MLOps 솔루션이나 Kubeflow를 서비스로 제공하는 전략으로 엔터프라이즈 수요를 겨냥하고 있다. 오픈소스 도구인 MLEM과 Kubeflow 서비스화 등 경계의 융합이 늘어나며, MLOps 생태계의 다양성과 경쟁이 더욱 심화되고 있다.",
+    "tags": [
+      "mlops",
+      "mlops engineer",
+      "머신러닝 운영",
+      "mlops 트렌드"
+    ],
+    "collected_at": "2026-01-06T13:05:08.146634"
+  },
+  {
+    "title": "A Strategic Framework for Financial LLM Integration",
+    "link": "https://arxiv.org/html/2504.02165v1",
+    "summary": "금융 분야에서 LLM 통합을 위한 전략적 프레임워크가 제시되며, 작거나 양자화된 모델 솔루션 활용이 강조된다. 예를 들어 일반 원장 데이터의 이상 탐지에서 LLM 임베딩이 의심 항목 탐지 성능을 높일 수 있지만 거래 패턴 변화에 맞춰 임베딩을 정기적으로 업데이트해야 한다. 또한 ROI를 안정적으로 검증하기 위해 해석 가능성과 버전 관리를 포함한 MLOps 프레임워크를 도입하고, 반복 파일럿 테스트나 특화된 MLOps 라이프사이클을 통해 KPI를 기준으로 베이스라인 설정, 매출 증가, 자동화율, 고객 만족도 등을 지속적으로 모니터링해야 한다.",
+    "tags": [
+      "mlops",
+      "mlops engineer",
+      "머신러닝 운영",
+      "mlops 트렌드"
+    ],
+    "collected_at": "2026-01-06T13:05:17.156478"
+  },
+  {
+    "title": "MLOps: A Step Forward to Enterprise Machine Learning",
+    "link": "https://arxiv.org/pdf/2305.19298",
+    "summary": "Kerdo, SageMaker, MLFlow 같은 MLOps 도구는 강력하지만 AWS나 Databricks와 함께 쓰지 않으면 엔드 IoT 기기에 대한 지원이 제한된다. 모니터링과 재학습은 MLOps의 핵심으로, 지속적으로 들어오는 대량 데이터 속에서 모델의 효율성을 높이고 확장 가능한 ML 파이프라인을 구축하는 것이 큰 과제다. Kubeflow는 TensorFlow, PyTorch, MXNet를 지원하고 Kubeflow Pipelines를 통해 ML 워크플로를 코드로 구성·버전 관리하며, 컨테이너화를 통해 자원 활용을 최적화하고 롤백과 버전 관리의 중요성을 강조한다.",
+    "tags": [
+      "mlops",
+      "mlops engineer",
+      "머신러닝 운영",
+      "mlops 트렌드"
+    ],
+    "collected_at": "2026-01-06T13:05:59.892043"
+  },
+  {
+    "title": "How do Machine Learning Models Change?",
+    "link": "https://arxiv.org/html/2411.09645v2",
+    "summary": "최근 연구는 ML 프로젝트를 다양한 저장소에서 분석하기 위한 도구와 프레임워크를 선보이고 있다. 예를 들어 AIT2024103079의 HFCommunity는 Hugging Face 데이터를 수집·통합해 협업 개발의 중심지로의 역할을 확장하고 있다. 또한 vsinikinteractive의 대화형 도구는 HF에서의 오픈소스 모델 진행 상황과 모델 아키텍처, 저자 활동에 대한 인사이트를 제공하며, yang2024ecosystem의 정보는 API로 이용 가능하다.\n\n본 연구는 2025년 5월까지 데이터를 수집해 최신 동향을 반영하고, 커밋별 수정 파일 목록을 상세하게 얻는 새로운 방법을 도입했다. 이전 연구들이 PyDriller에 의존한 것과 달리, 본 연구는 신선도와 데이터 추출의 제어를 위해 직접 Git 처리를 적용한다.",
+    "tags": [
+      "mlops",
+      "mlops engineer",
+      "머신러닝 운영",
+      "mlops 트렌드"
+    ],
+    "collected_at": "2026-01-06T13:06:22.830136"
+  },
+  {
+    "title": "Sustainable AI Training via Hardware-Software Co-Design ...",
+    "link": "https://arxiv.org/pdf/2508.13163?",
+    "summary": "4) Real-World Impact The H200 GPU from NVIDIA came out in 2025. It had a big improvement in memory speed and efficiency, which made training large-scale LLMs...",
+    "tags": [
+      "gpu",
+      "그래픽 처리 장치",
+      "gpu 트렌드",
+      "인공지능 가속기"
+    ],
+    "collected_at": "2026-01-06T13:11:32.449785"
+  },
+  {
+    "title": "Nvidia GTC 2025 live updates: Blackwell Ultra, GM ... - TechCrunch",
+    "link": "https://techcrunch.com/storyline/nvidia-gtc-2025-live-updates-blackwell-ultra-gm-partnerships-and-two-personal-ai-supercomputers/",
+    "summary": "“There were various reasons why this research direction was neglected,” Brown said during a panel at Nvidia’s GTC conference in San Jose on Wednesday. “I noticed over the course of my research that, OK, there’s something missing. Humans spend a lot of time thinking before they act in a tough situation. Maybe this would be very useful [in AI].” [...] GTC, Nvidia’s biggest conference of the year, starts this week in San Jose. We’re on the ground covering all the major developments. CEO Jensen Huan...",
+    "tags": [
+      "gpu",
+      "그래픽 처리 장치",
+      "gpu 트렌드",
+      "인공지능 가속기"
+    ],
+    "collected_at": "2026-01-06T13:11:32.449846"
+  },
+  {
+    "title": "More than Carbon: Cradle-to-Grave environmental impacts ...",
+    "link": "https://arxiv.org/html/2509.00093v1",
+    "summary": "(2025) reveal that manufacturing host processing systems (servers, memory, storage) dominate embodied carbon contributions while GPUs dominate operational...",
+    "tags": [
+      "gpu",
+      "그래픽 처리 장치",
+      "gpu 트렌드",
+      "인공지능 가속기"
+    ],
+    "collected_at": "2026-01-06T13:11:32.449862"
+  },
+  {
+    "title": "Nvidia unveils new GPU designed for long-context inference",
+    "link": "https://techcrunch.com/2025/09/09/nvidia-unveils-new-gpu-designed-for-long-context-inference/",
+    "summary": "Nvidia's relentless development cycle has resulted in enormous profits for the company, which brought in $41.1 billion in data center sales in its most recent quarter....",
+    "tags": [
+      "gpu",
+      "그래픽 처리 장치",
+      "gpu 트렌드",
+      "인공지능 가속기"
+    ],
+    "collected_at": "2026-01-06T13:11:32.449875"
+  },
+  {
+    "title": "Benchmarking and Dissecting the Nvidia Hopper GPU Architecture",
+    "link": "https://arxiv.org/abs/2402.13499",
+    "summary": "### References & Citations ## BibTeX formatted citation ### Bookmark BibSonomy logo Reddit logo # Bibliographic and Citation Tools # Code, Data and Media Associated with this Article # Demos # Recommenders and Search Tools # arXivLabs: experimental projects with community collaborators arXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website. [...] Both individuals and organizations that work with arXivLabs have embraced and accepted our ...",
+    "tags": [
+      "gpu",
+      "그래픽 처리 장치",
+      "gpu 트렌드",
+      "인공지능 가속기"
+    ],
+    "collected_at": "2026-01-06T13:11:32.449919"
+  },
+  {
+    "title": "Electricity Demand and Grid Impacts of AI Data Centers",
+    "link": "https://arxiv.org/html/2509.07218v2",
+    "summary": "demonstrated notable speed and efficiency gains over NVIDIA A100 GPUs . Moreover, AI itself can be leveraged to optimize the performance and energy efficiency of its supporting infrastructure, as illustrated in . Co-optimizing AI model architectures with underlying hardware, combining techniques such as pruning, quantization, and hardware-aware model design, offers further potential for achieving substantial energy savings without sacrificing accuracy. [...] (iii) Energy-efficient hardware design: The deployment of energy-efficient hardware are necessary for reducing the carbon and energy footprint of AI data centers. Advances in processor architecture can substantially improve performance-per-watt, enabling higher computational throughput at lower power costs. Domain-specific accelerators...",
+    "tags": [
+      "gpu",
+      "그래픽 처리 장치",
+      "gpu 트렌드",
+      "인공지능 가속기"
+    ],
+    "collected_at": "2026-01-06T13:13:15.262319"
+  },
+  {
+    "title": "TPU vs. GPU, 그리고 Google이 장기적으로 AI 경쟁에서 승리할 수 있는 이유",
+    "link": "https://news.hada.io/topic?id=24674",
+    "summary": "# TPU vs. GPU, 그리고 Google이 장기적으로 AI 경쟁에서 승리할 수 있는 이유 ## TPU의 역사와 개발 배경 ## TPU와 GPU의 구조적 차이 ## TPU vs GPU 성능 비교 ## TPU 도입을 가로막는 문제들 ## TPU와 Google Cloud의 전략적 가치 ###### Hacker News 의견 Google의 진짜 무기는 TPU 실리콘 자체가 아니라, OCS(Optical Circuit Switch) 인터커넥트를 통한 대규모 병렬 확장성임 The Next Platform 인용에 따르면, Ironwood TPU 9,216개를 연결해 1.77PB의 HBM 메모리를 활용할 수 있음. 이는 Nvidia의 Blackwell GPU 기반 랙스케일 시스템(20.7TB HBM)에 비해 압도적인 규모임 Nvidia는 단일 칩 수준에서는 우수하지만, 대규모 분산 학습이나 추론에서는 Google의 광학 스위칭 확장성에 필적할 만한 것이 없음 [...] 이 논쟁은 RISC vs CISC처럼 학문적임. Nvidia GPU도 결국 TPU와 같은 일을 하도록 설계되고 있음 Google 내부에서도 5년 뒤에는 큰 차이가 없을 수 있음 Google은 TPU로 이익을 얻지만, 외부 개발자에게는 직접적 혜택이 없음 희소 모델(sparse model) 은 동일한 품질을 유지하면서 연산량과 저장 공간을 16배 줄일 수 있음 TPU는 희소 행렬 처리에는 약하지만, 밀집(dense) 모델 학습에는 강함 결국 이 경쟁의 결승선은 어디인가, 혹은 바닥이 어디인가 하는 질문이 남음 [...] Gemini 3 Pro는 이미 구형...",
+    "tags": [
+      "gpu",
+      "그래픽 처리 장치",
+      "gpu 트렌드",
+      "인공지능 가속기"
+    ],
+    "collected_at": "2026-01-06T13:13:15.262394"
+  },
+  {
+    "title": "[2505.09343] Insights into DeepSeek-V3: Scaling Challenges and ...",
+    "link": "https://arxiv.org/abs/2505.09343",
+    "summary": "Cornell University arxiv logo Help | Advanced Search arXiv logo Cornell University Logo ## quick links # Computer Science > Distributed, Parallel, and Cluster Computing # Title:Insights into DeepSeek-V3: Scaling Challenges and Reflections on Hardware for AI Architectures [...] | | | --- | | Comments: | This is the author's version of the work. It is posted here for your personal use. Not for redistribution. The definitive version appeared as part of the Industry Track in Proceedings of the 52nd Annual International Symposium on Computer Architecture (ISCA '25) | | Subjects: | Distributed, Parallel, and Cluster Computing (cs.DC); Artificial Intelligence (cs.AI); Hardware Architecture (cs.AR) | | ACM classes: | C.0 | | Cite as: | arXiv:2505.09343 [cs.DC] | [...] | | (or arXiv:2505.09343v2 [c...",
+    "tags": [
+      "gpu",
+      "그래픽 처리 장치",
+      "gpu 트렌드",
+      "인공지능 가속기"
+    ],
+    "collected_at": "2026-01-06T13:13:15.262469"
+  },
+  {
+    "title": "GPT-4o System Card - OpenAI",
+    "link": "https://cdn.openai.com/gpt-4o-system-card.pdf",
+    "summary": "Lennon, James Betker, Jamie Kiros, Jeff Harris, Jenia Varavva, Jiahui Yu, Ji Lin, Joanne Jang, Johannes Heidecke, Jong Wook Kim, Liang Zhou, Li Jing, Long Ouyang, Madelaine Boyd, Mark Hud-nall, Mengchao Zhong, Mia Glaese, Nick Turley, Noah Deutsch, Noel Bundick, Ola Okelola, Olivier Godement, Owen Campbell-Moore, Peter Bak, Peter Bakkum, Raul Puri, Rowan Zellers, Saachi Jain, Shantanu Jain, Shirong Wu, Spencer Papay, Tao Xu, Valerie Qi, Wesam Manassra, Yu Zhang Platform Data Systems lead12 [...] Gor, Gerardo Adesso, Grant Brailsford, Hao Zhao, Henry Silverman, Hasan Sawan, Herman Wasserman, Hugo Gobato Souto, Ioana Tanase, Isabella Andric, Ivan Carbajal, Jacy Reese Anthis, Jake Okechukwu Effoduh, Javier García Arredondo, Jennifer Victoria Scurrell, Jianlong Zhu, Joanna Brzyska, Kate Turets...",
+    "tags": [
+      "데이터 분석"
+    ],
+    "level": "engineering",
+    "collected_at": "2026-01-06T13:49:17.474562"
+  },
+  {
+    "title": "Measuring the performance of our models on real-world tasks",
+    "link": "https://openai.com/index/gdpval/",
+    "summary": "Sales representatives, wholesale and manufacturing, except technical and scientific products Sales representatives, wholesale and manufacturing, technical and scientific products Information Audio and video technicians Producers and directors News analysts, reporters, and journalists Film and video editors Editors ## How we built the dataset [...] ## Get involved Community participation is essential—we’re excited to build GDPval together with researchers, practitioners, and organizations who share our goal of making AGI more useful for people at work. ## Author ## Keep reading CoT Monitorability Art Card 1x1 ResearchDec 18, 2025 GPT-5.2-Codex systemcard 1x1 PublicationDec 18, 2025 Frontier Science > Cover Image ResearchDec 16, 2025 [...] ## How we chose occupations...",
+    "tags": [
+      "데이터 분석"
+    ],
+    "level": "engineering",
+    "collected_at": "2026-01-06T13:49:17.474604"
+  },
+  {
+    "title": "OpenAI for Developers in 2025",
+    "link": "https://developers.openai.com/blog/openai-for-developers-2025",
+    "summary": "These updates set the foundation for what comes next. Thank you for building with us in 2025—we’re looking forward to what you’ll create in 2026. ## Links and resources [...] 2025 wasn’t about a single model launch–it was the year AI got easier to run in production. As models improved at planning, tool use, and longer-horizon tasks, more teams shifted from “prompting step-by-step” to delegating work to agents. For developers, that shift showed up in a few concrete places: ## TL;DR Read on for a roundup of major model, API, and platform updates in 2025, and learn how it can help you ship production-grade agents. [...] OpenAI Developers ## Search the blog ### Categories ### Topics ### Getting Started ### Using Codex ### Configuration ### Administration ### Automation ### Releases ### Recent ...",
+    "tags": [
+      "데이터 분석"
+    ],
+    "level": "engineering",
+    "collected_at": "2026-01-06T13:49:17.474648"
+  },
+  {
+    "title": "Microsoft - Wikipedia",
+    "link": "https://en.wikipedia.org/wiki/Microsoft",
+    "summary": "Microsoft Corporation is an American multinational technology conglomerate headquartered in Redmond, Washington. Founded in 1975, the company became influential in the rise of personal computers through software like Windows, and has since expanded to Internet services, cloud computing, artificial intelligence, video gaming, and other fields....",
+    "tags": [
+      "데이터 분석"
+    ],
+    "level": "engineering",
+    "collected_at": "2026-01-06T13:49:17.474665"
+  },
+  {
+    "title": "Microsoft Redmond Campus Refresh",
+    "link": "https://www.redmond.gov/386/Microsoft-Redmond-Campus-Refresh",
+    "summary": "Opens in New Window ## Public Notices ## Design Review Board ### Contact Us #### Jason Lynch Location: Microsoft East Campus, Redmond Project Phase: Permit Review and Construction Timeline: 2018 to 2025 ## Related Links ## Traffic & Cameras View current and upcoming traffic impacts within the City of Redmond. Go to Traffic Viewer ### Popular ### Find ### Report / Request ### Helpful Links ### Social Media ### Sign Up For Our Newsletter Redmond Washington Homepage [...] Emergency Alert Redmond Washington Homepage # Microsoft Redmond Campus Refresh Campus-Arial-Rendering Campus-Arial-Rendering ## Project Timeline MS-Refresh-Timeline MS-Refresh-Timeline ## Project Overview [...] The project is an investment for the community and the more than 47,000 employees that work on the campus. With a 2...",
+    "tags": [
+      "데이터 분석"
+    ],
+    "level": "engineering",
+    "collected_at": "2026-01-06T13:49:17.474710"
+  },
+  {
+    "title": "Gartner identifies top trends in data and analytics for 2025 - and AI ...",
+    "link": "https://www.zdnet.com/article/gartners-top-trends-in-data-and-analytics-for-2025-include-ai-agents/",
+    "summary": "Also: 25% of enterprises using AI will deploy AI agents by 2025 Other key trends highlighted by Gartner include decision intelligence platforms, which help organizations shift from simply using data to making smarter, decision-focused strategies. The analyst said this shift is critical to success. [...] Out of the nine trends Gartner identified, unsurprisingly, AI-related technologies made up more than half of the list, including the biggest AI trend of the time -- agents. Agentic AI has begun permeating every business sector, with organizations finding ways to implement the autonomous assistance that AI agents offer. [...] Also: Opera unveils impressive preview of AI agentic browsing - see it in action As there are so many different tools that D&A leaders can use, Gartner also recommended...",
+    "tags": [
+      "ai 데이터사이언스"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T13:53:41.238376"
+  },
+  {
+    "title": "The AI Revolution 2025: Breakthroughs, Ethics, and Visual ...",
+    "link": "https://dev.to/deepika0614/the-ai-revolution-2025-breakthroughs-ethics-and-visual-exploration-4d6f",
+    "summary": "As we've explored, AI in 2025 represents both remarkable achievements and significant responsibilities. The technology has moved beyond theoretical potential to become a fundamental driver of progress across all sectors of society. ### Key Takeaways: [...] In 2025, artificial intelligence has evolved from a promising technology to a fundamental driver of innovation across all sectors. This article provides an in-depth analysis of the current AI landscape, emerging trends, and what the future holds for this transformative technology. We'll explore real-world applications, technical breakthroughs, and the societal implications of these rapid advancements. ## Introduction [...] Artificial Intelligence has transitioned from science fiction to an integral part of our daily lives at an unprecede...",
+    "tags": [
+      "ai 데이터사이언스"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T13:53:41.238432"
+  },
+  {
+    "title": "The AI Revolution 2025: Breakthroughs, Ethics, and Visual ...",
+    "link": "https://dev.to/deepika0614/the-ai-revolution-2025-breakthroughs-ethics-and-visual-journey-3ko9",
+    "summary": "In 2025, artificial intelligence has evolved from a promising technology to a fundamental driver of innovation across all sectors. This article provides an in-depth analysis of the current AI landscape, emerging trends, and what the future holds for this transformative technology. We'll explore real-world applications, technical breakthroughs, and the societal implications of these rapid advancements. ## Introduction [...] Artificial Intelligence has transitioned from science fiction to an integral part of our daily lives at an unprecedented pace. As we stand in 2025, AI's capabilities continue to expand, reshaping industries and redefining what's possible. This blog explores the latest advancements in AI and peers into its promising future. ## Current State of AI (2025): A Deep Dive ### 1...",
+    "tags": [
+      "ai 데이터사이언스"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T13:53:41.238474"
+  },
+  {
+    "title": "The AI Revolution 2025: Breakthroughs, Ethics, and Future ...",
+    "link": "https://dev.to/deepika0614/the-ai-revolution-2025-breakthroughs-ethics-and-future-horizons-3kp8",
+    "summary": "In 2025, artificial intelligence has evolved from a promising technology to a fundamental driver of innovation across all sectors. This article provides an in-depth analysis of the current AI landscape, emerging trends, and what the future holds for this transformative technology. We'll explore real-world applications, technical breakthroughs, and the societal implications of these rapid advancements. ## Introduction [...] Artificial Intelligence has transitioned from science fiction to an integral part of our daily lives at an unprecedented pace. As we stand in 2025, AI's capabilities continue to expand, reshaping industries and redefining what's possible. This blog explores the latest advancements in AI and peers into its promising future. ## Current State of AI (2025): A Deep Dive ### 1...",
+    "tags": [
+      "ai 데이터사이언스"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T13:53:41.238508"
+  },
+  {
+    "title": "AI Driven Development Day: Key Insights from Industry ...",
+    "link": "https://dev.to/victorsaly/ai-driven-development-day-key-insights-from-industry-leaders-f39",
+    "summary": "The AI Assistance Spectrum From basic browser chats to autonomous agents - Level 3: Supervised Agentic Coding represents the current recommended baseline for daily workflows The AI Assistance Spectrum ## Key Predictions for 2024-2025 Based on the presentations, here are the major trends to watch: ## Action Items for Developers ### Immediate Steps: ### Medium-term Investments: ## The Bottom Line [...] ## AI-First Educational Game Development (2 Part Series) ## AI Driven Development Day: Key Insights from Industry Leaders A comprehensive recap of AI Driven Development Day 2025, featuring insights from leading industry experts including Debbie O'Brien, Phil Nash, Justin Schroeder, Kent C. Dodds, Tejas Kumar, and other AI development pioneers. [...] Langflow Visual Interface Langflow's visual ...",
+    "tags": [
+      "ai 데이터사이언스"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T13:53:41.238542"
+  },
+  {
+    "title": "Advancements and Emerging Trends in Artificial Intelligence",
+    "link": "https://dev.to/khanali21/advancements-and-emerging-trends-in-artificial-intelligence-an-analysis-of-recent-research-2idk",
+    "summary": "These themes include: enhancement of AI agents for edge computing environments; improving the quality and reliability of large language model...",
+    "tags": [
+      "ai 데이터사이언스",
+      "한국어"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T13:54:58.754772"
+  },
+  {
+    "title": "2025년 Ai 트렌드, 7가지 키워드로 돌아보기 | 요즘it",
+    "link": "https://yozm.wishket.com/magazine/detail/3474/",
+    "summary": "2025년은AI실용화의 첫해가 될 것이라는 올초 전망처럼, 일상 곳곳에서AI를 활용하는 사례가 보였다. 올 한 해AI활용 추세를 7가지 키워드로 정리해 보았다....",
+    "tags": [
+      "ai 데이터사이언스",
+      "한국어"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T13:57:40.853779"
+  },
+  {
+    "title": "AI Meets Cyber Protection - Smarter Cybersecurity",
+    "link": "https://duckduckgo.com/y.js?ad_domain=computerweekly.com&ad_provider=bingv7aa&ad_type=txad&click_metadata=9Q0GluT4xBj3o9PWJaVI0FZepkbQ6hyNbX3s3j3NVdP8_mCD1SVJrCvUIcAc0ulokEmXUb4fZwfVYlyvmaWdtDAIOcewYhw347jfOZvUCtcz1GD17rVrUCSiChBoGk_2QzMHsGEPTlAOm8WDiZjDXxDxL2_r_cEfC40BdOifN14.4uvODtScA8VSGq18kcq_4w&rut=91a2f3dc548fdd353867b4cb8beee6bea2b3955119e939f945ecb434eb992d62&u3=https://www.bing.com/aclick?ld=e8r9O_d8ENz2VyFv6kh0987TVUCUyalV06-Ml2RhnftXnn6t_buw-s1jgb-VwcMaVFUDrTMbPW_w_2Lg2yOARrU1SJqcb7oQIjwIzQbBSJIk2GXHooTTYJJZM3P9iZthzFEko6MbJbW6IQtfv9hiVP5zicFXczolAUtZ0tmelJgcqfpPnjZCaJfGsGMIA4hxO-FZCWvAnRbXqUfGTmsfGC94Ho5Zk&u=aHR0cHMlM2ElMmYlMmZ3d3cuY29tcHV0ZXJ3ZWVrbHkuY29tJTJmYnIlMmZLYXNwZXJza3klM2Z1dG1fc291cmNlJTNkYmluZyUyNmludCUzZG9mZiUyNnByZSUzZG9mZiUyNnV0bV9tZWRpdW0lM2RjcGMlMjZ1dG1fdGVybSUzZEdBVyUyNnV0bV9jb250ZW50JTNkc3lfbHAxMTIxMjAyNUdPT0dPVEhSX0dzaWRzRW50ZXJwcmlzZUFJX0thc3BlcnNreV9FbWJlZF9JTzMzNTIyNiUyNnV0bV9jYW1wYWlnbiUzZEthc3BlcnNreV9FbWJlZF9DV19CcmF6aWwlMjZPZmZlciUzZHN5X2xwMTEyMTIwMjVHT09HT1RIUl9Hc2lkc3NFbnRlcnByaXNlQUlfS2FzcGVyc2t5X0VtYmVkX0lPMzM1MjI2JTI2bXNjbGtpZCUzZDU3NWFjOWZkMDQwYzE2MmJkNmQ0YTBhMDEwZGU4ZTMw&rlid=575ac9fd040c162bd6d4a0a010de8e30&vqd=4-269966419886655710494058862190291376140&iurl={1}IG=EF623E31289A417FB1CADEF93BD36B0E&CID=14730E82B2AC65511063185BB37D6450&ID=DevEx,5045.1",
+    "summary": "Learn howAIbridges the skills gap and makes cybersecurity accessible to all. Stay ahead of cyberattacks withAI-powered tools and expert-driveninsights....",
+    "tags": [
+      "ai 데이터사이언스",
+      "한국어"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T13:57:40.853873"
+  },
+  {
+    "title": "[GN#286] 데이터 엔지니어링의 2025년 예상 | GeekNews",
+    "link": "https://news.hada.io/weekly/202453",
+    "summary": "2024년 데이터 엔지니어링 분야에서는 생성형 AI의 급성장과 데이터 거버넌스의 성숙화가 주요 변화였으며, 2025년에는 AI 컴퓨팅의 발전, 도메인별 특화 언어 모델의 진화, AI 오케스트레이터와 다단계 추론의 결합, 차세대 데이터 통합 개발 환경의 부상, 그리고 LakeDB의 등장이 주요 트렌드입니다. 도메인별 특화 언어 모델과 SLM(Small Language Model)의 발전은 산업별 요구에 최적화된 AI 활용을 가능하게 하며, 비용 효율성과 적응성을 통해 AI 접근성을 대중화할 것입니다. 데이터 관리에서는 데이터 통합 개발 환경과 LakeDB 같은 새로운 기술이 데이터 처리와 분석을 혁신하며, 데이터 메시와 제로 ETL 기술이 데이터를 효과적으로 공유하고 활용하는 데 기여할 것입니다. 이러한 변화는 데이터 엔지니어 역할의 중요성을 더욱 부각시키며, AI와 데이터 기반 혁신의 중심에서 새로운 가치를 창출할 것으로 기대됩니다. [...] 올해는 역시 AI가 시장의 화두이긴 한데 얼마 전까지만 해도 데이터가 가장 큰 이슈였고, 사실 지금도 데이터는 다양한 분야에서 활용되고 있습니다. 데이터 엔지니어링 뉴스레터인 Data Engineering Weekly에서 2025년에 대한 6가지 예상을 정리했는데요. 올해는 AI가 도입된 개발 환경이 많이 인기를 끌었는데, 내년엔 Data IDE라고 새로운 유형의 데이터 통합 개발 환경이 부상할 것으로 전망했네요. 데이터 수집 및 변환부터 분석, 시각화, 배포까지 전체 데이터 라이프사이클을 하나의 통합된 환경으로 원활하게 통합하며, AI 기반으로 자동화된 데이터 정리 ...",
+    "tags": [
+      "ai 데이터사이언스",
+      "한국어"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T14:08:40.505145"
+  },
+  {
+    "title": "[GN#249] 2024년 ML/AI/Data 업계 지도와 최신 트렌드 | GeekNews",
+    "link": "https://news.hada.io/weekly/202416",
+    "summary": "되었습니다. 업계 지도와 함께 올해의 테마 24가지도 선정했는데요. \"구조화 데이터 vs 비구조화 데이터\", \"모던 데이터 스택은 죽었는가?\", \"모던 AI 스택의 부상\", \"혼합 모델 : LLM과 SLM\", \"AI Agent와 Edge AI\", \"오픈소스 AI는 과유불급인가?\", \"AI가 SaaS/VC를 죽일까?\" 등 다양한 주제들이 있으니 꼭 읽어보시기 바랍니다. 글의 결론을 그대로 옮겨 보면 \"우리는 매우 특별한 시대에 살고 있습니다. 패러다임 전환의 초기에 있어요. 새로운 것을 실험하고 시도해 볼 때입니다. 이제 시작에 불과합니다.\" [...] 생겨났다고요. AI가 단순히 인간을 대체하는 것이 아니라, 인간의 한계를 자극하는 역할을 할 수 있다는 분석이 흥미롭습니다. [...] # GeekNews Weekly ## [GN#249] 2024년 ML/AI/Data 업계 지도와 최신 트렌드...",
+    "tags": [
+      "ai 데이터사이언스",
+      "한국어"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T14:08:40.505183"
+  },
+  {
+    "title": "2025: The Year in LLMs",
+    "link": "https://news.ycombinator.com/item?id=46449643",
+    "summary": "All these improvement in a single year, 2025. While this may seem obvious to those who follows along the AI / LLM news....",
+    "tags": [
+      "ai 데이터사이언스",
+      "한국어"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T14:08:40.505198"
+  },
+  {
+    "title": "Artificial intelligence - Wikipedia",
+    "link": "https://en.m.wikipedia.org/wiki/Artificial_intelligence",
+    "summary": "Artificial intelligence ( AI ) is the capability of computational systems to perform tasks typically associated with human intelligence, such as learning, reasoning, problem-solving, perception, and decision-making. It is a field of research in computer science that develops and studies methods and software that enable machines to perceive their environment and use learning and intelligence to...",
+    "tags": [
+      "ai 데이터사이언스",
+      "한국어"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T14:08:40.505217"
+  },
+  {
+    "title": "What Is Artificial Intelligence? Definition, Uses, and Types",
+    "link": "https://www.coursera.org/articles/what-is-artificial-intelligence",
+    "summary": "| Potential Benefits | Potential Dangers | --- | | Greater accuracy for certain repeatable tasks, such as assembling vehicles or computers. | Job loss due to increased automation. | | Decreased operational costs due to greater efficiency of machines. | Potential for bias or discrimination as a result of the data set on which the AI is trained. | | Increased personalization within digital services and products. | Possible cybersecurity concerns. | [...] Today, the term “AI” describes a wide range of technologies that power many of the services and goods we use every day – from apps that recommend TV shows to chatbots that provide customer support in real time. Machine learning is the most common form of artificial intelligence used today. As AI becomes more interwoven into our modern world,...",
+    "tags": [
+      "ai 데이터사이언스",
+      "한국어"
+    ],
+    "level": "tech_news",
+    "collected_at": "2026-01-06T14:08:40.505266"
+  }
+]

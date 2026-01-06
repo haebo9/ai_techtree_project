@@ -89,17 +89,22 @@ def get_ai_path(track_name: str) -> Dict[str, Any]:
     }
 
 @tool
-def get_ai_trends(keywords: List[str]) -> List[Dict[str, str]]:
+def get_ai_trend(keywords: List[str], category: str = "tech_news") -> List[Dict[str, str]]:
     """
-    Performs a web search to provide the latest AI trends, news, and GitHub repositories based on keywords.
-    Uses Tavily Search API.
+    Performs a web search to provide the latest AI trend, news, and GitHub repositories based on keywords.
+    Uses Tavily Search API with category-based domain filtering.
     
     Args:
-        keywords: List of technical keywords (e.g., ["LLM", "Agent", "RAG"]).
+        keywords: List of technical keywords (e.g., ["LLM", "Agent", "RAG"]). Include 3-5 related keywords for better tagging.
+        category: Target content category ("tech_news", "engineering", "research", "k_blog"). Defaults to "tech_news".
+               - tech_news: Global Tech News & Trend (English sources like GeekNews, HackerNews).
+               - k_blog: **ALL Korean Content** (Korean Tech Blogs, News, Industry Cases). Select this for ANY Korean query.
+               - engineering: Implementation details (GitHub, WandB, LangChain).
+               - research: Academic papers (Arxiv).
         
     Returns:
         List of dictionaries with trend title, link, and summary.
     """
-    return perform_web_search(keywords)
+    return perform_web_search(keywords, category)
 
-MCP_TOOLS = [get_ai_track, get_ai_path, get_ai_trends]
+MCP_TOOLS = [get_ai_track, get_ai_path, get_ai_trend]

@@ -11,16 +11,16 @@ load_dotenv()
 load_dotenv("backend/.env")
 
 # -------------------------------------------------------------------------
-from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
+from langchain_core.messages import HumanMessage, AIMessage, ToolMessage, SystemMessage
 from langchain_core.tools import tool
 
 # -------------------------------------------------------------------------
 # Configuration
 # -------------------------------------------------------------------------
 MCP_SERVER_URL = "http://localhost:8100"
-st.set_page_config(page_title="🤖 AI TechTree Agent", page_icon="🌳", layout="wide")
+st.set_page_config(page_title="AI TechTree MCP", page_icon="🌳", layout="wide")
 
-st.title("🤖 AI TechTree Agent (MCP Powered)")
+st.title("🤖 AI TechTree MCP")
 st.caption("독립된 MCP 서버(Port 8100)와 통신하며 스스로 도구를 선택하여 답변하는 에이전트입니다.")
 
 # -------------------------------------------------------------------------
@@ -39,7 +39,7 @@ def client_get_ai_track(interests: list[str], experience_level: str) -> dict:
     payload = {"input": {"interests": interests, "experience_level": experience_level}}
     try:
         # MCP Server Call
-        response = requests.post(f"{MCP_SERVER_URL}/get_ai_track/invoke", json=payload)
+        response = requests.post(f"{MCP_SERVER_URL}/get_ai_track/invoke", json=payload, timeout=10)
         response.raise_for_status()
         return response.json().get("output", {})
     except Exception as e:
@@ -54,29 +54,30 @@ def client_get_ai_path(track_name: str) -> dict:
     """
     payload = {"input": {"track_name": track_name}}
     try:
-        response = requests.post(f"{MCP_SERVER_URL}/get_ai_path/invoke", json=payload)
+        response = requests.post(f"{MCP_SERVER_URL}/get_ai_path/invoke", json=payload, timeout=10)
         response.raise_for_status()
         return response.json().get("output", {})
     except Exception as e:
         return {"error": str(e)}
 
 @tool
-def client_get_ai_trends(keywords: list[str]) -> list:
+def client_get_ai_trend(keywords: list[str], category: str = "tech_news") -> list:
     """
     최신 AI 기술 트렌드나 뉴스를 웹에서 검색합니다.
     Args:
         keywords: 검색할 키워드 리스트
+        category: 검색할 카테고리 ("tech_news", "engineering", "research", "k_blog")
     """
-    payload = {"input": {"keywords": keywords}}
+    payload = {"input": {"keywords": keywords, "category": category}}
     try:
-        response = requests.post(f"{MCP_SERVER_URL}/get_ai_trends/invoke", json=payload)
+        response = requests.post(f"{MCP_SERVER_URL}/get_ai_trend/invoke", json=payload, timeout=10)
         response.raise_for_status()
         return response.json().get("output", [])
     except Exception as e:
         return [{"error": str(e)}]
 
 # Available Tools for the Agent
-tools = [client_get_ai_track, client_get_ai_path, client_get_ai_trends]
+tools = [client_get_ai_track, client_get_ai_path, client_get_ai_trend]
 
 # -------------------------------------------------------------------------
 # Agent Setup
@@ -87,7 +88,7 @@ if "messages" not in st.session_state:
     ]
 
 # Initialize LLM with Tools
-llm = ChatOpenAI(model="gpt-4o", temperature=0)
+llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
 llm_with_tools = llm.bind_tools(tools)
 
 # -------------------------------------------------------------------------
@@ -145,10 +146,18 @@ if prompt := st.chat_input("예: 데이터 분석에 관심 있는 초보자인�
                         st.session_state["messages"].append(tool_msg)
                 
                 # Final LLM Call (Generate Answer based on Tool Output)
-                final_response = llm_with_tools.invoke(st.session_state["messages"])
-                st.write(final_response.content)
-                st.session_state["messages"].append(final_response)
+                # Use streaming for better UX
+                stream_handler = st.chat_message("assistant").empty()
+                final_content = ""
+                
+                for chunk in llm_with_tools.stream(st.session_state["messages"]):
+                    if isinstance(chunk, AIMessage) and chunk.content:
+                         final_content += chunk.content
+                         stream_handler.markdown(final_content + "▌")
+                
+                stream_handler.markdown(final_content)
+                st.session_state["messages"].append(AIMessage(content=final_content))
                 
             else:
                 # No tool needed, just chat
-                st.write(response.content)
+                st.chat_message("assistant").write(response.content)
