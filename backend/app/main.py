@@ -4,9 +4,6 @@ load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Import MCP Server App
-from app.mcp.server import mcp_app
-
 # Import Legacy API Router (추후 구현 시 활성화)
 # from app.api.v1.api import api_router
 
@@ -24,10 +21,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# 1. Mount MCP Server (Stateless Logic)
-# -> http://localhost:8000/mcp/... 경로로 접근 가능
-app.mount("/mcp", mcp_app)
 
 # 2. Include Legacy API Router (Stateful CRUD)
 # -> http://localhost:8000/api/v1/...
