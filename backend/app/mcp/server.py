@@ -2,7 +2,9 @@ from fastapi import FastAPI
 from langserve import add_routes
 from langchain_core.runnables import RunnableLambda
 
-from app.ai.agents.main_agent import TOOLS
+from app.mcp.tools import MCP_TOOLS
+# from app.ai.agents.main_agent import TOOLS # Deprecated
+
 
 # MCP Server as a sub-app or router
 mcp_app = FastAPI(
@@ -15,7 +17,7 @@ mcp_app = FastAPI(
 # 각 툴을 개별 엔드포인트로 노출하여 PlayMCP가 호출할 수 있게 함
 # 예: /mcp/generate_questions/invoke
 
-for tool in TOOLS:
+for tool in MCP_TOOLS:
     add_routes(
         mcp_app,
         RunnableLambda(tool),
