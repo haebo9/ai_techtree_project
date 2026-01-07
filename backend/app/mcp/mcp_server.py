@@ -3,7 +3,6 @@ from langserve import add_routes
 from langchain_core.runnables import RunnableLambda
 from dotenv import load_dotenv
 import uvicorn
-import os
 
 # Load Environment Variables from backend/.env
 # Note: When running this file directly, ensure you are in the project root or backend root.
@@ -32,5 +31,9 @@ async def health_check():
     return {"status": "ok", "mode": "standalone_mcp_server"}
 
 if __name__ == "__main__":
-    # Allow running directly with python backend/app/mcp/main.py
-    uvicorn.run("app.mcp.main:app", host="0.0.0.0", port=8100, reload=True)
+    # Allow running directly with python backend/app/mcp/mcp_server.py
+    uvicorn.run("app.mcp.mcp_server:app", host="0.0.0.0", port=8100, reload=True)
+
+
+# run streamlit
+# streamlit run ./app/mcp/streamlit.py

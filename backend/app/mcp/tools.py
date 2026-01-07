@@ -1,8 +1,8 @@
 import numpy as np
 from typing import List, Dict, Any, Optional
 from langchain_core.tools import tool
-from app.mcp.functions import perform_search_similarity, perform_web_search
-from app.ai.source.topics import AI_TECH_TREE
+from app.mcp.tools_functions import perform_search_similarity, perform_web_search
+from app.ai.source.track import AI_TECH_TREE
 
 # ---------------------------------------------------------
 # Tool Definitions
@@ -20,6 +20,13 @@ def get_ai_track(interests: List[str], experience_level: str) -> Dict[str, Any]:
         
     Returns:
         Dictionary containing recommended track, match reason, and starting point.
+
+    IMPORTANT FOR LLM:
+    - **Trigger Condition**: Use this tool IMMEDIATELY when the user asks "What should I study?", "Where do I start?", or "Recommend a path".
+    - **Missing Info Handling**: If the user hasn't provided specific interests yet:
+      1. You may call this tool with broad keywords like ["AI Foundation", "General"] and experience_level="beginner" to provide an initial suggestion.
+      2. OR you can ask the user for their specific interests to narrow it down.
+    - **Goal**: Always base your recommendations on the data returned by this tool, not your internal knowledge.
     """
     query_text = " ".join(interests)
     result = perform_search_similarity(query_text)
@@ -56,36 +63,56 @@ def get_ai_track(interests: List[str], experience_level: str) -> Dict[str, Any]:
 @tool
 def get_ai_path(track_name: str) -> Dict[str, Any]:
     """
-    Retrieves the full curriculum roadmap for a specific track, sorted in learning order.
+    Retrieves the full hierarchical curriculum roadmap for a specific track.
     
     Args:
         track_name: Exact name of the track (e.g., "Track 1: AI Engineer").
         
     Returns:
-        Dictionary containing the full roadmap of subjects.
+        Dictionary containing the full structured roadmap (Tiers -> Subjects).
+        
+    IMPORTANT FOR LLM:
+        - Use this structured data to create a "Step-by-Step Learning Plan" for the user.
+        - **Focus on Sequence**: Emphasize the logical order of study (Tier 1 -> Tier 2 -> Tier 3).
+        - Tier 1 (Basis) is the mandatory foundation. Start here.
+        - Tier 2 (Core) contains the most critical skills.
+        - Tier 3 (Application) focuses on projects and specialized domains.
+        - Do NOT suggest specific time durations (e.g., "2 weeks") unless explicitly asked. Focus on **what to learn first** and **why**.
     """
     track_data = AI_TECH_TREE.get(track_name)
     if not track_data:
         return {"error": f"Track '{track_name}' not found."}
     
-    # Extract linear list of all subjects in the track
-    all_subjects = []
+    # Reconstruct hierarchy for better LLM Understanding
+    roadmap_structure = {}
     tiers = track_data.get("tiers", {})
+    
     for tier_name, tier_content in tiers.items():
-        # tier_content keys are Subject names (or Option categories)
-        # Simplified traversal
+        roadmap_structure[tier_name] = []
+        
         for key, val in tier_content.items():
             if "Lv1" in val: # It's a Subject
-                all_subjects.append(key)
-            else: # It might be an Option group or nested structure
+                subject_info = {
+                    "subject": key,
+                    "description": val.get("desc", ""),
+                    "importance": "High"  # Subjects directly under Tier are usually core
+                }
+                roadmap_structure[tier_name].append(subject_info)
+            else: # It's a Group/Option
                 for sub_key, sub_val in val.items():
                      if isinstance(sub_val, dict) and "Lv1" in sub_val:
-                         all_subjects.append(sub_key)
+                         subject_info = {
+                            "subject": sub_key,
+                            "category": key, # Group name (e.g., "Language")
+                            "description": sub_val.get("desc", ""),
+                            "importance": "Medium"
+                        }
+                         roadmap_structure[tier_name].append(subject_info)
     
     return {
         "track": track_name,
-        "total_subjects": len(all_subjects),
-        "roadmap": all_subjects
+        "description": track_data.get("description"),
+        "roadmap": roadmap_structure
     }
 
 @tool
@@ -95,15 +122,17 @@ def get_ai_trend(keywords: List[str], category: str = "tech_news") -> List[Dict[
     Uses Tavily Search API with category-based domain filtering.
     
     Args:
-        keywords: List of technical keywords (e.g., ["LLM", "Agent", "RAG"]). Include 3-5 related keywords for better tagging.
-        category: Target content category ("tech_news", "engineering", "research", "k_blog"). Defaults to "tech_news".
-               - tech_news: Global Tech News & Trend (English sources like GeekNews, HackerNews).
-               - k_blog: **ALL Korean Content** (Korean Tech Blogs, News, Industry Cases). Select this for ANY Korean query.
-               - engineering: Implementation details (GitHub, WandB, LangChain).
-               - research: Academic papers (Arxiv).
+        keywords (List[str]): List of technical keywords (e.g., ["LLM", "Agent", "RAG"]). Include 3-5 related keywords for better tagging.
+        category (str): Target content category ("tech_news", "engineering", "research", "k_blog").
         
     Returns:
-        List of dictionaries with trend title, link, and summary.
+        List[Dict[str, str]]: List of dictionaries with trend title, link, and summary.
+
+    IMPORTANT FOR LLM: 
+    - "tech_news": Global Tech News & Trend (English sources like GeekNews, HackerNews).
+    - "k_blog": **ALL Korean Content** (Korean Tech Blogs, News, Industry Cases). Select this for ANY Korean query.
+    - "engineering": Implementation details (GitHub, WandB, LangChain).
+    - "research": Academic papers (Arxiv).
     """
     return perform_web_search(keywords, category)
 

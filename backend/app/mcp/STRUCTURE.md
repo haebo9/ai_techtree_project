@@ -5,7 +5,7 @@ backend/app/mcp/
 ├── __init__.py
 ├── server.py           # [Server] FastAPI/LangServe 진입점 및 도구 등록
 ├── tools.py            # [Interface] LLM이 호출하는 Tool 정의 (@tool)
-└── functions.py        # [Logic] 실제 비즈니스 로직 (Embedding, Search, Tree Traversal)
+└── tools_functions.py  # [Logic] 실제 비즈니스 로직 (Embedding, Search, Tree Traversal)
 ```
 
 ## Key Components

@@ -217,7 +217,6 @@ def perform_web_search(keywords: list[str], category: str = "tech_news") -> list
             "hyperconnect.com",             # Hyperconnect
             "ridicorp.com/story",           # Ridi
             "netmarble.engineering",        # Netmarble
-            "velog.io"                      # Korean Dev Blogs (High Volume)
         ]
     }
     

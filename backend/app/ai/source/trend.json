@@ -486,5 +486,294 @@
     ],
     "level": "tech_news",
     "collected_at": "2026-01-06T14:08:40.505266"
+  },
+  {
+    "title": "How to Build an AI Agent from Scratch: A 2026 Developer's ...",
+    "link": "https://velog.io/@sparkout/How-to-Build-an-AI-Agent-from-Scratch-A-2026-Developers-Guide",
+    "summary": "This is where the agent comes alive. Using a framework like LangGraph, you define a graph: Node A (Agent): Receives input -> Decides to call a tool. Node B (Tool Executor): Runs the tool -> Returns output to Agent. Edge (Conditional): If the agent says \"I'm finished,\" go to END. If it wants to call another tool, loop back to Node B. [...] The Scope: Is it a Single-Task Agent (e.g., \"Schedule this meeting\") or a Long-Running Process Agent (e.g., \"Monitor server logs for the next week and fix known anomalies\")? The Autonomy Level: How much permission does it have? Does it need a human-in-the-loop for approval before executing a DELETE command? Core Components of an Agent Every agent in 2026 is built on four pillars: Profile: The persona and role definition (e.g., \"You are a Senior React Engi...",
+    "tags": [
+      "agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:13:15.887083"
+  },
+  {
+    "title": "Top 10 AI Voice Agent API And SDK Providers",
+    "link": "https://velog.io/@tech_lover/Top-10-AI-Voice-Agent-API-And-SDK-Providers",
+    "summary": "## 1. MirrorFly: The #1 AI Voice Agent Provider MirrorFly, robust AI voice agent solution built for businesses that need 1000+ customization features and complete communication control. You can build a quick and intelligent voice agent with custom voice API; support on-premise hosting with secure SIP/VOIP calling. If you don’t have a technical team, you can hire their expert team, who build and manage your app. MirrorFly lets you integrate into web/mobile apps within 48 hours. [...] It has 99.99% uptime and only 500ms latency, ensuring that your agents are always production-ready. You can expect to achieve 4x operational efficiency and 50% incoming calls automation. [...] Cognigy, a conversational AI-powered customer service agent that delivers personalized and empathetic voice interaction...",
+    "tags": [
+      "agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:13:15.887140"
+  },
+  {
+    "title": "1.1 Artificial intelligence, machine learning and deep learning",
+    "link": "https://velog.io/@gabie0208/1.1-Artificial-intelligence-machine-learning-and-deep-learning",
+    "summary": "comment-user-thumbnail [...] ### 1.1.6 What deep learning has acheived so far profile ### 1.2 Before deep learning: a brief history of machine learning #### 4개의 댓글 comment-user-thumbnail [...] comment-user-thumbnail Artificial intelligence is transforming industries by enabling smarter decisions, while machine learning refines systems with data-driven insights, and deep learning brings advanced pattern recognition. Businesses seeking to implement these innovations can benefit from AI agent development Services that create intelligent, automated solutions to streamline workflows, reduce costs, and improve user experiences. This helps companies stay competitive and future-ready....",
+    "tags": [
+      "agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:13:15.887177"
+  },
+  {
+    "title": "Functions, Tools and agents with Langchain - 3",
+    "link": "https://velog.io/@jjlee6496/Functions-Tools-and-agents-with-Langchain-3",
+    "summary": "### Functions, Tools and agents with Langchain - 2 ### Functions, Tools and agents with Langchain - 4 #### 0개의 댓글 [...] model_with_forced_function = model.bind(functions=[weather_function], function_call={\"name\": \"WeatherSearch\") model_with_forced_function.invoke(\"hi!\") # 결과 AIMessage(content='', additional_kwargs={'function_call': {'name': 'WeatherSearch', 'arguments': '{\\n \"airport_code\": \"JFK\"\\n}'}})` [...] `# 예시용, 단순히 갯수만 반환해줌. class ArtistSearch(BaseModel): \"\"\"Call this to get the names of songs by a particular artist\"\"\" artist_name: str = Field(description=\"name of artist to look up\") n: int = Field(description=\"number of results\") # pydantic functions = [ convert_pydantic_to_openai_function(WeatherSearch), convert_pydantic_to_openai_function(ArtistSearch), ] # bind로 update model_wit...",
+    "tags": [
+      "agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:13:15.887232"
+  },
+  {
+    "title": "Standardizing User Activation: How We Built a Shared ...",
+    "link": "https://medium.com/daangn/standardizing-user-activation-how-we-built-a-shared-data-layer-at-karrot-342ed895508f",
+    "summary": "The Activation Status model enables more sophisticated analysis of acquisition-churn-return flows by combining activity states with previous...",
+    "tags": [
+      "agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:13:15.887249"
+  },
+  {
+    "title": "똑똑한 Agent를 만드는 방법: 워크플로우 개발 - DevOcean",
+    "link": "https://devocean.sk.com/blog/techBoardDetail.do?ID=165767&boardType=techBlog",
+    "summary": ": Agent는 사용자를 대신하여 특정 목표를 위해 작업을 수행하는 자율적인 시스템입니다. Agent는 사용자의 요청을 이해하고, 환경과 상호 작용하며, 목표를 달성하기 위해 필요한 행동을 취합니다. LLM (Large Language Model)은 자연어를 이해하고 추론 능력을 가지고 있어 Agent를 구현하는 핵심 기술로 활용됩니다. GPT-3.5나 GPT-4와 같은 LLM을 사용하면 손쉽게 Agent를 구현해 볼 수 있습니다. Agent의 정확도는 사용자의 요청을 정확히 이해하고 처리하는 능력입니다. 이는 Agent 개발의 핵심 목표이며, 사용자 만족도를 높이는 데 중요한 역할을 합니다. 하지만 높은 정확도를 갖는 Agent를 만드는 것은 쉽지 않으며, 높은 정... [...] DEVOTEE 추천 블로그;) Agent는 사용자를 대신하여 특정 목표를 위해 작업을 수행하는 자율적인 시스템입니다. Agent는 사용자의 요청을 이해하고, 환경과 상호 작용하며, 목표를 달성하기 위해 필요한 행동을 취합니다. LLM (Large Language Model)은 자연어를 이해하고 추론 능력을 가지고 있어 Agent를 구현하는 핵심 기술로 활용됩니다. GPT-3.5나 GPT-4와 같은 LLM을 사용하면 손쉽게 Agent를 구현해 볼 수 있습니다. Agent의 정확도는 사용자의 요청을 정확히 이해하고 처리하는 능력입니다. 이는 Agent 개발의 핵심 목표이며, 사용자 만족도를 높이는 데 중요한 역할을 합니다. 하지만 높은 정확도를 갖는 Agent를 만드는 것은 쉽지 않으며, 높은 정확도를 달성하기 위해서는 여러 가지 노...",
+    "tags": [
+      "agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:14:44.363150"
+  },
+  {
+    "title": "Autonomous Agent 넌 또 누구니? - DevOcean",
+    "link": "https://devocean.sk.com/blog/techBoardDetail.do?ID=166231&boardType=techBlog",
+    "summary": "1. 에이전트(Agent) 중심 요소로, 모든 작업의 조정 및 실행을 담당합니다. 사용자 입력을 받아들이고, 이를 처리하여 목표를 달성하기 위한 계획을 세우고 실행합니다. 2. 도구(Tools) 에이전트가 특정 작업을 수행하기 위해 사용하는 다양한 도구들입니다. 예를 들어, 캘린더(Calendar), 계산기(Calculator), 코드 인터프리터(CodeInterpreter), 검색(Search) 등이 있습니다. 이러한 도구들은 에이전트가 필요한 작업을 수행할 수 있도록 지원합니다. 모델 외 데이터: 모델이 학습된 훈련 데이터 외에도 종종 최신 정보를 사용하여 작업하고 생성해야 하는 경우가 있습니다. [...] 에이전트는 빠른 검색 시간으로 컨텍스트 창 길이의 정보를 쿼리하고 액세스할 수 있습니다. 4. 계획(Planning) 에이전트가 목표를 달성하기 위해 필요한 단계를 계획합니다. 이는 체계적으로 작업을 수행하기 위한 전략을 세우는 것을 포함합니다. 하위 목표와 세분화: 복잡한 작업은 간단한 계획, 즉 할 일 목록으로 세분화해야 합니다. 그러면 상담원은 더 작고 관리하기 쉬운 하위 목표에 보다 효율적이고 체계적인 방식으로 접근할 수 있습니다. 성찰과 개선: 여기에는 상담원이 모델 결과에 대해 자기 비판과 자기 성찰을 할 수 있어야 합니다. 그런 다음 에이전트는 과거 행동을 분석하여 실수와 개선이 필요한 부분을 파악하고 이를 통해 학습할 수 있습니다. 이를 통해 최종 결과를 향상시킬 수 있습니다. 반성(Reflection) [...] + 에이전트가 자신의 행동과 결정을 평가하고, 이를 바탕으로 개선점을 찾는...",
+    "tags": [
+      "agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:14:44.363215"
+  },
+  {
+    "title": "Langchain과 Langgraph의 Agent구현의 차이점. - DevOcean",
+    "link": "https://devocean.sk.com/blog/techBoardDetail.do?ID=167523&boardType=techBlog",
+    "summary": "Agent는 보통은 특수한 영역 또는 기능에 특화된 일꾼 입니다. 근데 여기에 이게 `Tools`를 추가해서 유저의 요청에 따라, 상황에 맞는 Tool를 사용해서 기존에 학습하지 못했던 기능을 가능케 합니다. 이를위해서 ReAct(Reasoning and Action) Agent를 사용하게 됩니다. 이때 기존 포스팅을 통해서, Scratch부터 Agent를 만들어 봤지만 실제 Production에서는 Langchain이나 Langgraph를 사용하게 됩니다. ## 1. Langchain의 create\\_react\\_agent 공식 API 문서 Langchain에서는 `create_react_agent` 함수를 통해서 Agent를 만들 수 있고 prompt를 통해서 Agent가 어떤 Chain Of Thought 를 진행할지 기술하게 됩니다. [...] weather for a given city.\"\"\" return f\"It's always sunny in {city}!\" # List of tools available to the agent =[(= \"Weather\", # Name of the tool =, # Function that the tool will execute # Description of the tool =.,),] # Initialize a ChatOpenAI model from. import ='''Answer the following questions as best you can. You have access to the following tools: {tools} Use the follo...",
+    "tags": [
+      "agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:14:44.363275"
+  },
+  {
+    "title": "Langchain과 Langgraph의 Agent구현의 차이점. - DevOcean",
+    "link": "https://devocean.sk.com/blog/techBoardDetail.do?id=167523",
+    "summary": "Agent는 보통은 특수한 영역 또는 기능에 특화된 일꾼 입니다. 근데 여기에 이게 `Tools`를 추가해서 유저의 요청에 따라, 상황에 맞는 Tool를 사용해서 기존에 학습하지 못했던 기능을 가능케 합니다. 이를위해서 ReAct(Reasoning and Action) Agent를 사용하게 됩니다. 이때 기존 포스팅을 통해서, Scratch부터 Agent를 만들어 봤지만 실제 Production에서는 Langchain이나 Langgraph를 사용하게 됩니다. ## 1. Langchain의 create\\_react\\_agent 공식 API 문서 Langchain에서는 `create_react_agent` 함수를 통해서 Agent를 만들 수 있고 prompt를 통해서 Agent가 어떤 Chain Of Thought 를 진행할지 기술하게 됩니다. [...] weather for a given city.\"\"\" return f\"It's always sunny in {city}!\" # List of tools available to the agent =[(= \"Weather\", # Name of the tool =, # Function that the tool will execute # Description of the tool =.,),] # Initialize a ChatOpenAI model from. import ='''Answer the following questions as best you can. You have access to the following tools: {tools} Use the follo...",
+    "tags": [
+      "agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:14:44.363327"
+  },
+  {
+    "title": "에이닷의 AI 에이전트는 어디까지 발전할 수 있을까? Code ...",
+    "link": "https://devocean.sk.com/blog/techBoardDetail.do?ID=167275",
+    "summary": "2022년~2023년 초기의 에이전트 시스템이 단일 작업 처리에 집중했다면, 현재는 Multi-Tool Orchestration 과 맥락 기반 의사결정 (Context-Aware Decision Making) 기능을 중심으로 발전하고 있습니다. AI Agent 의 핵심 기술 중 하나인 Tool Calling 은 언어 모델이 외부 도구, API 또는 기타 리소스를 활용하여 정보를 얻거나 작업을 수행할 수 있도록 해주는 혁신적인 기능입니다. 위의 그림은 Tool Calling 프로세스를 표현한 것입니다. 사용자가 애플리케이션에 프롬프트를 입력하면, 애플리케이션은 이를 모델로 전달하고, 필요한 경우 함수 호출(Function Call)을 통해 API와 상호작용합니다. 모델은 함수 식별자와 매개변수를 기반으로 API 요청을 생성하고, API로부터 받은 응답을 처리하여 최종 결과를 사용자에게 반환합니다. [...] DEVOTEE 요약 : AI Agent는 대규모 언어 모델(LLM)을 기반으로 도구를 자율적으로 활용하여 복잡한 작업을 수행하는 지능형 시스템으로 발전해왔습니다. 기존의 Tool Calling 방식은 한계가 있었으나, Code Interpreter의 등장은 유연한 코드 생성과 실행을 가능케 하여 이 한계를 극복하고 AI Agent의 기능을 혁신적으로 확장시켰습니다. Code Interpreter는 Python 코드를 생성하고 실행하는 능력을 보유하여 실시간 데이터 처리, 복잡한 계산, 그리고 고급 시각화 기능을 통해 다양한 문제를 해결할 수 있습니다. ## AI Agent 는 어디까지 발전해왔을까? AI A...",
+    "tags": [
+      "agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:14:44.363387"
+  },
+  {
+    "title": "생성형 AI의 게임체인저, ReAct Agent를 알아보자 - DevOcean",
+    "link": "https://devocean.sk.com/blog/techBoardDetail.do?ID=167559",
+    "summary": "대부분 불안정한 계획, 루프 오류, 비용 낭비 문제로 실무 적용에는 제한적 단일 LLM으로만 구성했기 때문에 복잡한 협업은 어려움 하지만 실제 행동하는 AI의 가능성을 대중적으로 알린 계기가 되었습니다. ### 5. Multi-Agent & Graph-based Agent (LangGraph, AutoGen, CrewAI 등) 2024년 이후에는 단일 LLM 대신 여러 역할을 가진 에이전트들이 협업하는 멀티 에이전트 구조가 주류가 됩니다. 주요 프레임워크별 특징: | 프레임워크 | 특징 | --- | | AutoGen | 에이전트를 Coder, Critic, Planner 등으로 분리하고, 서로 대화하며 작업을 완성 | | LangGraph | 그래프 기반 워크플로우로 복잡한 분기와 반복, 상태 관리가 가능 | | CrewAI | 각 에이전트를 직무처럼 정의해 팀 단위로 일하게 함 | | Agentic RAG | 검색-요약-결합 등 과정을 분리해 체계화 | [...] AI Agent 기술은 계속해서 발전하고 있고, 특히 Multi-Agent 협업과 Graph-based 워크플로우가 주목받고 있습니다. 하지만 기술의 발전만큼이나 중요한 것은 실제 현업에서 안정적으로 동작하는 서비스를 만드는 것입니다. 이를 위해서는 기술적 이해뿐만 아니라 도메인 지식, 사용자 경험, 운영 노하우까지 종합적으로 고려해야 합니다. AI Agent 기술을 활용해서 정말 멋진 서비스들을 만들어보시길 바랍니다! ## 참고 자료 LangChain 공식 문서 ReAct: Reasoning and Acting in Language Models...",
+    "tags": [
+      "multi agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:18:19.592668"
+  },
+  {
+    "title": "RAG기반 Multi-Agent를 구현해보자(feat.데보션 오픈랩) - SK",
+    "link": "https://devocean.sk.com/blog/techBoardDetail.do?ID=168018&boardType=techBlog",
+    "summary": "① 중앙 집중식 제어:하나의 Supervisor가 모든 Agent 호출 순서와 흐름을 결정 복잡한 로직을 한곳에서 관리할 수 있음 ② 복잡성 감소: Agent들이 서로 직접 통신하지 않아도 됨 각 Agent는 독립적으로 동작하고 결과만 Supervisor에게 전달 ③ 필요한 Agent만 선택적 실행: \"RAG만 필요한 질문\", \"웹 검색만 필요한 질문\", \"둘 다 필요한 질문\" 등 Supervisor가 상황에 따라 적절한 Agent만 호출 ④ 확장성: 새로운 Agent(예: SQL Agent, 시각화 Agent)를 추가할 때 Supervisor의 라우팅 로직만 수정하면 됨 코딩을 할 때는 약간의 시행착오가 있었어요. langgraph에서 prebuilt로 제공해주는 create\\_supervisor()로 바로 agent 노드를 만드려고 했지만, 이상하게 계속 에러가 났습니다. [...] > LangGraph + LangSmith + Streamlit + OpenAI / MCP Tools 좀 더 설명하면, 크게 세 가지 레이어로 구성되어 있습니다: ① Orchestration Layer (LangGraph Supervisor) 사용자 질문을 분석하고 어떤 Agent를 호출할지 결정 (Routing) 각 Agent의 결과를 취합해서 최종 답변 생성 ② Worker Agents (RAG, Web, Literature) Agent는 세 개의 multi-agent로 구성하였고, 모두 각 에이전트 역할에 맞는 tools를 갖고 있는 ReAct 에이전트입니다. 각각의 역할은 아래와 같습니다. RAG Agent: 과거 분석...",
+    "tags": [
+      "multi agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:18:19.592718"
+  },
+  {
+    "title": "LLM을 이용한 서비스 취약점 분석 자동화 #1",
+    "link": "https://toss.tech/article/vulnerability-analysis-automation-1",
+    "summary": "### 핵심 아이디어: 모든 입력 경로를 빠짐없이 분석하기 취약점은 결국 신뢰할 수 없는 입력(Untrusted Input)으로부터 발생합니다. 그래서 다음과 같은 전략을 세웠어요: 실제로 이 방식을 적용하니 항상 취약점을 놓치지 않고 찾아내는 결과를 얻을 수 있었어요! ## 세 번째 벽: 비용의 현실 그런데 문제가 또 생겼어요. 모든 입력 경로를 다 분석하게 했더니, 분석할 필요가 없는 코드까지 분석하느라 쓸데없는 토큰이 너무 많이 소모되는 거예요. 예를 들어 총 100개의 경로가 있으면 XSS가 발생할 수 있는 경로는 10개 뿐인데, 나머지 90개의 의미없는 경로도 분석하는 상황이었죠. 토큰은 곧 비용이니까 반드시 해결해야 하는 문제였어요. ### Multi-Agent로 효율성 높이기 이 문제는 Multi-Agent 시스템으로 해결할 수 있었어요. 3개의 에이전트로 구성했습니다: [...] 이렇게 구성하니 Discovery 에이전트가 거름망 역할을 해줘서, 실질적으로 취약점 분석이 필요한 경로만 Analysis 에이전트가 처리할 수 있었어요. 덕분에 비용도 줄이고 전체 분석 시간도 단축할 수 있었습니다. ## 네 번째이자 가장 큰 벽: 지속 가능성 여기까지는 기술적으로 성공적이었지만, 가장 중요한 문제가 남아있었어요. 바로 지속 가능성이었죠. 토스에는 수백 개의 서비스가 있어요. 계산해보니: 1회 비용을 100원으로 줄인다고 해도 월 270만원이니, 결코 지속 가능한 비용이 아니었어요. ### Open Model로의 전환 이 문제를 해결하려면 Cloud Model이 아닌 Open Model을 사용해야 했습...",
+    "tags": [
+      "multi agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:18:19.592775"
+  },
+  {
+    "title": "AI와 함께 일하는 시대, 에이전트와 자동화 기술 - DevOcean",
+    "link": "https://devocean.sk.com/news/20250901_techday.pdf",
+    "summary": "Multi-Agent Strands Mul8-agent – workﬂow Agent 생성 Strands Mul8-agent – Agents as Tools 하위Agent를Tool 로등록하여사용 Strands Mul8-agent – Agents as Tools Strands Mul8-agent – Swarm Strands Mul8-agent – Graph Strands Usecase 2 – 보안로그분석 Multi-agent (strands) Strands+MCP 외부툴을사용하는Agent가 서로협동하여일하게하자. [...] h\"ps://blog dailydoseofds com/p/5 agen7c ai design pa\"erns Agent Design Pa1ern – Complicated h\"ps://modulabs.co.kr/blog/langgraph_mul5agent Strands Agent Strands Agent (Multi-Agent Framework) 다시 심플하게 Strands Agent 복잡한오케스트레이션없이빠른프로토타이핑가능 내부적으로ReAct 스타일프롬프트활용 간단한루프안에서AI가Python 코드생성및실행 Strands Agent 자연어입력받아서 초간단수학계산Agent (with 계산도구) 이게무슨말이냐…..하면요? 무엇이다른것인가? 왜필요한가? [...] Agent 3 Agent Manager Agent Manager RAG(담당자, 기존사례) Datadog Metrics분석 Datadog Logs분석 Request Iden7fy Fianl Response Multi(Agent(활용 Thread...",
+    "tags": [
+      "multi agent"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-07T06:18:19.592811"
+  },
+  {
+    "title": "LLM Applications: Current Paradigms and the Next Frontier",
+    "link": "https://arxiv.org/html/2503.04596v2",
+    "summary": "In Asia, ByteDance has introduced both Coze and Cici, offering agent-based ecosystems with integrated multi-agent functionality (Column, 2025). Baidu’s ERNIE Bot surpassed 200 million users in 2024, positioning it as one of the largest Chinese LLM app ecosystems (Gigazine, 2024). Tencent’s Yuanqi Agent Shop has also been established as a developer-facing platform for distributing AI agents across QQ, WeChat, and Tencent Cloud services (Tencent, 2025). [...] passing, shared memory spaces, or structured protocols. In tasks like distributed decision-making, social behavior simulation, cooperative problem solving, and negotiation, multi-agent setups have demonstrated promise (Song et al., 2025). But they also bring with them new difficulties, such as the overhead of coordination, emergent beha...",
+    "tags": [
+      "multi agent"
+    ],
+    "category": "research",
+    "collected_at": "2026-01-07T06:19:39.878681"
+  },
+  {
+    "title": "Multi-Agent Systems for Dataset Adaptation in Software ...",
+    "link": "https://arxiv.org/pdf/2511.21380",
+    "summary": "Islem Bouzenia, Premkumar Devanbu, and Michael Pradel. 2024. Repairagent: An autonomous, llm-based agent for program repair. arXiv preprint arXiv:2403.17134 (2024). Islem Bouzenia and Michael Pradel. 2025. You Name It, I Run It: An LLM Agent to Execute Tests of Arbitrary Projects. [...] arXiv:2511.21380v1 [cs.SE] 26 Nov 2025 2 Jingyi Chen, Xiaoyan Guo, Songqiang Chen, Shing-Chi Cheung, and Jiasi Shen autonomous problem solving, robustness, and scalability across software-development activities. [...] debuggers, and execution environments to iteratively test and improve code. Xia et al. proposed Agentless , which employs a three-phase process that avoids letting LLMs autonomously choose actions or interact with complex tools. Multi-agent frameworks [20, 25] further simulate team collaborati...",
+    "tags": [
+      "multi agent"
+    ],
+    "category": "research",
+    "collected_at": "2026-01-07T06:19:39.878727"
+  },
+  {
+    "title": "CHAIN-OF-AGENTS: END-TO-END AGENT MODELS",
+    "link": "https://openreview.net/pdf/7ee22773c8678217fb480e3901745b4cb3bf58f7.pdf",
+    "summary": "advancements, such as OpenResearcher (Zheng et al., 2024b) and RL-driven methods like Search-R1 (Jin et al., 2025a), address some of these issues but still lack efficient multi-tool coordination, limiting their perfor-mance in complex scenarios requiring dynamic tool dependencies. [...] Multi-Agent Systems attempt to resolve scalability limitations through specialized agents {ai}N i=1 with dedicated policies πai, enabling distributed expertise for complex tool orchestration (Hadfield et al., 2025; Islam et al., 2024; 2025; Huang et al., 2023). However, this architectural specialization introduces prohibitive coordination overhead that scales with pairwise agent interactions, alongside state fragmentation across agents (Zhu et al., 2025). The coordination cost grows unbounded [...] To elici...",
+    "tags": [
+      "multi agent"
+    ],
+    "category": "research",
+    "collected_at": "2026-01-07T06:19:39.878782"
+  },
+  {
+    "title": "AI Agentic Programming: A Survey of Techniques, ...",
+    "link": "https://arxiv.org/html/2508.11126v1",
+    "summary": "approaches. Contemporary agentic systems like AutoGen (wu2024autogen, ) and CrewAI (duan2024exploration, ) enable agents to directly interact with development tools, maintain context across extended sessions, and learn from past interactions (li2024survey, ). This represents a significant advancement over traditional multi-agent systems that typically operated in more constrained, simulation-based environments. [...] Classical AI research has explored agency extensively in domains such as planning, robotics, and multi-agent systems (li2024survey, ; wu2024autogen, ). Traditional agent models focus on several key attributes: Reactivity: the ability to respond to changes in the environment, Proactivity: the pursuit of long-term goals, Social ability: the capacity to communicate and coordinate...",
+    "tags": [
+      "multi agent"
+    ],
+    "category": "research",
+    "collected_at": "2026-01-07T06:19:39.878826"
+  },
+  {
+    "title": "A Multi-Dimensional Framework for Evaluating Enterprise ...",
+    "link": "https://arxiv.org/html/2511.14136v1",
+    "summary": "Enterprise evaluation differs fundamentally from academic benchmarking. Aisera’s CLASSic framework (Aisera Research Team 2024) proposes five dimensions (Cost, Latency, Accuracy, Stability, Security) with empirical evidence that domain-specific agents achieve 82.7% accuracy versus 59-63% for general LLMs at 4.4-10.8x lower cost. AWS research (Liu et al. 2024) on multi-agent systems demonstrates 90% goal success rates with proper coordination versus 53-60% for single agents, while documenting a...",
+    "tags": [
+      "multi agent"
+    ],
+    "category": "research",
+    "collected_at": "2026-01-07T06:19:39.878854"
+  },
+  {
+    "title": "Optimizing Agents with Better Prompts and Topologies",
+    "link": "https://arxiv.org/html/2502.02533v1",
+    "summary": "Going further from a single agent, automatic multi-agent optimization faces a higher level of complexity, thereby requiring a more sophisticated design of search space and algorithms. Among all recent advances in multi-agent optimization, the optimization space has spanned prompts (Khattab et al., 2024), tools (Zhou et al., 2024d), workflows (Li et al., 2024c), and thinking strategies (Shang et al., 2024). Aligning closer to our topology search space, DyLAN (Liu et al., 2024b) dynamically [...] al., 2024; Shinn et al., 2024). Later, the opinions from multiple agents can be summarized to retrieve the most consistent answer by an aggregation agent (Chen et al., 2024c; Lin et al., 2024). Moreover, multi-agent debate consists of a more complex flow of information (Chen et al., 2024a; Wang et a...",
+    "tags": [
+      "multi agent",
+      "rag"
+    ],
+    "category": "research",
+    "collected_at": "2026-01-07T06:21:31.251439"
+  },
+  {
+    "title": "Rethinking Retrieval-Augmented Generation for LLMs",
+    "link": "https://arxiv.org/html/2510.09106v1",
+    "summary": "GraphRAG Edge et al. (2024) and HippoRAG Gutiérrez et al. (2024) incorporate knowledge graphs (KGs) to index the external database, thereby supporting cross-document retrieval; KAG Liang et al. (2025) integrates the semantic reasoning capabilities of knowledge graphs by traversing along the KG; Agentic RAG Singh et al. (2025) combines both LLM agents and RAG methods for addressing complex reasoning tasks that require multi-round LLM revoking. [...] adaptively retrieve from external knowledge, and thus overcome the challenges of traditional RAG methods, giving rise to the concept of Agentic RAG Singh et al. (2025). Despite the progress in Agentic RAG, future research should continue to focus on achieving a deeper understanding of user intent and developing a unified paradigm capable of adap...",
+    "tags": [
+      "multi agent",
+      "rag"
+    ],
+    "category": "research",
+    "collected_at": "2026-01-07T06:21:31.251495"
+  },
+  {
+    "title": "Retrieval-Augmented Generation: A Comprehensive ...",
+    "link": "https://arxiv.org/html/2506.00054v1",
+    "summary": "Utility-Driven Joint Optimization: Several frameworks seek to align retriever outputs with their downstream utility for generation through joint objectives or reinforcement learning. Stochastic RAG (Zamani and Bendersky, 2024) treats retrieval as an expected utility maximization problem, updating both retriever and generator end-to-end using REINFORCE-based gradients. M-RAG (Wang et al., 2024b) applies multi-agent reinforcement learning, coordinating distributed retrievers and generators via [...] generation, minimizing reliance on generative interpolation and reducing domain-specific hallucination. RAG-Ex (Sudhi et al., 2024) simulates retrieval variability by injecting perturbed documents during training, improving robustness to inconsistent or adversarial context. In high-stakes domains...",
+    "tags": [
+      "multi agent",
+      "rag"
+    ],
+    "category": "research",
+    "collected_at": "2026-01-07T06:21:31.251532"
+  },
+  {
+    "title": "LongVideoAgent: Multi-Agent Reasoning with Long Videos",
+    "link": "https://arxiv.org/pdf/2512.20618",
+    "summary": "Gemini Team. 2024. Gemini 1.5: Unlocking multi-modal understanding across millions of tokens of context. arXiv preprint arXiv:2403.05530. Daya Guo, Dejian Yang, Haowei Zhang, Junxiao Song, Ruoyu Zhang, Runxin Xu, Qihao Zhu, Shi-rong Ma, Peiyi Wang, Xiao Bi, and 1 others. 2025. Deepseek-r1: Incentivizing reasoning capability in llms via reinforcement learning. arXiv preprint arXiv:2501.12948. [...] Lin Long, Yichen He, Wentao Ye, Yiyuan Pan, Yuan Lin, Hang Li, Junbo Zhao, and Wei Li. 2025. See-ing, listening, remembering, and reasoning: A multi-modal agent with long-term memory. arXiv preprint arXiv:2508.09736. Yongdong Luo, Xiawu Zheng, Guilin Li, Shukang Yin, Haojia Lin, Chaoyou Fu, Jinfa Huang, Jiayi Ji, Fei Chao, Jiebo Luo, and 1 others. 2024. Video-rag: Visually-aligned retrieval-augme...",
+    "tags": [
+      "multi agent",
+      "rag"
+    ],
+    "category": "research",
+    "collected_at": "2026-01-07T06:21:31.251611"
+  },
+  {
+    "title": "dwb2023/ragas-golden-dataset-documents",
+    "link": "https://huggingface.co/datasets/dwb2023/ragas-golden-dataset-documents",
+    "summary": "... (RAG), multi-agent memory frameworks, and robust evaluation pipelines. These strategies are discussed not only as technical fixes but as foun- dational...",
+    "tags": [
+      "multi agent",
+      "rag"
+    ],
+    "category": "engineering",
+    "collected_at": "2026-01-07T06:22:45.328784"
+  },
+  {
+    "title": "Awesome Retrieval‑Augmented Generation (RAG)",
+    "link": "https://github.com/Poll-The-People/awesome-rag",
+    "summary": "Retrieval-based Language Models and Applications Asai et al. (2023) Tutorial ACL Website and Video Advanced RAG Techniques: an Illustrated Overview Ivan Ilin (2023) Tutorial - Blog Retrieval Augmented Language Modeling Melissa Dell (2023) Lecture Video ### Blogs and Articles ### Newsletters & Forums ### Talks and Conferences ## Influential Researchers and Influencers `CustomGPT.ai` ## Latest Trends 2024-2025 ## Community Resources ### Reddit ### Discord ### GitHub Communities [...] Towards Knowledgeable Language Models - Zoey Sha Li, Manling Li, Michael JQ Zhang, Eunsol Choi, Mor Geva, Peter Hase Modular RAG and RAG Flow Yunfan Gao (2024) Tutorial - Blog I and Blog II Stanford CS25: V3 I Retrieval Augmented Language Models Douwe Kiela (2023) Lecture - Video Building RAG-based LLM Applicati...",
+    "tags": [
+      "multi agent",
+      "rag"
+    ],
+    "category": "engineering",
+    "collected_at": "2026-01-07T06:22:45.328830"
+  },
+  {
+    "title": "How we built our multi-agent research system",
+    "link": "https://www.anthropic.com/engineering/multi-agent-research-system",
+    "summary": "The journey of this multi-agent system from prototype to production taught us critical lessons about system architecture, tool design, and prompt engineering. A multi-agent system consists of multiple agents (LLMs autonomously using tools in a loop) working together. Our Research feature involves an agent that plans a research process based on user queries, and then uses tools to create parallel agents that search for information simultaneously. Systems with multiple agents introduce new [...] agents with separate context windows to add more capacity for parallel reasoning. The latest Claude models act as large efficiency multipliers on token use, as upgrading to Claude Sonnet 4 is a larger performance gain than doubling the token budget on Claude Sonnet 3.7. Multi-agent architectures effe...",
+    "tags": [
+      "multi agent",
+      "rag"
+    ],
+    "category": "engineering",
+    "collected_at": "2026-01-07T06:22:45.328861"
+  },
+  {
+    "title": "Why RAG is Failing Your Agents: It's Time to Move to SRF ...",
+    "link": "https://discuss.huggingface.co/t/why-rag-is-failing-your-agents-it-s-time-to-move-to-srf-stone-retrieval-function/171871",
+    "summary": "The recent “Stone Retrieval Function” (SRF) proposal correctly diagnoses a critical failure in modern RAG: stateless cosine similarity is a...",
+    "tags": [
+      "multi agent",
+      "rag"
+    ],
+    "category": "engineering",
+    "collected_at": "2026-01-07T06:22:45.328874"
+  },
+  {
+    "title": "joylarkin/Awesome-AI-Market-Maps",
+    "link": "https://github.com/joylarkin/Awesome-AI-Market-Maps",
+    "summary": "An Awesome List of Artificial Intelligence Startup Market Maps from 2026, 2025 and 2024. Now featuring over 375 AI Market Maps by top VCs, industry analysts...",
+    "tags": [
+      "multi agent",
+      "rag"
+    ],
+    "category": "engineering",
+    "collected_at": "2026-01-07T06:22:45.328884"
   }
 ]
