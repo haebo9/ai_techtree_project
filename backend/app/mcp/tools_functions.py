@@ -19,23 +19,8 @@ MIN_MATCH_COUNT = 1
 
 # Global instances
 EMBEDDING_MODEL = None
-CHAT_MODEL = None
 TAVILY_CLIENT = None
 TRACK_EMBEDDINGS = {} 
-
-def _get_chat_model():
-    """Lazily initialize Chat Model for summarization."""
-    global CHAT_MODEL
-    if CHAT_MODEL is None:
-        try:
-             api_key = os.environ.get("OPENAI_API_KEY")
-             if not api_key:
-                 raise ValueError("OpenAI API Key not found.")
-             CHAT_MODEL = ChatOpenAI(model="gpt-4o-mini", api_key=api_key, temperature=0.5)
-        except Exception as e:
-            print(f"Failed to initialize chat model: {e}")
-            return None
-    return CHAT_MODEL
 
 def _get_embedding_model():
     """Lazily initialize Embedding Model (Only for Track Search)."""
@@ -264,13 +249,13 @@ def _initialize_track_embeddings():
     keys = []
     for track_name, track_data in AI_TECH_TREE.items():
         description = track_data.get("description", "")
-        # Include Tier names to enhance context
-        tiers_content = []
-        if "tiers" in track_data:
-            for tier_name in track_data["tiers"].keys():
-                tiers_content.append(tier_name)
+        # Include Step names to enhance context
+        steps_content = []
+        if "steps" in track_data:
+            for step_name in track_data["steps"].keys():
+                steps_content.append(step_name)
         
-        full_text = f"{track_name}. {description}. Key Areas: {', '.join(tiers_content)}"
+        full_text = f"{track_name}. {description}. Key Areas: {', '.join(steps_content)}"
         texts.append(full_text)
         keys.append(track_name)
     
@@ -345,13 +330,13 @@ def recommend_ai_track(interests: list[str], experience_level: str) -> dict:
         track_info = AI_TECH_TREE[best_track]
         
         # Determine starting point based on experience
-        tiers = list(track_info.get("tiers", {}).keys())
-        starting_point = tiers[0] if tiers else "Basis"
+        steps = list(track_info.get("steps", {}).keys())
+        starting_point = steps[0] if steps else "Basis"
         
-        if experience_level.lower() == "intermediate" and len(tiers) > 1:
-            starting_point = tiers[1]
-        elif experience_level.lower() == "expert" and len(tiers) > 2:
-            starting_point = tiers[2]
+        if experience_level.lower() == "intermediate" and len(steps) > 1:
+            starting_point = steps[1]
+        elif experience_level.lower() == "expert" and len(steps) > 2:
+            starting_point = steps[2]
 
         return {
             "recommended_track": best_track,
@@ -379,20 +364,20 @@ def get_roadmap_details(track_name: str) -> dict:
     
     # Reconstruct hierarchy for better LLM Understanding
     roadmap_structure = {}
-    tiers = track_data.get("tiers", {})
+    steps = track_data.get("steps", {})
     
-    for tier_name, tier_content in tiers.items():
-        roadmap_structure[tier_name] = []
+    for step_name, step_content in steps.items():
+        roadmap_structure[step_name] = []
         
-        for key, val in tier_content.items():
-            # Check if it's a direct Subject (Level 1)
+        for key, val in step_content.items():
+                # Check if it's a direct Subject (Level 1)
             if isinstance(val, dict) and "Lv1" in val:
                 subject_info = {
                     "subject": key,
-                    "description": val.get("desc", ""),
+                    # "description": val.get("desc", ""), # Reduced for token efficiency
                     "importance": "High"
                 }
-                roadmap_structure[tier_name].append(subject_info)
+                roadmap_structure[step_name].append(subject_info)
             else: 
                 # It's a Group/Option (Nested)
                 for sub_key, sub_val in val.items():
@@ -400,13 +385,48 @@ def get_roadmap_details(track_name: str) -> dict:
                          subject_info = {
                             "subject": sub_key,
                             "category": key, # e.g. "Language"
-                            "description": sub_val.get("desc", ""),
+                            # "description": sub_val.get("desc", ""), # Reduced for token efficiency
                             "importance": "Medium"
                         }
-                         roadmap_structure[tier_name].append(subject_info)
+                         roadmap_structure[step_name].append(subject_info)
     
     return {
         "track": track_name,
         "description": track_data.get("description"),
-        "roadmap": roadmap_structure
+        "roadmap": roadmap_structure,
+        "note": "Use 'get_techtree_detail' for specific subject details."
     }
+
+def get_subject_details(subject_name: str) -> dict:
+    """
+    Finds detailed concepts (Lv1, Lv2, Lv3) for a specific subject across all tracks.
+    Used by 'get_techtree_detail'.
+    """
+    # Normalize query
+    query = subject_name.lower().strip()
+    
+    for track_name, track_val in AI_TECH_TREE.items():
+        for step_name, step_val in track_val.get("steps", {}).items():
+            
+            for key, val in step_val.items():
+                if not isinstance(val, dict): continue
+
+                # 1. Direct Match (Subject Key)
+                if key.lower() == query:
+                     return {
+                         "subject": key,
+                         "track": track_name,
+                         "details": val
+                     }
+                
+                # 2. Nested Match (Inside Group/Option)
+                for sub_key, sub_val in val.items():
+                    if isinstance(sub_val, dict) and sub_key.lower() == query:
+                        return {
+                            "subject": sub_key,
+                            "track": track_name,
+                            "category": key,
+                            "details": sub_val
+                        }
+                            
+    return {"error": f"Subject '{subject_name}' not found. Please check the exact name from the roadmap."}

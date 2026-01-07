@@ -942,5 +942,53 @@
     ],
     "category": "tech_news",
     "collected_at": "2026-01-07T09:15:56.915483"
+  },
+  {
+    "title": "2024 년 ML /AI/Data 업계 지도와 최신 트렌드 | GeekNews",
+    "link": "https://news.hada.io/topic?id=14209",
+    "summary": "# 2024년 ML/AI/Data 업계 지도와 최신 트렌드 이미지 한장으로 정리한 2024년 MAD(ML,AI,Data) 업계 지도 및 올해의 24가지 테마 설명 ## [Part I : Landscape] ## 인프라와 분석 영역의 주요 변화 ## 머신러닝과 인공지능 영역의 주요 변화 ## 애플리케이션 영역의 주요 변화 ## 오픈소스 인프라 영역의 주요 변화 ## [Part II: 2024년의 24가지 테마] ### 1. 구조화된 데이터 vs 비구조화된 데이터 ### 2. 모던 데이터 스택은 죽었는가? ### 3. 데이터 인프라 영역의 통합과 거대 기업의 성장 ### 4. 데이터브릭스 vs 스노우플레이크 현황 ### 5. 2024년 BI 현황과 생성형 AI가 분석을 변화시키는가? ### 6. 모던 AI 스택의 부상 ### 7. AI 하이프 사이클, 어디쯤 와 있나? ### 8. 실험인가, 현실인가? 2023년은 가짜였나? [...] ### 24. AI와 블록체인: 황당한가, 흥미로운가? ### BONUS: 다루지 않은 주제들 ## [Part III: Financing, M&A & IPO] ### Financing ### M&A, 비상장 거래 ## IPO ## 결론 The 2020 Data & AI Landscape 2021년 데이터/ML/AI 업계 지도와 최신 트렌드 [...] ### 9. LLM 기업들, 그렇게 평준화되지는 않았나? ### 10. 혼합적(hybrid) 미래: LLM, SLM ### 11. 전통적 AI는 죽었나? ### 12. 얇은 래퍼, 두꺼운 래퍼, 그리고 풀스택이 되기 위한 경쟁 ### ...",
+    "tags": [
+      "mlops",
+      "automation",
+      "ml lifecycle"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T10:00:19.479983"
+  },
+  {
+    "title": "2025入坑ML sys 求意见? - 知乎",
+    "link": "https://www.zhihu.com/question/7717321708",
+    "summary": "2025入坑ML sys 求意见? 美本cs专业今年申请研究生想走ml sys方向 ml理论基础比较扎实，但是system方向不太了解，os，distributed system，par…...",
+    "tags": [
+      "mlops",
+      "automation",
+      "ml lifecycle"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T10:00:19.479997"
+  },
+  {
+    "title": "새 소식 | GeekNews",
+    "link": "https://news.hada.io/new",
+    "summary": "# AI 시대의 코드 리뷰 # Dotter - dotfile을 일관되게 관리하기 위한 Rust 기반 설정 파일 매니저 # 로맨스는 끝났다: 오픈소스(OSS) 임계점과 생존 전략 # Show GN: 청약온: 소득 정보 자동 계산 및 청약 추천 # 바이브 코딩으로 어디까지 개발할 수 있을까? # Show GN: 초경량 온디바이스 TTS ‘Supertonic 2’ — 다국어 지원 업데이트 # 구경꾼들이여, 이제 내려와서 직접 뛸 시간이다. # Show GN: Logseq MCP 서버 - Claude에서 Logseq 읽기/쓰기 # Show GN: 데이글 - 글을 쓰는 사람들을 위한 공간 # Show GN: 명함 생성기 보고가세영 v2 업데이트 했습니당 [...] # Show GN: 지하철 지연알림 : 근데 이제 전장연이 두렵지 않은. # 10년 차 PM이 '관리자'라는 타이틀을 버리고 'Product Architect'가 된 이유 # Claude Code에 숨겨진 멀티 에이전트 시스템 오픈소스로 공개 (CC Mirror) # Show GN: Agentic Patterns Snippets - AI 에이전트 설계 패턴 99개 카드 뷰어 # Logi Options+ 인증서 만료로 macOS 실행 불가 # Show GN: Gemini CLI가 4일 만에 만든 목표 관리 툴 Planning Journey # Show GN: PonderTTT - TTT 기반 적응형 연산 할당 # Show GN: CodeSyncer - AI 코딩 어시스턴트용 컨텍스트 관리 CLI 도구 # Show GN: basic\\_RV32s: 오픈소스 RIS...",
+    "tags": [
+      "mlops",
+      "automation",
+      "ml lifecycle"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T10:00:19.480046"
+  },
+  {
+    "title": "Limbo - Rust로 완전히 새롭게 작성된 SQLite | GeekNews",
+    "link": "https://news.hada.io/topic?id=18201",
+    "summary": "Rust 변형의 DO-178B 인증은 고려되지 않는 것으로 추정됨 \"Limbo\"라는 이름은 AT&T의 Inferno 운영 체제를 위한 포스트-C/UNIX 언어에서도 사용됨 SQLite는 코드 품질과 엄격한 테스트로 인해 재작성할 필요가 없는 프로젝트로 보임 -> sqlite에 대한 이런 평가는 정말 부럽고 멋지네요. DO-178B 프로세스를 따르고 있고 MC/DC 코드 커버리지 100%를 달성했다고 합니다. SQLite의 알려지지 않은 이야기 [...] # Limbo - Rust로 완전히 새롭게 작성된 SQLite 기여하던 프로젝트가 hacker news에 나오니 신기하네요 ㅎㅎ ###### Hacker News 의견 SQLite는 코드 품질과 엄격한 테스트로 인해 재작성할 필요가 없는 프로젝트로 보임 SQLite가 \"오픈 기여\"가 아니라는 논의는 기여를 받는다는 것이 항상 기여를 수용한다는 의미가 아님을 간과함 SQLite3에서 LibSQL로의 포크 초기 발표에 대해 부정적이었음 최대 성능을 위해 WAL 모드를 선택해야 하며, POSIX 권고 잠금을 비활성화해야 함 SQLite의 테스트 스위트가 독점적이라는 사실을 처음 알았다는 의견이 있음 \"async IO\" 섹션의 논리를 받아들이지 않음 초기 단계에 있는 프로젝트라는 의견이 있음 Fil-C로 컴파일하면 메모리 안전한 SQLite를 얻을 수 있음 SQLite는 약 156,000줄의 코드와 92,000줄의 테스트 코드로 구성되어 있음...",
+    "tags": [
+      "mlops",
+      "automation",
+      "ml lifecycle"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T10:00:19.480096"
   }
 ]

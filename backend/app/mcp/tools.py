@@ -1,7 +1,7 @@
 import numpy as np
 from typing import List, Dict, Any, Optional
 from langchain_core.tools import tool
-from app.mcp.tools_functions import perform_web_search, recommend_ai_track, get_roadmap_details
+from app.mcp.tools_functions import perform_web_search, recommend_ai_track, get_roadmap_details, get_subject_details
 from app.ai.source.track import AI_TECH_TREE
 
 # ---------------------------------------------------------
@@ -35,18 +35,18 @@ def get_ai_path(track_name: str) -> Dict[str, Any]:
         track_name: Exact name of the track (e.g., "Track 1: AI Engineer").
         
     Returns:
-        Dictionary containing the full structured roadmap (Tiers -> Subjects).
+        Dictionary containing the full structured roadmap (Steps -> Subjects).
         
     IMPORTANT FOR LLM:
         - Use this structured data to create a "Step-by-Step Learning Plan" for the user.
-        - **Focus on Sequence**: Emphasize the logical order of study (Tier 1 -> Tier 2 -> Tier 3).
-        - Tier 3 (Application) focuses on projects and specialized domains.
+        - **Focus on Sequence**: Emphasize the logical order of study (Step 1 -> Step 2 -> Step 3).
+        - Step 3 (Application) focuses on projects and specialized domains.
         - Do NOT suggest specific time durations (e.g., "2 weeks") unless explicitly asked. Focus on **what to learn first** and **why**.
     """
     return get_roadmap_details(track_name)
 
 @tool
-def get_ai_trend(keywords: List[str], category: str = "tech_news") -> List[Dict[str, str]]:
+def get_ai_trend(keywords: List[str], category: str = "k_blog") -> List[Dict[str, str]]:
     """
     Performs a web search to provide the latest AI trend, news, and GitHub repositories based on keywords.
     Uses Tavily Search API with category-based domain filtering.
@@ -66,4 +66,15 @@ def get_ai_trend(keywords: List[str], category: str = "tech_news") -> List[Dict[
     """
     return perform_web_search(keywords, category)
 
-MCP_TOOLS = [get_ai_track, get_ai_path, get_ai_trend]
+@tool
+def get_techtree_detail(subject_name: str) -> Dict[str, Any]:
+    """
+    Retrieves detailed learning concepts (Lv1, Lv2, Lv3) for a specific subject.
+    Use this when the user asks for "What is X?", "What should I study in X?", or details about a specific roadmap item.
+    
+    Args:
+        subject_name: The exact name of the subject (e.g., "Vector DB", "Python Syntax").
+    """
+    return get_subject_details(subject_name)
+
+MCP_TOOLS = [get_ai_track, get_ai_path, get_ai_trend, get_techtree_detail]

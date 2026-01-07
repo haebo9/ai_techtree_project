@@ -2,13 +2,13 @@ from typing import Dict, Any
 
 # AI Tech Tree Curriculum Data
 # Based on track.md v1.2
-# 구조: Track -> Tier -> (Option) -> Subject -> Level (Lv1, Lv2, Lv3) -> Concepts
+# 구조: Track -> Step -> (Option) -> Subject -> Level (Lv1, Lv2, Lv3) -> Concepts
 
 AI_TECH_TREE: Dict[str, Any] = {
     "Track 0: The Origin": {
         "description": "모든 AI 클래스로 전직하기 위한 선행 조건입니다.",
-        "tiers": {
-            "Tier 1: Core Python Mastery": {
+        "steps": {
+            "Step 1: Core Python Mastery": {
                 "Python Syntax & Types": {
                     "Lv1": [
                         "변수 할당과 명명 규칙 (Snake Case)",
@@ -73,7 +73,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                     ]
                 }
             },
-            "Tier 2: Core DevOps Foundations": {
+            "Step 2: Core DevOps Foundations": {
                 "Linux CLI": {
                     "Lv1": [
                         "디렉토리 이동 (cd)과 목록 확인 (ls) 명령어",
@@ -117,7 +117,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                     ]
                 }
             },
-            "Tier 3: Core Math & Logic": {
+            "Step 3: Core Math & Logic": {
                 "Linear Algebra & Statistics": {
                     "Lv1": [
                         "평균(Mean)과 중앙값(Median)의 차이",
@@ -144,8 +144,8 @@ AI_TECH_TREE: Dict[str, Any] = {
     },
     "Track 1: AI Engineer": {
         "description": "모델을 실제 서비스 환경에 이식하고 가동합니다.",
-        "tiers": {
-            "Tier 1: Core System Foundation": {
+        "steps": {
+            "Step 1: Core System Foundation": {
                 "FastAPI Essentials": {
                     "Lv1": [
                         "GET vs POST 요청 메서드의 차이",
@@ -220,7 +220,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                     ]
                 }
             },
-            "Tier 2: Branching Point": {
+            "Step 2: Branching Point": {
                 "Option 1: Serving Specialist": {
                     "Model Serialization": {
                         "Lv1": [
@@ -323,7 +323,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                     }
                 }
             },
-            "Tier 3: Core Infrastructure Mastery": {
+            "Step 3: Core Infrastructure Mastery": {
                 "Container Orchestration": {
                     "Lv1": [
                         "컨테이너 하나로는 부족한 이유 (Scaling)",
@@ -361,8 +361,8 @@ AI_TECH_TREE: Dict[str, Any] = {
     },
     "Track 2: AI Modeler / Researcher": {
         "description": "데이터를 지능으로 변환하는 핵심 모델을 설계합니다.",
-        "tiers": {
-            "Tier 1: Core Deep Learning Engine": {
+        "steps": {
+            "Step 1: Core Deep Learning Engine": {
                 "Tensor Operations": {
                     "Lv1": [
                         "Tensor(텐서)의 정의와 Rank(차원)",
@@ -412,7 +412,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                     ]
                 }
             },
-            "Tier 2: Branching Point": {
+            "Step 2: Branching Point": {
                 "Option 1: Vision Sage": {
                     "CNN Backbones": {
                         "Lv1": [
@@ -516,7 +516,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                     }
                 }
             },
-            "Tier 3: Core Advanced Training": {
+            "Step 3: Core Advanced Training": {
                 "Distributed Training": {
                     "Lv1": [
                         "배치 사이즈를 키우기 위해 여러 GPU가 필요한 이유",
@@ -552,8 +552,8 @@ AI_TECH_TREE: Dict[str, Any] = {
     },
     "Track 3: LLM Application Engineer": {
         "description": "LLM을 활용하여 지능형 앱과 자율 에이전트를 개발합니다.",
-        "tiers": {
-            "Tier 1: Core Context Integration": {
+        "steps": {
+            "Step 1: Core Context Integration": {
                 "Prompting Basics": {
                     "Lv1": [
                         "Prompt Engineering이란?",
@@ -619,7 +619,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                     ]
                 }
             },
-            "Tier 2: Branching Point": {
+            "Step 2: Branching Point": {
                 "Option 1: Agentic Workflow": {
                     "ReAct Pattern": {
                         "Lv1": [
@@ -717,7 +717,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                     }
                 }
             },
-            "Tier 3: Core Production Excellence": {
+            "Step 3: Core Production Excellence": {
                 "Prompt Management": {
                     "Lv1": [
                         "프롬프트를 코드처럼 관리해야 하는 이유",
@@ -752,8 +752,8 @@ AI_TECH_TREE: Dict[str, Any] = {
     },
     "Track 4: Data Engineer": {
         "description": "안정적인 데이터 파이프라인과 대규모 데이터 인프라를 관리합니다.",
-        "tiers": {
-            "Tier 1: Core Data Flow": {
+        "steps": {
+            "Step 1: Core Data Flow": {
                 "SQL Mastery": {
                     "Lv1": [
                         "SELECT, WHERE, ORDER BY, LIMIT 기본 문법",
@@ -803,7 +803,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                     ]
                 }
             },
-            "Tier 2: Branching Point": {
+            "Step 2: Branching Point": {
                 "Option 1: Big Data Master": {
                     "Distributed Concept": {
                         "Lv1": [
@@ -872,7 +872,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                     }
                 }
             },
-            "Tier 3: Core Data Architecture": {
+            "Step 3: Core Data Architecture": {
                 "Modern Data Stack": {
                     "Lv1": [
                         "Data Warehouse vs Data Lake 개념",
@@ -893,8 +893,8 @@ AI_TECH_TREE: Dict[str, Any] = {
     },
     "Track 5: MLOps Engineer": {
         "description": "전체 ML 생명 주기를 자동화하고 운영 효율을 극대화합니다.",
-        "tiers": {
-            "Tier 1: Core Automation Core": {
+        "steps": {
+            "Step 1: Core Automation Core": {
                 "Docker & Registry": {
                     "Lv1": [
                         "이미지 레지스트리(ECR, DockerHub) 역할",
@@ -942,7 +942,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                     ]
                 }
             },
-            "Tier 2: Branching Point": {
+            "Step 2: Branching Point": {
                 "Option 1: FinOps": {
                     "Resource Mgmt": {
                         "Lv1": [
@@ -1012,7 +1012,7 @@ AI_TECH_TREE: Dict[str, Any] = {
                     }
                 }
             },
-            "Tier 3: Core Monitoring Mastery": {
+            "Step 3: Core Monitoring Mastery": {
                 "Continuous Training": {
                     "Lv1": [
                         "재학습(Retraining) 프로세스 개요",
