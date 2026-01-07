@@ -1,28 +1,40 @@
 # MCP Folder Structure
-
-```
-backend/app/mcp/
-├── __init__.py
-├── server.py           # [Server] FastAPI/LangServe 진입점 및 도구 등록
-├── tools.py            # [Interface] LLM이 호출하는 Tool 정의 (@tool)
-└── tools_functions.py  # [Logic] 실제 비즈니스 로직 (Embedding, Search, Tree Traversal)
-```
-
-## Key Components
-
-### 1. tools.py
-- **Roles**: LLM Interface
-- Contains `@tool` decorated functions.
-- Delegates actual logic to `functions.py`.
-- **Tools**:
-  - `get_ai_track`: Recommends a track based on interests.
-  - `get_ai_path`: Returns curriculum roadmap.
-  - `get_ai_trends`: Searches for latest AI trends.
-
-### 2. functions.py
-- **Roles**: Core Business Logic
-- **Features**:
-  - OpenAI Embedding generation & Similarity search.
-  - Tavily Web Search integration.
-  - Lazy initialization of heavy models.
-- **Data Source**: Uses `backend/app/ai/source/topics.py` as the Single Source of Truth.
+ 
+ ```
+ backend/app/mcp/
+ ├── __init__.py
+ ├── mcp_server.py       # [Server] MCP Protocol-compliant Server (FastAPI)
+ ├── streamlit.py        # [Client/Agent] Streamlit UI & Agent Execution Loop
+ ├── tools.py            # [Interface] LangChain @tool definitions (LLM-facing)
+ └── tools_functions.py  # [Logic] Core Business Logic (Search, Embeddings, Tree Traversal)
+ ```
+ 
+ ## Key Components
+ 
+ ### 1. tools.py
+ - **Role**: LLM Tool Interface
+ - Defines function signatures and docstrings optimized for LLM understanding.
+ - **Registered Tools**:
+   - `get_ai_track`: Recommends a specific track based on user interests using semantic search.
+   - `get_ai_path`: Retrieves the full hierarchical roadmap (Tier -> Subject) for a given track.
+   - `get_ai_trend`: Web searches for latest tech trends with domain filtering.
+   - `get_techtree_detail`: (Optional) deep dive into specific subject concepts.
+ 
+ ### 2. tools_functions.py
+ - **Role**: Implementation Layer
+ - **Features**:
+   - `perform_search_similarity`: OpenAI Embedding & Cosine Similarity for track recommendation.
+   - `perform_web_search`: Tavily API integration with Category-based Domain Filtering.
+   - `lazy_loading`: Initializes heavy models (ChatOpenAI, Embeddings) on demand.
+ - **Data Source**: Imports `AI_TECH_TREE` from `app.ai.source.track`.
+ 
+ ### 3. streamlit.py
+ - **Role**: Agent Playground
+ - **Features**:
+   - Direct import and usage of `MCP_TOOLS`.
+   - Multi-turn Agent Loop (While True) to handle sequential tool calls.
+   - Displays tool outputs in expandable UI components.
+ 
+ ### 4. mcp_server.py
+ - **Role**: MCP Protocol Server
+ - Exposes tools as API endpoints for external MCP clients (e.g., Cursor, Claude Desktop).

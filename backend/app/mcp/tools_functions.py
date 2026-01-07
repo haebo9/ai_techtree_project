@@ -2,7 +2,7 @@ import json
 import os
 import threading
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime
 from urllib.parse import urlparse
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_core.prompts import PromptTemplate
@@ -10,17 +10,18 @@ from langchain_core.output_parsers import StrOutputParser
 from tavily import TavilyClient
 from app.ai.source.track import AI_TECH_TREE
 
-# ---------------------------------------------------------
-# Global Configuration
-# ---------------------------------------------------------
-TREND_DB_PATH = "app/ai/source/trend.json"
-MIN_MATCH_COUNT = 1   # Keywords match count to consider relevant
+# =========================================================
+# 1. Global Configuration & Lazy Loaders
+# =========================================================
 
-# Global instances (Lazily initialized)
+TREND_DB_PATH = "app/ai/source/trend.json"
+MIN_MATCH_COUNT = 1 
+
+# Global instances
 EMBEDDING_MODEL = None
-CHAT_MODEL = None  # Helper LLM for summarization
+CHAT_MODEL = None
 TAVILY_CLIENT = None
-TRACK_EMBEDDINGS = {} # Cache for track embeddings
+TRACK_EMBEDDINGS = {} 
 
 def _get_chat_model():
     """Lazily initialize Chat Model for summarization."""
@@ -30,8 +31,7 @@ def _get_chat_model():
              api_key = os.environ.get("OPENAI_API_KEY")
              if not api_key:
                  raise ValueError("OpenAI API Key not found.")
-             # Use a lightweight model for speed
-             CHAT_MODEL = ChatOpenAI(model="gpt-5-nano", api_key=api_key, temperature=0.5)
+             CHAT_MODEL = ChatOpenAI(model="gpt-4o-mini", api_key=api_key, temperature=0.5)
         except Exception as e:
             print(f"Failed to initialize chat model: {e}")
             return None
@@ -65,9 +65,10 @@ def _get_tavily_client():
             print(f"Failed to initialize Tavily client: {e}")
     return TAVILY_CLIENT
 
-# ---------------------------------------------------------
-# Knowledge Base Management (Lightweight Text Matching)
-# ---------------------------------------------------------
+
+# =========================================================
+# 2. Shared Utilities
+# =========================================================
 
 def _extract_domain(url: str) -> str:
     """Extracts simplified domain from URL."""
@@ -78,42 +79,19 @@ def _extract_domain(url: str) -> str:
         return ""
 
 def _clean_text(text: str) -> str:
-    """
-    Cleans up raw text logic remains as basic fallback.
-    """
+    """Basic text cleaning."""
     if not text:
         return ""
     text = text.replace("\n", " ").replace("\t", " ").replace("\r", " ")
     return " ".join(text.split())
 
-def _summarize_content(title: str, content: str) -> str:
-    """
-    Uses LLM to generate a clean, concise summary of the content.
-    """
-    llm = _get_chat_model()
-    if not llm:
-        return _clean_text(content)[:300] + "..." # Fallback
-        
-    try:
-        prompt = PromptTemplate.from_template(
-            """Summarize the following tech article content in 2-3 clear, informative sentences in Korean.
-            Focus on the key technical insights or news.
-            
-            Title: {title}
-            Content: {content}
-            
-            Summary:"""
-        )
-        chain = prompt | llm | StrOutputParser()
-        # Limit content length to avoid exceeding context window for very long scrapes
-        summary = chain.invoke({"title": title, "content": content[:3000]})
-        return summary
-    except Exception as e:
-        print(f"Summarization failed: {e}")
-        return _clean_text(content)[:300] + "..."
+
+# =========================================================
+# 3. Core Logic: Web Search (get_ai_trend)
+# =========================================================
 
 def _load_knowledge_base() -> list[dict]:
-    """Loads trend data from JSON. (No embeddings, just text data)"""
+    """Loads trend data from JSON."""
     if not os.path.exists(TREND_DB_PATH):
         return []
     try:
@@ -124,7 +102,7 @@ def _load_knowledge_base() -> list[dict]:
         return []
 
 def _save_knowledge_base(data: list[dict]):
-    """Saves lightweight trend data."""
+    """Saves trend data to JSON."""
     try:
         os.makedirs(os.path.dirname(TREND_DB_PATH), exist_ok=True)
         with open(TREND_DB_PATH, "w", encoding="utf-8") as f:
@@ -133,15 +111,10 @@ def _save_knowledge_base(data: list[dict]):
         print(f"Error saving knowledge base: {e}")
 
 def _process_and_save_background(results: list[dict], search_terms: list[str], category: str = "tech_news"):
-    """
-    Background Task:
-    1. Clean content (No LLM summary to save cost).
-    2. Save data to JSON with category info.
-    """
+    """Background Task: Clean content and save to JSON archive."""
     try:
         accumulated_items = []
         for res in results:
-            # Cost Optimization: Use simple text cleaning instead of LLM
             clean_summary = _clean_text(res.get("content", ""))[:800] + "..."
             
             item = {
@@ -149,12 +122,11 @@ def _process_and_save_background(results: list[dict], search_terms: list[str], c
                 "link": res.get("url"),
                 "summary": clean_summary,
                 "tags": search_terms,
-                "category": category, # Add category metadata
+                "category": category,
                 "collected_at": datetime.utcnow().isoformat()
             }
             accumulated_items.append(item)
             
-        # Critical Section: Load -> Check -> Save
         all_knowledge = _load_knowledge_base()
         existing_links = {item["link"] for item in all_knowledge}
         added_count = 0
@@ -172,26 +144,22 @@ def _process_and_save_background(results: list[dict], search_terms: list[str], c
 
 def perform_web_search(keywords: list[str], category: str = "tech_news") -> list[dict]:
     """
-    Search First & Archive Strategy (Async):
-    1. Select domains based on Category (tech_news, engineering, research, k_blog).
-    2. Always perform a fresh Web Search.
-    3. Return results IMMEDIATELY.
-    4. Spawn a background thread to Archive to `trend.json` with Category tag.
+    Executes web search using Tavily with domain filtering and background archiving.
     """
     client = _get_tavily_client()
     if not client:
         return [{"title": "System Error", "link": "", "summary": "Search client not available."}]
 
-    # Normalize keywords for tagging
+    # Normalize keywords
     search_terms = [k.lower().strip() for k in keywords if k.strip()]
     query_text = " ".join(keywords)
-    # Refined Query: Ask for specific insights/trends to avoid generic homepage/wikipedia results
+    
     if category == "k_blog":
-         search_query = query_text # Trust the domain filter
+         search_query = query_text
     else:
          search_query = f"Latest technical trends, insights, and news about {query_text} in 2024-2025"
     
-    # Domain Strategy based on Category
+    # Domain Filtering Configuration
     DOMAIN_MAP = {
         "tech_news": [  
             "news.hada.io",                 # GeekNews (High Quality Curated)
@@ -228,14 +196,13 @@ def perform_web_search(keywords: list[str], category: str = "tech_news") -> list
         ]
     }
     
-    # Default to 'engineering' if invalid category
     target_domains = DOMAIN_MAP.get(category.lower(), DOMAIN_MAP["engineering"])
     
     try:
-        # 1. Web Search (Targeted Level)
+        # 1. Main Search
         response = client.search(
             query=search_query,
-            search_depth="advanced", # tavily search option
+            search_depth="advanced",
             include_answer=False,
             max_results=5,
             include_domains=target_domains
@@ -243,39 +210,34 @@ def perform_web_search(keywords: list[str], category: str = "tech_news") -> list
         
         results = response.get("results", [])
         
-        # Fallback Strategy: If NO results in curated domains, try Global Search (Safe Fallback)
+        # 2. Fallback Search (Global)
         if not results:
              print(f"[Fallback] No results in category '{category}'. Switching to global search.")
-             # Remove domain restriction to find ANY relevant info
              fb_response = client.search(
                 query=search_query, 
-                search_depth="basic", # Use basic for speed in fallback
+                search_depth="basic",
                 include_answer=False,
-                max_results=3,
-                # include_domains is OMITTED here to search the entire web
+                max_results=3
             )
              results.extend(fb_response.get("results", []))
 
-        # 2. Prepare Immediate Response for User (Fast)
+        # 3. Format Response
         user_response_items = []
         for res in results:
             domain = _extract_domain(res.get("url", ""))
             clean_title = _clean_text(res.get("title"))
-            
-            # Formatted Title: "Title | domain.com"
             final_title = f"{clean_title} | {domain}" if domain else clean_title
 
             item = {
                 "title": final_title,
                 "link": res.get("url"),
-                "summary": _clean_text(res.get("content", ""))[:800] + "...", # Fast text slicing
+                "summary": _clean_text(res.get("content", ""))[:800] + "...",
                 "tags": search_terms,
                 "collected_at": datetime.utcnow().isoformat()
             }
             user_response_items.append(item)
             
-        # 3. Spawn Background Thread for LLM Summarization & Saving
-        # We pass the raw 'results' to the thread so it can do full processing
+        # 4. Background Archiving
         thread = threading.Thread(target=_process_and_save_background, args=(results, search_terms, category))
         thread.start()
             
@@ -285,12 +247,12 @@ def perform_web_search(keywords: list[str], category: str = "tech_news") -> list
         return [{"title": "Search Error", "link": "", "summary": str(e)}]
 
 
-# ---------------------------------------------------------
-# Track Recommendation Logic (Uses Embeddings)
-# ---------------------------------------------------------
+# =========================================================
+# 4. Core Logic: Track Recommendation (get_ai_track)
+# =========================================================
 
 def _initialize_track_embeddings():
-    """Lazily initializes embeddings for all tracks defined in AI_TECH_TREE."""
+    """Lazily initializes embeddings for all tracks."""
     if TRACK_EMBEDDINGS:
         return
     
@@ -302,14 +264,13 @@ def _initialize_track_embeddings():
     keys = []
     for track_name, track_data in AI_TECH_TREE.items():
         description = track_data.get("description", "")
-        # Include Tier names and key topics
+        # Include Tier names to enhance context
         tiers_content = []
         if "tiers" in track_data:
-            for tier_name, tier_data in track_data["tiers"].items():
+            for tier_name in track_data["tiers"].keys():
                 tiers_content.append(tier_name)
         
         full_text = f"{track_name}. {description}. Key Areas: {', '.join(tiers_content)}"
-        
         texts.append(full_text)
         keys.append(track_name)
     
@@ -328,7 +289,7 @@ def _cosine_similarity(vec_a, vec_b):
     return np.dot(vec_a, vec_b) / (norm_a * norm_b)
 
 def perform_search_similarity(query_text: str) -> dict:
-    """Helper function to perform embedding similarity search for Tracks."""
+    """Finds best matching track using embedding similarity."""
     _initialize_track_embeddings()
     if not TRACK_EMBEDDINGS:
          return {"error": "Failed to initialize embeddings."}
@@ -337,13 +298,11 @@ def perform_search_similarity(query_text: str) -> dict:
     if not model:
         return {"error": "Embedding model not initialized."}
 
-    # Embed user query
     try:
         query_vector = model.embed_query(query_text)
     except Exception as e:
         return {"error": f"Embedding generation failed: {e}"}
     
-    # Find best match
     best_track = None
     best_score = -1.0
     
@@ -354,3 +313,100 @@ def perform_search_similarity(query_text: str) -> dict:
             best_track = track_name
             
     return {"best_track": best_track, "score": best_score}
+
+def recommend_ai_track(interests: list[str], experience_level: str) -> dict:
+    """
+    Main logic for 'get_ai_track'.
+    Handles both 'list all' requests and semantic search recommendations.
+    """
+    # 0. Check for "List All" request
+    check_keywords = {k.upper() for k in interests}
+    if any(k in check_keywords for k in ["ALL", "LIST", "TRACKS", "전체", "목록"]) or not interests:
+        all_tracks = []
+        for name, data in AI_TECH_TREE.items():
+            all_tracks.append({
+                "track_name": name,
+                "description": data.get("description", "")
+            })
+        return {"available_tracks": all_tracks, "message": "Here are all the available AI Tech Tracks."}
+
+    # 1. Semantic Search
+    query_text = " ".join(interests)
+    result = perform_search_similarity(query_text)
+    
+    if "error" in result:
+        return result
+        
+    best_track = result.get("best_track")
+    best_score = result.get("score")
+
+    # 2. Construct detailed result
+    if best_track:
+        track_info = AI_TECH_TREE[best_track]
+        
+        # Determine starting point based on experience
+        tiers = list(track_info.get("tiers", {}).keys())
+        starting_point = tiers[0] if tiers else "Basis"
+        
+        if experience_level.lower() == "intermediate" and len(tiers) > 1:
+            starting_point = tiers[1]
+        elif experience_level.lower() == "expert" and len(tiers) > 2:
+            starting_point = tiers[2]
+
+        return {
+            "recommended_track": best_track,
+            "description": track_info.get("description", ""),
+            "matching_score": round(float(best_score), 2),
+            "reason": f"Your interests in '{', '.join(interests)}' match this track's focus on {track_info.get('description', '')}.",
+            "starting_point": starting_point
+        }
+    else:
+        return {"error": "No suitable track found."}
+
+
+# =========================================================
+# 5. Core Logic: Roadmap Details (get_ai_path)
+# =========================================================
+
+def get_roadmap_details(track_name: str) -> dict:
+    """
+    Main logic for 'get_ai_path'.
+    Retrieves and structures the full roadmap for a specific track.
+    """
+    track_data = AI_TECH_TREE.get(track_name)
+    if not track_data:
+        return {"error": f"Track '{track_name}' not found. Please provide exact track name."}
+    
+    # Reconstruct hierarchy for better LLM Understanding
+    roadmap_structure = {}
+    tiers = track_data.get("tiers", {})
+    
+    for tier_name, tier_content in tiers.items():
+        roadmap_structure[tier_name] = []
+        
+        for key, val in tier_content.items():
+            # Check if it's a direct Subject (Level 1)
+            if isinstance(val, dict) and "Lv1" in val:
+                subject_info = {
+                    "subject": key,
+                    "description": val.get("desc", ""),
+                    "importance": "High"
+                }
+                roadmap_structure[tier_name].append(subject_info)
+            else: 
+                # It's a Group/Option (Nested)
+                for sub_key, sub_val in val.items():
+                     if isinstance(sub_val, dict) and "Lv1" in sub_val:
+                         subject_info = {
+                            "subject": sub_key,
+                            "category": key, # e.g. "Language"
+                            "description": sub_val.get("desc", ""),
+                            "importance": "Medium"
+                        }
+                         roadmap_structure[tier_name].append(subject_info)
+    
+    return {
+        "track": track_name,
+        "description": track_data.get("description"),
+        "roadmap": roadmap_structure
+    }

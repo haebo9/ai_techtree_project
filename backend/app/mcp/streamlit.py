@@ -37,7 +37,7 @@ if "messages" not in st.session_state:
     ]
 
 # Initialize LLM with Tools
-llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
+llm = ChatOpenAI(model="gpt-5-mini", temperature=0.2)
 llm_with_tools = llm.bind_tools(tools)
 
 # -------------------------------------------------------------------------
