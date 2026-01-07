@@ -775,5 +775,172 @@
     ],
     "category": "engineering",
     "collected_at": "2026-01-07T06:22:45.328884"
+  },
+  {
+    "title": "Reflections on AI at the End of 2025",
+    "link": "https://news.ycombinator.com/item?id=46334819",
+    "summary": "I get why non-technical people get caught up in AI hype discussions, but for technical people that understand LLMs it seems counter productive....",
+    "tags": [
+      "ai engineer",
+      "data scientist",
+      "machine learning researcher",
+      "ai product manager"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T09:09:11.206203"
+  },
+  {
+    "title": "The State of AI Coding Report 2025",
+    "link": "https://news.ycombinator.com/item?id=46301886",
+    "summary": "| | | | --- | | | | --- | | Hacker Newsnew | past | comments | <ask> | <show> | <jobs> | <submit> | login | | [...] quality, without which velocity is useless. | | | [...] data, which is where some of the charts are from. | | | | | | bicepjai 20 days ago | prev | next (javascript:void(0)) I take it as greptile folks know LOC metric is in no way a metric that can be correlated to productivity in LLM era. But putting aside that just knowing how much code is going thru their system seems interesting enough to read the report. Thanks for the dot matrix report. | | | | | | johnnyasantos 14 days ago | prev | next (javascript:void(0)) tbh this seems to built...",
+    "tags": [
+      "ai engineer",
+      "data scientist",
+      "machine learning researcher",
+      "ai product manager"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T09:09:11.206243"
+  },
+  {
+    "title": "Engineers who dismiss AI",
+    "link": "https://news.ycombinator.com/item?id=46325360",
+    "summary": "The engineers refusing to try aren't protecting themselves; quite the opposite, they're falling behind. The gap is widening between...",
+    "tags": [
+      "ai engineer",
+      "data scientist",
+      "machine learning researcher",
+      "ai product manager"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T09:09:11.206258"
+  },
+  {
+    "title": "With all the AI hype, how are software engineers feeling?",
+    "link": "https://news.ycombinator.com/item?id=44860731",
+    "summary": "I'm just wondering what the morale is with AI doing 30-50% of your work? Is your company hiring more/ have they stopped hiring software engineers?...",
+    "tags": [
+      "ai engineer",
+      "data scientist",
+      "machine learning researcher",
+      "ai product manager"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T09:09:11.206275"
+  },
+  {
+    "title": "the-state-of-enterprise-ai_2025-report.pdf",
+    "link": "https://cdn.openai.com/pdf/7ef17d82-96bf-4dd1-9df2-228f7f377a29/the-state-of-enterprise-ai_2025-report.pdf",
+    "summary": "Projects, and APIs, report larger productivity gains and broader task coverage than those whose use remains limited. AI is also beginning to change who performs certain types of technical work. Coding and analytical tasks are increasingly showing up outside of traditional specialist roles, expanding what some non-technical teams are able to do. At the same time, industry patterns remain distinct, reflecting different operational needs across technology, professional services, finance, [...] they are also using multiple models, engaging with more tools, and using AI across a wider range of tasks. [...] indicating that AI-driven workflows are increasingly implemented as persistent tools embedded in daily operations....",
+    "tags": [
+      "ai engineer",
+      "data scientist",
+      "machine learning researcher",
+      "ai product manager"
+    ],
+    "category": "engineering",
+    "collected_at": "2026-01-07T09:10:53.679169"
+  },
+  {
+    "title": "chiphuyen/aie-book: [WIP] Resources for AI engineers. ...",
+    "link": "https://github.com/chiphuyen/aie-book",
+    "summary": "This book, after all, is an accumulation of invaluable lessons I learned throughout my career. I owe these lessons to my extremely competent and patient coworkers and former coworkers. Every person I've worked with has taught me something new about bringing ML into the world. Chip Huyen, AI Engineering. O'Reilly Media, 2025. `@book{aiebook2025, address = {USA}, author = {Chip Huyen}, isbn = {978-1801819312}, publisher = {O'Reilly Media}, title = {{AI Engineering}}, year = {2025} }` ## About [...] ## Navigation Menu # Search code, repositories, users, issues, pull requests... # Provide feedback We read every piece of feedback, and take your input very seriously. # Saved searches ## Use saved searches to filter your results more quickly To see all available qualifiers, see our documentation....",
+    "tags": [
+      "ai engineer",
+      "data scientist",
+      "machine learning researcher",
+      "ai product manager"
+    ],
+    "category": "engineering",
+    "collected_at": "2026-01-07T09:10:53.679228"
+  },
+  {
+    "title": "2024 New Grad Full-time Positions",
+    "link": "https://github.com/ReaVNaiL/New-Grad-2024",
+    "summary": "| Loop | - San Francisco, CA - Chicago, IL | 🔒 [Software Engineer - New Grad] 10/15/2023 | | Figma | - San Francisco, CA - New York, NY | 🔒 Data Science, Early Career (2024) 🔒 Software Engineer - Early Career (2024) 🔒 Associate Product Manager, Early Career (2024) 10/11/2023 | | Zoom | - Bay Area, CA | 🔒 AI Machine Learning Engineer - New Grad 10/10/2023 | | NetApp | - Remote, US | 🔒 Emerging Talent - Software Engineer 10/10/2023 | [...] | Lennar Technology | - Miami, FL - Dallas, TX | ✅ Early Career - Lennar Technology Recent College Graduate (RCG) - Miami ✅ Early Career - Lennar Technology Recent College Graduate (RCG) - Dallas 09/26/2023 | | Nextdoor | - San Francisco, CA | 🔒 Machine Learning Engineer - New Grad 2024 🔒 Software Engineer - New Grad 2024 🔒 Data Scientist - New Grad 2024 0...",
+    "tags": [
+      "ai engineer",
+      "data scientist",
+      "machine learning researcher",
+      "ai product manager"
+    ],
+    "category": "engineering",
+    "collected_at": "2026-01-07T09:10:53.679290"
+  },
+  {
+    "title": "GitHub - HKUDS/AI-Researcher: [NeurIPS2025 ...",
+    "link": "https://github.com/HKUDS/AI-Researcher",
+    "summary": "| Name | | Name | Last commit message | Last commit date | --- --- | Latest commit History35 Commits | | | | assets | | assets | | | | benchmark | | benchmark | | | | benchmark\\_collection | | benchmark\\_collection | | | | docker | | docker | | | | examples | | examples | | | | paper\\_agent | | paper\\_agent | | | | research\\_agent | | research\\_agent | | | | .env.template | | .env.template | | | | .gitignore | | .gitignore | | | [...] Welcome to AI-Researcher🤗 AI-Researcher introduces a revolutionary breakthrough in Automated Scientific Discovery🔬, presenting a new system that fundamentally Reshapes the Traditional Research Paradigm. This state-of-the-art platform empowers researchers with: ✨ The AI-Researcher system accepts user input queries at two distinct levels ✨ [...] ⚙️Implementatio...",
+    "tags": [
+      "ai engineer",
+      "data scientist",
+      "machine learning researcher",
+      "ai product manager"
+    ],
+    "category": "engineering",
+    "collected_at": "2026-01-07T09:10:53.679345"
+  },
+  {
+    "title": "How AI Is Transforming Work at Anthropic",
+    "link": "https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic",
+    "summary": "Turning the lens inward, in August 2025 we surveyed 132 Anthropic engineers and researchers, conducted 53 in-depth qualitative interviews, and studied internal Claude Code usage data to find out how AI use is changing things at Anthropic. We find that AI use is radically changing the nature of work for software developers, generating both hope and concern. [...] Our research reveals a workplace facing significant transformations: Engineers are getting a lot more done, becoming more “full-stack” (able to succeed at tasks beyond their normal expertise), accelerating their learning and iteration speed, and tackling previously-neglected tasks. This expansion in breadth also has people wondering about the trade-offs—some worry that this could mean losing deeper technical competence, or becoming...",
+    "tags": [
+      "ai engineer",
+      "data scientist",
+      "machine learning researcher",
+      "ai product manager"
+    ],
+    "category": "engineering",
+    "collected_at": "2026-01-07T09:10:53.679397"
+  },
+  {
+    "title": "LangChain - Wikipedia",
+    "link": "https://en.wikipedia.org/wiki/LangChain",
+    "summary": "In February 2024 LangChain released LangSmith, a closed-source observability and evaluation platform for LLM applications, and announced a US $25 million Series A led by Sequoia Capital. On 14 May 2025 the company launched LangGraph Platform into general availability, providing managed infrastructure for deploying long-running, stateful AI agents. ## Capabilities [...] | LangChain | | --- | | 🦜️🔗, the parrot and chain emojis | | | Developer | Harrison Chase | | Initial release | October 2022 | | | | | Stable release | 0.1.16 / 11 April 2024; 20 months ago (11 April 2024) | | | | | Repository \"Repository (version control)\") | github.com/langchain-ai/langchain | | Written in | Python \"Python (programming language)\") and JavaScript | | Type | Software framework for large language model applic...",
+    "tags": [
+      "langchain"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T09:15:56.915369"
+  },
+  {
+    "title": "LangChain과 LangGraph 1.0 릴리스 요약 | GeekNews - news.hada.io",
+    "link": "https://news.hada.io/topic?id=23886",
+    "summary": "LangChain 1.0과 LangGraph 1.0은 커뮤니티 피드백을 반영한 안정 버전으로 출시되었습니다. LangChain은 에이전트 루프를 세련되게 다듬고, 미들웨어로 커스터마이징을 강화하며, 모델 통합을 현대 콘텐츠 유형에 맞게 업그레이드했습니다. LangGraph는 장기 실행 에이전트의 지속성, 관찰 가능성, 인간 개입 제어를 위한 내구성 있는 런타임을 제공합니다. Python과 JavaScript를 모두 지원하며, 후방 호환성을 보장합니다. ### LangChain 1.0: 새로운 기능 및 개선 사항 LangChain 1.0은 무거운 추상화와 패키지 범위 문제를 해결하며, 에이전트 개발을 간소화합니다. 주요 초점은 `create_agent` 추상화, 표준 콘텐츠 블록, 패키지 단순화입니다. `create_agent` #### `create_agent` 추상화 `create_agent` [...] #### LangChain과의 통합 LangChain은 고수준 추상화로 LangGraph 런타임을 기반으로 하며, 에이전트를 내구성 있게 만듭니다. 그래프 컴포저블로 복잡 시스템으로 진화. 벤더 락인 피함. 엔지니어링 세부 사항 비디오: . ### 사용 사례 ### 문서 및 리소스 통합 문서 사이트()에 직관적 탐색, 가이드, 튜토리얼, API 참조 포함. 커뮤니티 피드백: LangChain 포럼(). 뉴스레터 구독 가능. 1.0 부터는 api가 좀 안정화 되려나요... 금방 또 2.0 나와서, migration guide 뒤적일 일이 생기지 않았으면 좋겠네요. Langchain은 기능 자체에 불만은 없지만...",
+    "tags": [
+      "langchain"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T09:15:56.915416"
+  },
+  {
+    "title": "LangChain : A Comprehensive Beginner’s Guide - Analytics Vidhya",
+    "link": "https://www.analyticsvidhya.com/blog/2025/12/langchain-beginners-guide/",
+    "summary": "LangChain provides a convenient and simplified framework to build real world apps with large language models. It utilizes more trustworthy than raw LLM, offering abstractions on prompts, model, chain, tools, agent, memory and retrieval. Novices can use simple chains, but advanced users can build dynamic agents and production systems. The gap between experimentation and implementation is bridged by LangChain with an in-built observability, deployment, and scaling. As the utilization of LLM [...] Master Generative AI with 10+ Real-world Projects in 2025! ###### ###### ###### ###### Analytics Vidhya #### Reading list ##### Introduction to Generative AI ##### Introduction to Generative AI applications ##### No-code Generative AI app development ##### Code-focused Generative AI App Development ...",
+    "tags": [
+      "langchain"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T09:15:56.915441"
+  },
+  {
+    "title": "langchain -ai/ langchain : The platform for reliable agents. - ...",
+    "link": "https://github.com/langchain-ai/langchain",
+    "summary": "Discussions: Visit the LangChain Forum to connect with the community and share all of your technical questions, ideas, and feedback. Note Looking for the JS/TS library? Check out LangChain.js. ## Why use LangChain? LangChain helps developers build applications powered by LLMs through a standard interface for models, embeddings, vector stores, and more. Use LangChain for: ## LangChain ecosystem [...] ## Latest commit ## History ## Repository files navigation LangChain Logo ### The platform for reliable agents. PyPI - License PyPI - Downloads Version Open in Dev Containers Open in Github Codespace CodSpeed Badge Twitter / X [...] LangChain is a framework for building agents and LLM-powered applications. It helps you chain together interoperable components and third-party integrations to simp...",
+    "tags": [
+      "langchain"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T09:15:56.915465"
+  },
+  {
+    "title": "Ai의 새로운 핵심 역량은 프롬프트가 아닌 \"컨텍스트 엔지니어링\"",
+    "link": "https://news.hada.io/topic?id=21752",
+    "summary": "Drew Breunig의 포스트는 꼭 읽어볼 가치가 있다고 생각함 이건 자신의 에이전트 제작뿐 아니라, 지금 에이전트 코딩을 사용할 때도 정말 중요 이러한 한계와 행동 방식은 당분간 계속될 전망 누가 최초로 context 엔지니어를 자동화하는 Logic Core를 개발할지 기대 이것 역시도 \\\\“한 달짜리 스킬”\\\\이라고 생각함 결국엔 수많은 다른 유행처럼 곧 사라질 것 이러한 이슈들은 LLM 연구계에서는 현행 LLM의 산물로 간주 이미 수백만 개의 툴을 동시에 쓰고, 안정적인 롱 컨텍스트를 사용하는 방법에 대한 연구가 진행 중 앞으로는 다른 공급자와 연결이 필요한 특수 케이스를 빼면, 대부분 하나의 에이전트만으로도 충분한 상황 예상 현행 LLM 기반으로 미래 에이전트 시스템을 설계하는 사람들은 LangChain처럼 될 가능성 GPT-3 용으로 만든 LangChain이 GPT-3.5에서 곧바로 구식이 되어버린 현상과 같음...",
+    "tags": [
+      "langchain"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-07T09:15:56.915483"
   }
 ]

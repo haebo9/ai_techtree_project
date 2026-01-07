@@ -3,6 +3,7 @@ import os
 import threading
 import numpy as np
 from datetime import datetime, timedelta
+from urllib.parse import urlparse
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
@@ -67,6 +68,14 @@ def _get_tavily_client():
 # ---------------------------------------------------------
 # Knowledge Base Management (Lightweight Text Matching)
 # ---------------------------------------------------------
+
+def _extract_domain(url: str) -> str:
+    """Extracts simplified domain from URL."""
+    try:
+        parsed = urlparse(url)
+        return parsed.netloc.replace("www.", "")
+    except:
+        return ""
 
 def _clean_text(text: str) -> str:
     """
@@ -186,7 +195,6 @@ def perform_web_search(keywords: list[str], category: str = "tech_news") -> list
     DOMAIN_MAP = {
         "tech_news": [  
             "news.hada.io",                 # GeekNews (High Quality Curated)
-            "news.ycombinator.com",         # Hacker News (글로벌)
         ],
         "engineering": [
             "github.com",                   # Open Source
@@ -251,8 +259,14 @@ def perform_web_search(keywords: list[str], category: str = "tech_news") -> list
         # 2. Prepare Immediate Response for User (Fast)
         user_response_items = []
         for res in results:
+            domain = _extract_domain(res.get("url", ""))
+            clean_title = _clean_text(res.get("title"))
+            
+            # Formatted Title: "Title | domain.com"
+            final_title = f"{clean_title} | {domain}" if domain else clean_title
+
             item = {
-                "title": _clean_text(res.get("title")),
+                "title": final_title,
                 "link": res.get("url"),
                 "summary": _clean_text(res.get("content", ""))[:800] + "...", # Fast text slicing
                 "tags": search_terms,
