@@ -8,13 +8,13 @@ from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from tavily import TavilyClient
-from app.ai.source.track import AI_TECH_TREE
+from app.source.track import AI_TECH_TREE
 
 # =========================================================
 # 1. Global Configuration & Lazy Loaders
 # =========================================================
 
-TREND_DB_PATH = "app/ai/source/trend.json"
+TREND_DB_PATH = "app/source/trend.json"
 MIN_MATCH_COUNT = 1 
 
 # Global instances
@@ -133,18 +133,22 @@ def perform_web_search(keywords: list[str], category: str = "tech_news") -> list
     """
     client = _get_tavily_client()
     if not client:
-        return [{"title": "System Error", "link": "", "summary": "Search client not available."}]
+        return {
+            "answer": "검색 클라이언트를 사용할 수 없습니다.",
+            "items": [{"title": "System Error", "link": "", "summary": "Search client not available."}]
+        }
 
-    # Normalize keywords
+    # 1. 키워드 정규화 및 쿼리 생성
     search_terms = [k.lower().strip() for k in keywords if k.strip()]
     query_text = " ".join(keywords)
     
+    # 현재 연도(2026년)를 반영한 최신 트렌드 쿼리 최적화
     if category == "k_blog":
          search_query = query_text
     else:
-         search_query = f"Latest technical trends, insights, and news about {query_text} in 2024-2025"
+         search_query = f"Latest technical trends, insights, and news about {query_text} in 2025-2026"
     
-    # Domain Filtering Configuration
+    # 2. Domain Filtering Configuration
     DOMAIN_MAP = {
         "tech_news": [  
             "news.hada.io",                 # GeekNews (High Quality Curated)
@@ -181,19 +185,23 @@ def perform_web_search(keywords: list[str], category: str = "tech_news") -> list
         ]
     }
     
-    target_domains = DOMAIN_MAP.get(category.lower(), DOMAIN_MAP["engineering"])
-    
+    target_domains = DOMAIN_MAP.get(category.lower(), DOMAIN_MAP["k_blog"])
+    tavily_answer = "advanced" # Advanced(LLM) or Basic(Simple)
+    tavily_topic = "general" # "general", "news" and "finance
+
     try:
         # 1. Main Search
         response = client.search(
             query=search_query,
             search_depth="advanced",
-            include_answer=False,
+            topic=tavily_topic,
+            include_answer=tavily_answer,
             max_results=5,
             include_domains=target_domains
         )
         
         results = response.get("results", [])
+        ai_summary = response.get("answer", "관련 요약 내용을 생성할 수 없습니다.")
         
         # 2. Fallback Search (Global)
         if not results:
@@ -201,10 +209,13 @@ def perform_web_search(keywords: list[str], category: str = "tech_news") -> list
              fb_response = client.search(
                 query=search_query, 
                 search_depth="basic",
-                include_answer=False,
+                topic=tavily_topic,
+                include_answer=tavily_answer,
                 max_results=3
             )
              results.extend(fb_response.get("results", []))
+             if not ai_summary or ai_summary == "관련 요약 내용을 생성할 수 없습니다.":
+                 ai_summary = fb_response.get("answer")
 
         # 3. Format Response
         user_response_items = []
@@ -223,13 +234,25 @@ def perform_web_search(keywords: list[str], category: str = "tech_news") -> list
             user_response_items.append(item)
             
         # 4. Background Archiving
-        thread = threading.Thread(target=_process_and_save_background, args=(results, search_terms, category))
-        thread.start()
+        if results:
+            thread = threading.Thread(
+                target=_process_and_save_background, 
+                args=(results, search_terms, category)
+            )
+            thread.start()
             
-        return user_response_items[:5]
+        # 최종 반환: 요약 답변과 검색 결과 리스트를 딕셔너리로 묶어서 반환
+        return {
+            "answer": ai_summary,
+            "items": user_response_items[:5],
+            "category": category
+        }
 
     except Exception as e:
-        return [{"title": "Search Error", "link": "", "summary": str(e)}]
+        return {
+            "answer": f"검색 중 오류가 발생했습니다: {str(e)}",
+            "items": [{"title": "Search Error", "link": "", "summary": str(e)}]
+        }
 
 
 # =========================================================
