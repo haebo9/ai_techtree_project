@@ -990,5 +990,41 @@
     ],
     "category": "tech_news",
     "collected_at": "2026-01-07T10:00:19.480096"
+  },
+  {
+    "title": "진짜 AI 에이전트형 코딩 툴 ＇Claude-Code＇ - DevOcean",
+    "link": "https://devocean.sk.com/blog/techBoardDetail.do?ID=167718&boardType=techBlog",
+    "summary": "| 8 | Atlassian MCP 서버 | Jira, Confluence 등 작업 관리 도구와 연동. | | 9 | Knowledge Graph Memory MCP | 관계형 데이터 및 지식 그래프 관리. | | 10 | Brave Search MCP 서버 | 웹 검색 통합. | [...] | 순위 | MCP 서버 | 설명 | --- | 1 | GitHub MCP 서버 | GitHub 저장소와 연동해 이슈, PR, 커밋 관리 자동화, 개발 생산성 극대화. | | 2 | Apidog MCP 서버 | API 문서 조회, 테스트, 클라이언트 코드 자동 생성 기능 제공. | | 3 | File System MCP 서버 | 로컬 파일 읽기/쓰기/편집 지원, 프로젝트 관리 자동화 강화. | | 4 | Sequential Thinking MCP 서버 | 논리적 문제 해결 및 단계적 리펙토링 계획 지원. | | 5 | Cloudflare MCP 서버 | CDN, Workers, 객체 저장 등 클라우드 인프라 종합 관리. | | 6 | Puppeteer MCP 서버 | 웹 자동화 및 UI 테스트 기능 제공. | | 7 | Memory Bank MCP 서버 | 컨텍스트 저장 및 기억 강화 기능. | [...] ### Databases & Data Management | 도구 | 설명 | 명령어 | --- | Airtable | Read/write records, manage bases and tables | `claude mcp add airtable --env AIRTABLE_API_KEY=YOUR_KEY -- npx -y...",
+    "tags": [
+      "mcp",
+      "자료 검색",
+      "기술"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-08T08:06:32.728728"
+  },
+  {
+    "title": "AI 데이터 분석가 '물어보새'- 3부. Agent로 더 넓고 깊은 지식 공유하기",
+    "link": "https://techblog.woowahan.com/23273/",
+    "summary": "정보의 범위와 실시간성은 확보했지만 여전히 어떤 질문에 어떤 도구를 써야 할까?라는 과제가 남았습니다. 변화가 적고 정적인 정책 문서는 벡터 스토어 검색이 적합하고, Jira 티켓이나 신규 프로젝트 상황은 시시각각 바뀌는 데이터이므로 MCP 서버 접근이 필요했습니다. 이 판단을 매번 사람이 설계할 수는 없었기에 우리는 ReAct구조를 도입했습니다. 예를 들어 \"복지 정책 담당자가 누구야\"라는 질문이 들어오면, 다음과 같은 과정을 거칩니다. 1. 추론: 담당자 정보가 필요하다고 판단합니다. 2. 행동: 벡터 스토어에서 조직도를 검색하고, MCP 서버로 최신 담당자 정보를 확인합니다. 3. 관찰: 담당자 이름, 연락처, 소속팀 정보를 종합해서 답변합니다. 4. 반복: 추론–행동–관찰 단계를 결과가 충분해질 때까지 반복 과정을 순환합니다. [...] ### (3) 실시간 정보, MCP 서버로 연결하다 지식을 선별해 저장하는 전략은 효율적이었지만 한계가 있었습니다. 저장 대상이 아니거나 저장 주기 외의 최신 데이터는 반영되지 않아 오늘 새로 등록된 Jira 티켓이나 방금 올라온 Wiki 문서와 같은 실시간 정보는 찾을 수 없었습니다. 이를 해결하기 위해 MCP(Model Context Protocol) 서버를 활용했습니다. MCP는 LLM과 외부 시스템을 표준화된 방식으로 연결하는 프로토콜로, 서로 다른 도구와 서비스를 일관된 인터페이스로 통합할 수 있도록 설계되었습니다. Atlassian MCP 서버로 Confluence Wiki·Jira의 최신 정보와 저장하지 않았던 데이터까지 실시간으로 가져올 수 있게 되었습니...",
+    "tags": [
+      "mcp",
+      "자료 검색",
+      "기술"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-08T08:06:32.728847"
+  },
+  {
+    "title": "AI와 함께 일하는 시대, 에이전트와 자동화 기술 발표 요약 및 영상 공유",
+    "link": "https://devocean.sk.com/blog/techBoardDetail.do?id=167810",
+    "summary": "### 3. MCP 연동과 툴 관리 전략 #### 🔌 MCP 역할 및 연동 방식 외부에서 공급되는 다양한 툴을 MCP에 연결하여 Strands Agents에 통합 가능 코드 내 MCP 선언 → 사용할 툴 리스트 나열 → 간단히 연동 #### ⚠️ 툴 사용 시 주의점 MCP 툴이 많아질수록 중복/충돌로 정확도 저하 가능 각 툴의 \\\\설명(Description)\\\\을 명확히 작성하여 LLM이 적절히 선택할 수 있도록 관리 필요 시 \\\\MCP를 다시 래핑(wrapping)\\\\하여 툴로 등록 → 사용 제어 가능 #### 📌 MCP 활용 사례 AWS 공식 문서 기반 툴을 MCP에 연결하여 신뢰성 높은 응답 생성 웹 기반 데이터 검색 및 반복 리서치 기능으로 상세 보고서 자동 생성 ### 4. Strands Agents 특징 및 비교 #### 🧠 내부 LLM 구조 [...] Confluence 온프레미스 버전은 Knowledge Base 연동 불가 → 파일 변환 후 S3 업로드 방식으로 우회 지식 문서 현행화되지 않으면 부정확한 응답 가능 멀티 에이전트는 추가 추론이 포함되어 응답 지연 우려 → 성능 민감 워크로드엔 단일 에이전트 추천 RAG 검색 품질은 청킹 전략에 영향을 받음 → 텍스트 기반 문서에는 기본 토큰 청킹으로도 성능 확보 가능 ### 4. Q Developer CLI 활용 #### 🔧 주요 기능 로컬 설치 후 로컬 파일 읽기/쓰기/분석 가능 AWS 인증 계정의 리소스를 텍스트 기반으로 쿼리 MCP 연동으로 외부 데이터 통합 코드 생성 기능으로: + Terraform + CloudFormation + Lam...",
+    "tags": [
+      "mcp",
+      "자료 검색",
+      "기술"
+    ],
+    "category": "k_blog",
+    "collected_at": "2026-01-08T08:06:32.728958"
   }
 ]

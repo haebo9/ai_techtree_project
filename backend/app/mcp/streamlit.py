@@ -11,6 +11,13 @@ load_dotenv()
 load_dotenv("backend/.env")
 
 # -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+import sys
+
+# Add the project root (backend) to sys.path to resolve 'app' module
+# This allows 'from app.mcp.tools import ...' to work even when running this script directly
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage, SystemMessage
 from app.mcp.tools import MCP_TOOLS
 

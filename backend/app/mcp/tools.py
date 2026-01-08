@@ -2,14 +2,14 @@ import numpy as np
 from typing import List, Dict, Any, Optional
 from langchain_core.tools import tool
 from app.mcp.tools_functions import perform_web_search, recommend_ai_track, get_roadmap_details, get_subject_details
-from app.ai.source.track import AI_TECH_TREE
+from app.source.track import AI_TECH_TREE
 
 # ---------------------------------------------------------
 # Tool Definitions
 # ---------------------------------------------------------
 
 @tool
-def get_ai_track(interests: List[str], experience_level: str) -> Dict[str, Any]:
+def get_techtree_track(interests: List[str], experience_level: str) -> Dict[str, Any]:
     """
     Analyzes user interests to recommend a track, OR lists all available tracks.
     
@@ -27,7 +27,7 @@ def get_ai_track(interests: List[str], experience_level: str) -> Dict[str, Any]:
     return recommend_ai_track(interests, experience_level)
 
 @tool
-def get_ai_path(track_name: str) -> Dict[str, Any]:
+def get_techtree_path(track_name: str) -> Dict[str, Any]:
     """
     Retrieves the full hierarchical curriculum roadmap for a specific track.
     
@@ -46,7 +46,7 @@ def get_ai_path(track_name: str) -> Dict[str, Any]:
     return get_roadmap_details(track_name)
 
 @tool
-def get_ai_trend(keywords: List[str], category: str = "k_blog") -> List[Dict[str, str]]:
+def get_techtree_trend(keywords: List[str], category: str = "k_blog") -> List[Dict[str, str]]:
     """
     Performs a web search to provide the latest AI trend, news, and GitHub repositories based on keywords.
     Uses Tavily Search API with category-based domain filtering.
@@ -77,4 +77,4 @@ def get_techtree_detail(subject_name: str) -> Dict[str, Any]:
     """
     return get_subject_details(subject_name)
 
-MCP_TOOLS = [get_ai_track, get_ai_path, get_ai_trend, get_techtree_detail]
+MCP_TOOLS = [get_techtree_track, get_techtree_path, get_techtree_trend, get_techtree_detail]
