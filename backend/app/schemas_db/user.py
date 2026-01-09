@@ -19,11 +19,10 @@ class UserStats(BaseModel):
     total_stars: int = 0
     completed_tracks: List[str] = []
 
-class SkillProgress(BaseModel):
+class SubjectProgress(BaseModel):
     """
-    사용자의 기술별 진행 상황
+    사용자의 과목(Subject)별 진행 상황
     """
-    order: int
     level: int = 0  # 0: Locked, 1: Basic, 2: Adv, 3: Master
     stars: int = 0
     last_tested_at: Optional[datetime] = None
@@ -39,9 +38,9 @@ class User(MongoDBModel):
     profile: UserProfile
     stats: UserStats = Field(default_factory=UserStats)
     
-    # 핵심 구조: 빠른 조회를 위해 Skill Tree를 내장(Embedding)
-    # Key: skill_slug (e.g., 'python')
-    skill_tree: Dict[str, SkillProgress] = Field(default_factory=dict)
+    # [User State] 학습 진행도
+    # Key: Subject Title (e.g., 'FastAPI Essentials') -> 빠른 조회를 위해 Map 구조 사용
+    skill_tree: Dict[str, SubjectProgress] = Field(default_factory=dict)
     
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
@@ -58,7 +57,7 @@ class User(MongoDBModel):
                     "nickname": "AI_Master"
                 },
                 "skill_tree": {
-                    "python": {"order": 1, "level": 2, "stars": 2}
+                    "FastAPI Essentials": {"level": 2, "stars": 2}
                 }
             }
         }
