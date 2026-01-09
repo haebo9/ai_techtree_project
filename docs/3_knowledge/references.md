@@ -32,3 +32,4 @@
 * [SK 데보션 (벡터 DB 인사이트)](https://devocean.sk.com/blog/techBoardDetail.do?ID=167359&boardType=techBlog)
 * [LINE (실시간 추천 벡터 DB)](https://techblog.lycorp.co.jp/ko/large-scale-vector-db-for-real-time-recommendation-in-line-voom)
 * [티스토리 (벡터 DB 비교 정리)](https://digitalbourgeois.tistory.com/1067)
+* [mongoDB 내용 정리 블로그](https://pycoding.tistory.com/entry/%EB%AA%BD%EA%B3%A0db-%EC%A0%95%EB%A7%90-%EC%9E%98-%EC%A0%95%EB%A6%AC%EB%90%9C-%EB%B8%94%EB%A1%9C%EA%B7%B8)
