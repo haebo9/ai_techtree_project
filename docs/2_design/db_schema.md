@@ -2,67 +2,61 @@
 
 - **[1. Overview](#1-overview)**
 - **[2. Collections Specification](#2-collections-specification)**
-- **[3. Data Access Patterns](#3-data-access-patterns)**
+  - [2.1 users (사용자/학습현황)](#21-users-사용자-및-학습-현황)
+  - [2.2 interviews (면접/평가)](#22-interviews-면접-로그-및-평가)
+  - [2.3 tracks (커리큘럼 원본)](#23-tracks-커리큘럼-원본-데이터)
+  - [2.4 trends (기술 트렌드)](#24-trends-기술-트렌드-데이터)
+  - [2.5 questions (면접 질문 은행)](#25-questions-면접-질문-은행)
+  - [2.6 concepts (상세 개념 사전)](#26-concepts-상세-개념-사전)
 
 ---
 
 ## 1. Overview
->본 문서는 **AI TechTree** 프로젝트의 데이터 모델을 정의합니다.
->단순한 선형적 학습이 아닌, **사용자의 선택에 따라 분기(Branching)되고 확장되는 그래프 형태의 로드맵**을 지원하기 위해 설계되었습니다.
+> 본 문서는 **AI TechTree** 프로젝트의 **전체 데이터 모델**을 정의합니다.
+> 기존의 정적 파일(`track.py`, `trend.json`)로 관리되던 **Source Data**를 DB로 이관하여, 실시간 업데이트와 관리가 가능한 구조로 전환하는 것을 목표로 합니다.
 
-> **MongoDB Atlas (NoSQL)의 유연한 스키마를 활용하여 다음과 같은 핵심 가치를 제공합니다**
-> 1.  **Flexible Paths**: 필수 기술뿐만 아니라 대체 기술이나 선택적 분기(OR)를 표현할 수 있는 구조.
-> 2.  **Read Optimized**: 대시보드 진입 시 복잡한 조인 없이 **단 1회의 쿼리**로 전체 트리의 진행 상황을 로드.
-> 3.  **Atomic Progression**: 면접 합격 시 사용자의 기술 레벨과 별(Star) 획득을 원자적(Atomic)으로 업데이트.
->---
-> ### 📌 Key Design Decisions
-> 1.  **Skill Tree Embedding**: 사용자(`users`) 컬렉션 내에 학습 현황(`skill_tree`)을 내장하여, 대시보드 렌더링 속도를 극대화합니다.
-> 2.  **Graph-based Track Definition**: 트랙(`tracks`) 메타데이터에 `group_id`와 `dependency_logic(OR)`을 도입하여, 비선형적인 학습 경로를 지원합니다.
-> 3.  **Snapshot-based Interview**: 면접 기록은 완료 시점에 하나의 문서(`interviews`)로 스냅샷 저장하여, 데이터 무결성과 조회 성능을 보장합니다.
+> **핵심 설계 원칙 (MongoDB)**
+> 1.  **Source Data Centralization**: 커리큘럼(`tracks`)과 트렌드(`trends`) 정보를 DB에서 통합 관리.
+> 2.  **Rich Document Structure**: 복잡한 계층 구조(Track -> Step -> Subject -> Level -> Concept)를 하나의 문서에 내장(Embedding)하여 조회 효율성 극대화.
+> 3.  **Real-time Updates**: 크롤링된 트렌드 데이터나 수정된 커리큘럼이 즉시 서비스에 반영되도록 설계.
 
 ---
 
 ## 2. Collections Specification
-- [**2.1 users** (사용자/학습현황)](#21-users-사용자-및-학습-현황)
-- [**2.2 interviews** (면접/평가)](#22-interviews-면접-로그-및-평가)
-- [**2.3 tracks** (트랙/로드맵)](#23-tracks-트랙-메타데이터) 
-- [**2.4 skills** (기술 정보)](#24-skills-기술-메타데이터) 
-- [**2.5 questions** (질문 은행)](#25-questions-면접-질문-은행) 
+
 ### 2.1 `users` (사용자 및 학습 현황)
-사용자의 계정 정보와 **기술 트리 진행 상황**을 관리하는 핵심 컬렉션입니다.
+> 사용자의 계정 정보와 **기술 트리 진행 상황**을 관리합니다.
 
 * **Index**: `{"auth.email": 1}` (Unique), `{"auth.uid": 1}`
 
 ```javascript
 {
-  "_id": ObjectId("..."),
+  "_id": ObjectId("..."), // [PK] MongoDB 자동 생성 ID
   "auth": {
-    "email": "user@example.com",     // 로그인 ID (이메일)
+    "email": "user@example.com",     // 로그인 ID
     "provider": "kakao",             // 소셜 로그인 제공자
     "uid": "123456789"               // 제공자 측 고유 ID
   },
   "profile": {
     "nickname": "AI_Master",
     "avatar_url": "https://...",
-    "job_title": "Student"           // 희망 직무 (Optional)
+    "job_title": "Student"
   },
   "stats": {
-    "total_stars": 12,               // 획득한 총 별 개수 (랭킹용)
-    "completed_tracks": [            // 마스터한 트랙 ID (Golden Glow 효과)
-      "backend-developer"
-    ]
+    "total_stars": 12,               // 획득한 총 별 개수
+    "completed_tracks": ["AI Engineer"]
   },
   /**
-   * [Core] 기술 습득 현황 (Map 구조)
-   * Key: skill_slug (e.g., 'python') -> 빠른 접근(O(1))을 위해 Map 사용
+   * [User State] 학습 진행도
+   * Subject 이름을 Key로 사용하여 O(1) 접근
    */
   "skill_tree": {
-    "python": {"order": 1,                   // 시각화 순서
+    "Python Syntax & Types": {
       "level": 2,                    // 현재 레벨 (0:Locked, 1:Basic, 2:Adv, 3:Master)
-      "stars": 2,                    // UI에 표시될 별 개수
-      "last_tested_at": ISODate("...") // 마지막 승급 심사일
+      "stars": 2,                    // 획득한 별
+      "last_tested_at": ISODate("...")
     },
-    "docker": {
+    "FastAPI Essentials": {
       "level": 1,
       "stars": 1,
       "last_tested_at": ISODate("...")
@@ -74,160 +68,163 @@
 ```
 
 ### 2.2 `interviews` (면접 로그 및 평가)
+> AI 면접관과의 대화 기록 및 최종 평가 결과(Snapshot)입니다.
 
-AI 면접관과의 대화 기록 및 최종 평가 결과를 저장합니다.
-
-* **Index**: `{"user_id": 1}` (내 기록 조회용), `{"meta.status": 1}`
+* **Index**: `{"user_id": 1}`, `{"meta.status": 1}`
 
 ```javascript
 {
-  "_id": ObjectId("..."),
-  "user_id": ObjectId("..."),       // users._id 참조
+  "_id": ObjectId("..."), // [PK] MongoDB 자동 생성 ID
+  "user_id": ObjectId("..."),
   "meta": {
-    "skill_slug": "python",         // 대상 기술
-    "track_slug": "backend",        // (Optional) 어떤 트랙 문맥인가
-    "target_level": 2,              // 도전한 레벨 (1, 2, 3)
-    "status": "COMPLETED",          // IN_PROGRESS, COMPLETED, FAILED
+    "subject": "Python Syntax & Types", // 대상 과목
+    "track": "Track 0: The Origin",     // (Optional) 문맥 트랙
+    "target_level": 2,                  // 시도한 레벨
+    "status": "COMPLETED",              // IN_PROGRESS, COMPLETED, FAILED
     "started_at": ISODate("..."),
     "ended_at": ISODate("...")
   },
-  /**
-   * 대화 로그 전체 저장 (Context 재구성용)
-   */
-  "messages": [
-    {
-      "role": "assistant",
-      "content": "Python의 데코레이터에 대해 설명해주세요.",
-      "timestamp": ISODate("...")
-    },
-    {
-      "role": "user",
-      "content": "함수를 수정하지 않고 기능을 확장할 때 사용합니다...",
-      "timestamp": ISODate("...")
-    }
+  "messages": [                         // 대화 로그
+    { "role": "assistant", "content": "..." },
+    { "role": "user", "content": "..." }
   ],
-  /**
-   * One-Shot Evaluation 결과 (JSON)
-   */
-  "result": {
-    "is_passed": true,              // 합격 여부
-    "score": 85,                    // 점수 (0~100)
-    "feedback_message": "핵심 개념을 잘 이해하고 있습니다.",
-    "improvement_tip": "functools.wraps를 사용하는 이유도 같이 언급하면 좋습니다.",
+  "result": {                           // 평가 결과
+    "is_passed": true,
+    "score": 85,
+    "feedback": "...",
     "evaluated_at": ISODate("...")
   }
 }
 ```
 
-### 2.3 `tracks` (트랙 메타데이터)
+### 2.3 `tracks` (커리큘럼 원본 데이터)
+> **[Source Data]** 기존 `track.py`의 `AI_TECH_TREE` 내용을 대체합니다.
+> 복잡한 계층(Track > Step > Subject > Level > Concept)을 모두 포함합니다.
 
-직무별 로드맵(트랙) 구조를 정의합니다. (Read-Only 성격)
-
-* **Index**: `{"slug": 1}` (Unique)
+* **Index**: `{"title": 1}` (Unique)
 
 ```javascript
 {
-  "_id": ObjectId("..."),
-  "slug": "backend-developer",      // URL 식별자 (ex: /track/backend-developer)
-  "title": "Backend Developer",
-  "description": "서버 개발의 기초부터 배포까지 마스터하는 코스",
-  "nodes": [
-{
-  "_id": ObjectId("..."),
-  "slug": "backend-developer",
-  "title": "Backend Developer",
-  "nodes": [
+  "_id": ObjectId("..."), // [PK] MongoDB 자동 생성 ID
+  "title": "Track 1: AI Engineer",    // 트랙명 (ID 역할)
+  "description": "모델을 실제 서비스 환경에 이식하고 가동합니다.",
+  "order": 1,                         // 트랙 표시 순서
+  
+  /**
+   * [Structure] 커리큘럼 계층 구조
+   * Steps -> (Options) -> Subjects -> Levels
+   */
+  "steps": [
     {
-      "skill_slug": "python",
-      "required_level": 3,
-      "dependencies": [] 
+      "step_name": "Step 1: Core System Foundation",
+      "type": "FIXED",                // FIXED(필수), BRANCH(분기/선택)
+      "subjects": [
+        {
+          "title": "FastAPI Essentials",
+          "levels": {
+            "Lv1": ["GET vs POST", "Path/Query Params", ...],
+            "Lv2": ["Pydantic", "Dependency Injection", ...],
+            "Lv3": ["Middleware", "OAuth2", ...]
+          }
+        },
+        {
+          "title": "Docker Basics",
+          "levels": { "Lv1": [...], "Lv2": [...], "Lv3": [...] }
+        }
+      ]
     },
-    // [선택 분기] 사용자는 RDBMS 또는 NoSQL 중 하나만 마스터해도 다음 단계로 진행 가능
     {
-      "skill_slug": "postgresql",
-      "group_id": "database_selection", // 같은 그룹 ID를 가진 노드들은 '선택지'로 묶임
-      "required_level": 2,
-      "dependencies": ["python"]
-    },
-    {
-      "skill_slug": "mongodb",
-      "group_id": "database_selection", // PostgreSQL 대신 MongoDB를 선택해도 됨
-      "required_level": 2,
-      "dependencies": ["python"]
-    },
-    // 다음 단계: 위 DB 중 *하나라도* 조건을 만족하면 해금됨
-    {
-      "skill_slug": "fastapi",
-      "dependencies": ["postgresql", "mongodb"], // 의존성 배열에 나열된 것 중 '하나(OR)'만 만족하면 됨
-      "dependency_logic": "OR" // 기본값은 AND이나, OR로 명시하여 선택적 진행 지원
+      "step_name": "Step 2: Branching Point",
+      "type": "BRANCH",               // 선택 분기점
+      "options": [
+        {
+          "option_name": "Option 1: Serving Specialist",
+          "subjects": [
+            { "title": "Model Serialization", "levels": { ... } },
+            { "title": "Inference Optimization", "levels": { ... } }
+          ]
+        },
+        {
+          "option_name": "Option 2: App Architect",
+          "subjects": [
+            { "title": "Database Design", "levels": { ... } },
+            { "title": "Caching Strategy", "levels": { ... } }
+          ]
+        }
+      ]
     }
-  ]
+  ],
+  "last_updated": ISODate("...")
 }
 ```
 
-### 2.4 `skills` (기술 메타데이터)
+### 2.4 `trends` (기술 트렌드 데이터)
+> **[Source Data]** 기존 `trend.json`을 대체하며, 웹 검색 에이전트가 수집한 최신 기술 동향을 저장합니다.
 
->개별 기술에 대한 상세 정보입니다.
-
-* **Index**: `{"slug": 1}` (Unique)
+* **Index**: `{"link": 1}` (Unique - 중복 수집 방지), `{"tags": 1}`, `{"category": 1}`
 
 ```javascript
 {
-  "_id": ObjectId("..."),
-  "slug": "python",                 // 고유 식별자
-  "name": "Python",
-  "category": "Language",           // Language, Framework, Infrastructure...
-  "icon_url": "/assets/icons/python.svg",
-  "description": "AI 및 백엔드 개발의 표준 언어"
+  "_id": ObjectId("..."), // [PK] MongoDB 자동 생성 ID
+  "title": "2025년을 위한 7개의 데이터베이스 | GeekNews",
+  "link": "https://news.hada.io/weekly/202451",
+  "summary": "AI 시대에 주목받는 DB 7선 정리...",
+  "category": "tech_news",           // tech_news, engineering, research, k_blog
+  "tags": ["데이터베이스", "Backend", "2025_Trend"],
+  "source_domain": "news.hada.io",
+  "collected_at": ISODate("2026-01-08T12:00:00Z"),
+  "view_count": 0                    // [Internal] 서비스 내 사용자 조회수 (인기 트렌드 랭킹용)
 }
 ```
 
 ### 2.5 `questions` (면접 질문 은행)
->기술별/레벨별 검증된 질문과 모범 답안을 저장합니다.
+> 각 Subject 및 Level에 해당하는 면접 질문과 모범 답안을 관리합니다.
 
-* **Index**: `{"skill_slug": 1, "level": 1}`
+* **Index**: `{"subject": 1, "level": 1}`
 
 ```javascript
 {
-  "_id": ObjectId("..."),
-  "skill_slug": "python",
-  "level": 2, // 2차 승급 (Applied Level) 질문
-  "topic": "Generator & Iterator",
-  "question_text": "Python의 Generator가 일반 함수와 다른 점은 무엇이며, 메모리 관점에서 어떤 이점이 있나요?",
-  "model_answer": "Generator는 yield 키워드를 사용하여 데이터를 한 번에 하나씩 반환하며...",
-  "evaluation_criteria": [ // 채점 시 참고할 핵심 키워드
-    "lazy evaluation",
-    "yield",
-    "memory efficiency"
-  ]
+  "_id": ObjectId("..."), // [PK] MongoDB 자동 생성 ID
+  "subject": "FastAPI Essentials",    // tracks.steps.subjects.title 과 매핑
+  "level": "Lv2",                     // Lv1, Lv2, Lv3
+  "topic": "Dependency Injection",    
+  "question_text": "FastAPI에서 Dependency Injection이 가지는 장점은 무엇인가요?",
+  "model_answer": "코드 재사용성을 높이고, 테스트 시 모의 객체(Mock) 주입을 용이하게 합니다...",
+  "keywords": ["IoC", "Testability", "Decoupling"],
+  "created_at": ISODate("...")
+```
+
+### 2.6 `concepts` (상세 개념 & RAG 원본)
+> **Track -> Levels -> Concept List**에 명시된, 가장 작은 단위의 개념(Concept)에 대한 **원본 지식(Knowledge Base)** 을 저장합니다.
+> 이 데이터는 **면접 문제 생성(Question Generation)** 이나 **RAG(검색 증강 생성)** 의 원천 소스로 활용됩니다.
+
+* **Index**: `{"subject": 1, "level": 1}`, `{"name": 1}`
+
+```javascript
+{
+  "_id": ObjectId("..."), // [PK] MongoDB 자동 생성 ID
+  "subject": "FastAPI Essentials",    // Parent Subject
+  "level": "Lv1",                     // Lv1, Lv2, Lv3
+  "name": "GET vs POST 요청 메서드의 차이", // tracks의 Lv 리스트에 있는 텍스트와 정확히 일치
+  
+  "summary": "GET은 데이터 조회를 위해 URL에 파라미터를 포함하여 요청을 보내는 방식이고 POST는 리소스 생성 및 수정을 위해 HTTP Body에 데이터를 포함하여 보내는 방식입니다.",
+
+  /**
+   * [RAG Source] 문제 생성의 원천이 되는 순수 텍스트 지식
+   * 줄바꿈, 탭, 마크다운 등의 포맷팅을 최대한 배제한 문장 나열 형태
+   */
+  "description": "GET 요청은 서버로부터 데이터를 조회할 때 사용하며 요청 데이터가 URL의 Query String에 포함되어 전송되므로 보안이 중요한 데이터 전송에는 적합하지 않습니다 반면 POST 요청은 데이터를 생성하거나 서버의 상태를 변경할 때 사용하며 데이터가 HTTP Body에 포함되어 전송되므로 길이 제한이 없고 GET보다 상대적으로 안전합니다 또한 GET은 멱등성(Idempotent)을 가지지만 POST는 멱등성을 가지지 않는다는 중요한 차이점이 있습니다...",
+  
+  "references": [
+    "https://developer.mozilla.org/ko/docs/Web/HTTP/Methods/GET",
+    "https://developer.mozilla.org/ko/docs/Web/HTTP/Methods/POST"
+  ],
+  "updated_at": ISODate("...")
 }
 ```
 
----
+> **데이터 흐름 (Data Flow)**
+> 1.  **`tracks`**: 커리큘럼 뼈대와 개념의 **이름**("GET vs POST...")을 정의.
+> 2.  **`concepts`**: 해당 이름에 대한 **상세 지식(텍스트)** 을 저장.
+> 3.  **`questions`**: `concepts`의 텍스트를 바탕으로 LLM이 생성한 **면접 문제**를 저장.
 
-## 3. Data Access Patterns
-
-### ✅ Q1. 대시보드 로딩 (가장 빈번)
-
-* **Query**: `db.users.findOne({ "auth.uid": current_uid })`
-* **Logic**: 유저 문서를 통째로 가져와 `skill_tree` 필드를 순회하며 프론트엔드 그래프(React Flow)의 노드 색상과 별 개수를 렌더링합니다. (추가 쿼리 없음)
-
-### ✅ Q2. 면접 시작
-
-* **Query**: `db.interviews.insertOne({ user_id: ..., meta: { status: 'IN_PROGRESS' ... } })`
-* **Logic**: 새로운 면접 세션을 생성하고 `_id`를 반환하여 채팅방을 엽니다.
-
-### ✅ Q3. 면접 종료 및 승급
-
-1.  **Update**: `db.interviews.updateOne({ _id: ... }, { $set: { "result": ..., "meta.status": "COMPLETED" } })`
-2.  **If Passed**:
-    ```javascript
-    db.users.updateOne(
-      { _id: user_id },
-      { 
-        $set: { "skill_tree.python.level": 2, "skill_tree.python.stars": 2 },
-        $inc: { "stats.total_stars": 1 }
-      }
-    )
-    ```
-    * **Atomic Update**: MongoDB의 `$set` 연산자를 사용하여 동시성 문제 없이 안전하게 레벨을 업데이트합니다.

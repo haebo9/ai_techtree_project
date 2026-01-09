@@ -22,13 +22,12 @@ class InterviewMessage(BaseModel):
 class InterviewResult(BaseModel):
     is_passed: bool
     score: int  # 0~100
-    feedback_message: str
-    improvement_tip: Optional[str] = None
+    feedback: str # Renamed from feedback_message to match db_schema.md
     evaluated_at: datetime = Field(default_factory=datetime.utcnow)
 
 class InterviewMeta(BaseModel):
-    skill_slug: str         # 대상 기술
-    track_slug: Optional[str] = None # (Optional) 트랙 문맥
+    subject: str            # 대상 과목 (renamed from skill_slug)
+    track: Optional[str] = None # (Optional) 문맥 트랙 (renamed from track_slug)
     target_level: int       # 도전 레벨 (1, 2, 3)
     status: InterviewStatus = InterviewStatus.IN_PROGRESS
     started_at: datetime = Field(default_factory=datetime.utcnow)
@@ -37,7 +36,7 @@ class InterviewMeta(BaseModel):
 class Interview(MongoDBModel):
     """
     [Collection]: interviews
-    사용자의 면접 세션 및 대화 로그
+    면접 세션 로그 및 평가 Snapshot
     """
     user_id: PyObjectId  # users._id 참조
     
@@ -48,14 +47,14 @@ class Interview(MongoDBModel):
     class Config:
         json_schema_extra = {
             "example": {
-                "user_id": "60d5ecb8b5c9...",
+                "user_id": "60d5ecb8...",
                 "meta": {
-                    "skill_slug": "python",
+                    "subject": "Python Syntax & Types",
                     "target_level": 2,
                     "status": "IN_PROGRESS"
                 },
                 "messages": [
-                    {"role": "assistant", "content": "질문입니다."}
+                    {"role": "assistant", "content": "질문..."}
                 ]
             }
         }
