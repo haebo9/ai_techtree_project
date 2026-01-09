@@ -13,6 +13,8 @@
 ## 2026년 1월
 | Date | Tag | Category | Details |
 |:---:|:---:|:---:|:---|
+| **26.01.09(금)** | 🔵 | **Update** | Source Data에 맞춰 db schema 구조 변경 |
+| | 🟢 | **Update** | db_schema.md 에 맞춰 pydantic model 코드 수정 |
 | **26.01.08(목)** | 🟣 | **Add** | Trend Search 로직 분석 및 Tavily API 성능 개선 |
 | **26.01.07(수)** | 🟣 | **Refactor** | MCP 코드 리팩토링 및 docstring 세부 수정 |
 | **26.01.06(화)** | 🟣 | **Add** | MCP Trend Search 기능 구현 및 Streamlit 테스트 |
