@@ -6,9 +6,11 @@ from datetime import datetime
 # Add backend directory to path to allow imports from app
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 
+import json
+
 try:
     from app.core.database import mongodb
-    from app.source.track import AI_TECH_TREE
+    # from app.source.track import AI_TECH_TREE # Removed
 except ImportError as e:
     print(f"Import Error: {e}")
     sys.exit(1)
@@ -16,6 +18,12 @@ except ImportError as e:
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
+
+TRACK_DB_PATH = os.path.join(os.path.dirname(__file__), "../app/source/track.json")
+
+def _load_track_data():
+    with open(TRACK_DB_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 def sync_tracks():
     """
@@ -46,7 +54,8 @@ def sync_tracks():
     # 2. Iterate and transform data
     # AI_TECH_TREE structure: Track -> Description/Steps -> Step -> Option -> Subject -> Levels
     
-    for track_title, track_data in AI_TECH_TREE.items():
+    ai_tech_tree = _load_track_data()
+    for track_title, track_data in ai_tech_tree.items():
         logger.info(f"Processing {track_title}...")
         
         steps_doc = []

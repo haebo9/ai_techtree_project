@@ -8,14 +8,26 @@ from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from tavily import TavilyClient
-from app.source.track import AI_TECH_TREE
 
 # =========================================================
 # 1. Global Configuration & Lazy Loaders
 # =========================================================
 
 TREND_DB_PATH = "app/source/trend.json"
+TRACK_DB_PATH = "app/source/track.json"
 MIN_MATCH_COUNT = 1 
+
+def _load_track_data() -> dict:
+    """Loads track data from JSON."""
+    if not os.path.exists(TRACK_DB_PATH):
+        print(f"Track DB not found at: {TRACK_DB_PATH}")
+        return {}
+    try:
+        with open(TRACK_DB_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"Error loading track data: {e}")
+        return {} 
 
 # Global instances
 EMBEDDING_MODEL = None
@@ -270,7 +282,8 @@ def _initialize_track_embeddings():
 
     texts = []
     keys = []
-    for track_name, track_data in AI_TECH_TREE.items():
+    ai_tech_tree = _load_track_data()
+    for track_name, track_data in ai_tech_tree.items():
         description = track_data.get("description", "")
         # Include Step names to enhance context
         steps_content = []
@@ -331,7 +344,8 @@ def recommend_ai_track(interests: list[str], experience_level: str) -> dict:
     check_keywords = {k.upper() for k in interests}
     if any(k in check_keywords for k in ["ALL", "LIST", "TRACKS", "전체", "목록"]) or not interests:
         all_tracks = []
-        for name, data in AI_TECH_TREE.items():
+        ai_tech_tree = _load_track_data()
+        for name, data in ai_tech_tree.items():
             all_tracks.append({
                 "track_name": name,
                 "description": data.get("description", "")
@@ -350,7 +364,8 @@ def recommend_ai_track(interests: list[str], experience_level: str) -> dict:
 
     # 2. Construct detailed result
     if best_track:
-        track_info = AI_TECH_TREE[best_track]
+        ai_tech_tree = _load_track_data()
+        track_info = ai_tech_tree[best_track]
         
         # Determine starting point based on experience
         steps = list(track_info.get("steps", {}).keys())
@@ -381,7 +396,8 @@ def get_roadmap_details(track_name: str) -> dict:
     Main logic for 'get_ai_path'.
     Retrieves and structures the full roadmap for a specific track.
     """
-    track_data = AI_TECH_TREE.get(track_name)
+    ai_tech_tree = _load_track_data()
+    track_data = ai_tech_tree.get(track_name)
     if not track_data:
         return {"error": f"Track '{track_name}' not found. Please provide exact track name."}
     
@@ -428,7 +444,8 @@ def get_subject_details(subject_name: str) -> dict:
     # Normalize query
     query = subject_name.lower().strip()
     
-    for track_name, track_val in AI_TECH_TREE.items():
+    ai_tech_tree = _load_track_data()
+    for track_name, track_val in ai_tech_tree.items():
         for step_name, step_val in track_val.get("steps", {}).items():
             
             for key, val in step_val.items():

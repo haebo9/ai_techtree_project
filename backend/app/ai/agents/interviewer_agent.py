@@ -4,8 +4,20 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.tools import tool
 from app.core.config import settings
-from app.ai.source.topics import AI_TECH_TREE
 import json
+import os
+
+# Load AI_TECH_TREE from JSON
+TRACK_DB_PATH = os.path.join(os.path.dirname(__file__), "../../source/track.json")
+def _load_track_data():
+    try:
+        with open(TRACK_DB_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"Error loading track data: {e}")
+        return {}
+
+AI_TECH_TREE = _load_track_data()
 
 # 1. 모델 초기화
 llm = ChatOpenAI(

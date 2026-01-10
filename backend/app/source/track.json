@@ -1,10 +1,4 @@
-from typing import Dict, Any
-
-# AI Tech Tree Curriculum Data
-# Based on track.md v1.2
-# 구조: Track -> Step -> Option -> Subject -> Level (Lv1, Lv2, Lv3) -> Concepts
-
-AI_TECH_TREE: Dict[str, Any] = {
+{
     "Track 0: The Origin": {
         "description": "모든 AI 클래스로 전직하기 위한 선행 조건입니다.",
         "steps": {
