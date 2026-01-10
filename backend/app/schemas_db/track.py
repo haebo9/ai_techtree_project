@@ -5,14 +5,22 @@ from .common import MongoDBModel, PyObjectId
 
 # --- Nested Structures for Track ---
 
+class LevelsContent(BaseModel):
+    """
+    학습 난이도별 개념 리스트
+    Lv1: 기초 / Lv2: 심화 / Lv3: 전문가
+    """
+    Lv1: List[str] = Field(default_factory=list)
+    Lv2: List[str] = Field(default_factory=list)
+    Lv3: List[str] = Field(default_factory=list)
+
 class TrackSubject(BaseModel):
     """
     개별 학습 주제 (Subject)
     Levels를 포함하는 실제 학습 단위
     """
     title: str  # e.g., "FastAPI Essentials"
-    # Key: "Lv1", "Lv2", "Lv3" -> Value: List of concept strings
-    levels: Dict[str, List[str]] = Field(default_factory=dict)
+    levels: LevelsContent = Field(default_factory=LevelsContent)
 
 class TrackBranchOption(BaseModel):
     """
@@ -24,15 +32,13 @@ class TrackBranchOption(BaseModel):
 class TrackStep(BaseModel):
     """
     커리큘럼의 단계 (Step)
-    필수(Fixed) 또는 분기(Branch) 타입을 가짐
+    모든 단계는 Option을 가짐 (Unified Structure)
+    분기가 없는 경우 "Option 1" 하나만 존재
     """
     step_name: str      # e.g., "Step 1: Core System Foundation"
     type: Literal["FIXED", "BRANCH"]
     
-    # type == FIXED 인 경우 사용
-    subjects: List[TrackSubject] = []
-    
-    # type == BRANCH 인 경우 사용
+    # Unified Structure: Subjects are always inside Options
     options: List[TrackBranchOption] = []
 
 # --- Main Model ---
@@ -41,7 +47,7 @@ class Track(MongoDBModel):
     """
     [Collection]: tracks
     직무별 로드맵 전체 구조 정의 (Source Data)
-    복잡한 계층(Track > Step > Option > Subject > Level > Concept)을 포함
+    Hierarchy: Track > Step > Option > Subject > Level > Concept
     """
     title: str          # e.g., "Track 1: AI Engineer"
     description: str
@@ -60,10 +66,15 @@ class Track(MongoDBModel):
                     {
                         "step_name": "Step 1: Basic",
                         "type": "FIXED",
-                        "subjects": [
+                        "options": [
                             {
-                                "title": "FastAPI Essentials",
-                                "levels": {"Lv1": ["Concept A"], "Lv2": ["Concept B"]}
+                                "option_name": "Option 1: Core Curriculum",
+                                "subjects": [
+                                    {
+                                        "title": "FastAPI Essentials",
+                                        "levels": {"Lv1": ["Concept A"], "Lv2": ["Concept B"]}
+                                    }
+                                ]
                             }
                         ]
                     }

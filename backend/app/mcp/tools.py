@@ -2,7 +2,7 @@ import numpy as np
 from typing import List, Dict, Any, Optional
 from langchain_core.tools import tool
 from app.mcp.tools_functions import perform_web_search, recommend_ai_track, get_roadmap_details, get_subject_details
-from app.source.track import AI_TECH_TREE
+
 
 # ---------------------------------------------------------
 # Tool Definitions
