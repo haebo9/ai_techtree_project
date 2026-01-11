@@ -19,7 +19,7 @@ except ImportError as e:
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-TRACK_DB_PATH = os.path.join(os.path.dirname(__file__), "../app/source/track.json")
+TRACK_DB_PATH = os.path.join(os.path.dirname(__file__), "../app/source/tracks.json")
 
 def _load_track_data():
     with open(TRACK_DB_PATH, "r", encoding="utf-8") as f:

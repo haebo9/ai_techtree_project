@@ -114,6 +114,20 @@ npm run dev
 ```
 
 ### Run Server
+**1. Backend API (FastAPI)**
 ```bash
-uvicorn main:app --reload
+# Run from project root
+PYTHONPATH=backend python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+**2. MCP Server (Standalone)**
+```bash
+# Run from project root
+PYTHONPATH=backend python backend/app/mcp/mcp_server.py
+```
+
+**3. Frontend (Streamlit)**
+```bash
+# Run from project root
+streamlit run frontend/App.py
 ```

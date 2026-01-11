@@ -38,17 +38,23 @@ def init_db():
     db.tracks.create_index([("title", ASCENDING)], unique=True)
     print("   - Created index: title (Unique)")
 
-    # 4. Trends Collection
-    # Index: {"link": 1} (Unique)
-    # Index: {"tags": 1}
-    # Index: {"category": 1}
+    # 4. Trends Collection (Refactored)
+    # Structure: TrendCategory (Grouped by category)
+    # Index: {"category": 1} (Unique)
+    # Index: {"items.link": 1} (For duplicate checking within category)
     print("🔹 Setting up 'trends' collection...")
-    db.trends.create_index([("link", ASCENDING)], unique=True)
-    db.trends.create_index([("tags", ASCENDING)])
-    db.trends.create_index([("category", ASCENDING)])
-    print("   - Created index: link (Unique)")
-    print("   - Created index: tags")
-    print("   - Created index: category")
+    
+    # Drop legacy indexes if needed (Manual intervention might be safer, but here we define the target state)
+    # If standard indexes exist on 'category', create_index with unique=True might fail or convert depending on driver/version.
+    # It is recommended to drop the 'trends' collection if the schema changed drastically.
+    
+    db.trends.create_index([("category", ASCENDING)], unique=True)
+    db.trends.create_index([("items.link", ASCENDING)])
+    db.trends.create_index([("items.tags", ASCENDING)])
+    
+    print("   - Created index: category (Unique)")
+    print("   - Created index: items.link")
+    print("   - Created index: items.tags")
 
     # 5. Questions Collection
     # Index: {"subject": 1, "level": 1}
