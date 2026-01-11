@@ -5,7 +5,7 @@ from .common import MongoDBModel
 
 class Trend(BaseModel):
     """
-    개별 트렌드 아이템 (Embedded inside TrendCategory)
+    기술 관련 정보 검색을 위한 컬랙션 스키마 
     """
     title: str
     link: str

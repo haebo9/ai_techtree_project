@@ -13,8 +13,8 @@
 ## 2026년 1월
 | Date | Tag | Category | Details |
 |:---:|:---:|:---:|:---|
-| **26.01.11(일)** | 🟢 | **Add** | Langserve API 도입(for mcp) |
-|  | 🟢 | **Feat** | Source Data를 DB로 이관, Trend 데이터 카테고리 도입 |
+| **26.01.11(일)** | 🟢 | **Add** | Langserve API 도입(for mcp), docker file 작성 |
+|  | 🟢 | **Feat** | Source Data를 DB로 이관, Trend 분류 도입 |
 | | 🟠 | **Feat** | Streamlit 및 requrements을 Frontend 폴더로 분리 |
 | **26.01.10(토)** | 🟢 | **Feat** | DB collection 생성 및 track 데이터 동기화 로직 구현 |
 | **26.01.09(금)** | 🔵 | **Update** | Source Data에 맞춰 db schema 구조 변경 |
