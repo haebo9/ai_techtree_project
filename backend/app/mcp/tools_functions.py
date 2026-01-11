@@ -13,8 +13,12 @@ from tavily import TavilyClient
 # 1. Global Configuration & Lazy Loaders
 # =========================================================
 
-TREND_DB_PATH = "app/source/trend.json"
-TRACK_DB_PATH = "app/source/track.json"
+# Construct absolute paths relative to this file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# ../source/trends.json
+TREND_DB_PATH = os.path.join(BASE_DIR, "..", "source", "trends.json")
+# ../source/tracks.json
+TRACK_DB_PATH = os.path.join(BASE_DIR, "..", "source", "tracks.json")
 MIN_MATCH_COUNT = 1 
 
 def _load_track_data() -> dict:

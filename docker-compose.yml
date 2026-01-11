@@ -1,0 +1,32 @@
+services:
+  # 1. Backend Server (FastAPI)
+  backend:
+    build: .
+    image: ai-techtree:v1
+    container_name: ai-techtree-backend-v1
+    command: uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env # 모든 Key (OpenAI, Mongo 등)는 백엔드에만 있으면 됨!
+    environment:
+      - PYTHONPATH=/app
+
+  # 2. Frontend Interface (Streamlit)
+  frontend:
+    build: .
+    image: ai-techtree:v1
+    container_name: ai-techtree-frontend-v1
+    command: streamlit run frontend/App.py
+    ports:
+      - "8501:8501"
+    environment:
+      - PYTHONPATH=/app
+      # 중요: 프론트엔드가 백엔드를 찾을 수 있는 주소 (Service Name 사용)
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend
+
+# 참고:
+# 이제 Frontend는 .env 파일(비밀키)을 아예 로드하지 않습니다.
+# 오직 API 요청만 보내므로 보안상 훨씬 안전합니다.

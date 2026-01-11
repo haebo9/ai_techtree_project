@@ -726,5 +726,103 @@
     ],
     "category": "k_blog",
     "collected_at": "2026-01-08T08:06:32.728958"
+  },
+  {
+    "title": "2021년 데이터/ML/AI 업계 지도와 최신 트렌드 | GeekNews",
+    "link": "https://news.hada.io/topic?id=5299",
+    "summary": "- 데이터/AI가 중요해 질수록 더 나은 도구와 프랙티스가 필요함 - 모두 \"데이터 세계의 DataDog\"이 되고 싶어함 (실제로 DataDog가 DataOps에 쓰이기도 하지만, 기본적으로 소프트웨어 엔지니어링 기반임) - Data observability, Data Lineage, Data Quality, Data Reliability Engineering, Data Access & Governance 등 다양한 서브 파트가 있음 [이제는 실시간] - \"실시간\" 또는 \"스트리밍\" 데이터는 생성된 직후에 바로 처리 및 소비되는 데이터 - 현재까지 데이터 인프라의 지배적 패러다임인 \"배치\"에 반대 되는 것 - 실시간 데이터 처리는 10-15년전 빅 데이터 시대 초기부터 뜨거운 주제였음 ㅤ→ 특히 처리속도가 하둡MR에 비해 Spark의 성공을 촉진한 핵심 - 하지만 몇년간 \"곧 폭발할\"시장이었지만 폭발하지는 않았음 - Confluent IPO의 대성공이 반대론자들이 틀렸다는 것을 증명 - 그리고 컨플루언트를 넘어 전체 실시간 데이터 생태계가 가속화 되었음 - 특히 \"실시간 분석\"이 많은 활동을 보임 ㅤ→ 러시아 Yandex에서 만든 ClickHouse가 미국에서 회사를 설립하고 $50M 투자를 받음 ㅤ→ Druid 오픈소스 기반의 실시간 분석 플랫폼 Imply가 $70M 투자 받음 [Metrics Stores] - 지난 몇 년간 기업의 데이터 및 데이터 사용빈도와 복잡성이 증가 [...] ㅤ→ 기업이 BI도구를 연결해서 과거 및 현재 성과(\"지난 분기에 가장 빠르게 성장한 지역은?\")에 대한 질문에 답하는데 사...",
+    "tags": [
+      "data engineering",
+      "sql",
+      "data modeling",
+      "spark",
+      "real-time data"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-11T10:13:15.942835"
+  },
+  {
+    "title": "ARC 2024 - 2.1 Proposal Form and Instructions.docx",
+    "link": "https://www.belmontforum.org/wp-content/uploads/2024/11/ARC-2024-2.1-Proposal-Form-and-Instructions.docx.pdf",
+    "summary": "The starting date of the project should be between PROJECT_START_DATE 1 June 2025 and PROJECT_END_DATE 31 May 2028. The project should last 3 or 4 years, depending on the criteria of the involved funders. (YYYY-MM-DD) End Date: (YYYY-MM-DD) Duration: Indicate the duration of the project (in months). (in months) 1 Proposal Form Belmont Forum – ARC 2024 24 April 2024 Project Summary: (Maximum 2100 characters including spaces) Provide a summary describing the proposed research program and expected impact in plain language suitable for a general audience. Summaries will be published if the proposal is selected. Project Keywords: 3-10 words, maximum 500 characters including spaces. [...] o Early-career (less than 10 years of experience) o Mid-career (10-25 years of experience) o Late-career (25...",
+    "tags": [
+      "data engineering",
+      "sql",
+      "data modeling",
+      "spark",
+      "real-time data"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-11T10:13:15.942908"
+  },
+  {
+    "title": "Microsoft Word - Data policy.docx",
+    "link": "https://www.belmontforum.org/wp-content/uploads/2017/10/Data-policy-1.pdf",
+    "summary": "● Who on your team will be responsible for developing, implementing, overseeing and updating the data management plan? ● What data sets of long-term value do you expect that the project will produce? “Long-term” means those data sets that, over time, will or may be of value to others within your research community and/or the wider research and innovation community. Data of long-term value should meet the FAIR principles; i.e. they should be findable, accessible, interoperable and reusable. ● How have you accounted for the costs required to manage the data and other materials to ensure long-term availability? Full Proposal - Proposed Data Management Plan Approach Responses should be in a pdf uploaded as an Annex in the application portal. Please address the following questions (those that [...",
+    "tags": [
+      "data engineering",
+      "sql",
+      "data modeling",
+      "spark",
+      "real-time data"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-11T10:13:15.942971"
+  },
+  {
+    "title": "[번역] Vision Transformer에 대한 시각적 설명 (A Visual... | GeekNews",
+    "link": "https://news.hada.io/topic?id=14434",
+    "summary": "먼저 어텐션 스코어 A를 계산하기 위해 모든 쿼리 벡터 Q에 모든 키 벡터 K를 곱합니다. To calculate our attention scores A we will now multiply all of our query vectors Q with all of our key vectors K. #### 10.3. Transformer: 어텐션 스코어 매트릭스 / Attention Score Matrix 이렇게 얻은 어텐션 스코어 행렬 A의 모든 행의 합이 1이 되도록 모든 행에 `softmax` 함수를 적용합니다. `softmax` Now that we have the attention score matrix A we apply a `softmax` function to every row such that every row sums up to 1. `softmax` #### 10.4. Transformer: 집계된 컨텍스트 정보 계산하기 / Aggregated Contextual Information Calculation 첫 번째 패치 임베딩 벡터에 대한 집계된 문맥 정보(aggregated contextual information) 를 계산하기 위해, 어텐션 행렬의 첫 번째 행에 대해서 연산을 합니다. 여기에 값 벡터 V의 가중치를 사용하여 첫 번째 이미지 패치 임베딩에 대한 집계된 문맥 정보 벡터(aggregated vector) 를 생성합니다. [...] After the positional embedding vectors have been added we are left with an array of...",
+    "tags": [
+      "data engineering",
+      "sql",
+      "data modeling",
+      "spark",
+      "real-time data"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-11T10:13:15.943048"
+  },
+  {
+    "title": "Apple이 Multimodal LLM인 MM1에 대해 공개한 논문을... | GeekNews",
+    "link": "https://news.hada.io/topic?id=13842",
+    "summary": "데이터 레슨 1: 인터리브 데이터는 적은 수의 샷과 텍스트 전용 성능에 도움이 되고, 캡션 데이터는 제로-샷 성능을 향상시킵니다. Data lesson 1: interleaved data is instrumental for few-shot and textonly performance, while captioning data lifts zero-shot performance. 데이터 레슨 2: 텍스트 전용 데이터는 퓨-샷 및 텍스트 전용 성능에 도움이 됩니다. Data lesson 2: text-only data helps with few-shot and text-only performance. 데이터 레슨 3: 이미지 데이터와 텍스트 데이터를 신중하게 혼합하면 최적의 멀티모달 성능을 얻을 수 있고 강력한 텍스트 성능을 유지할 수 있습니다. Data lesson 3: Careful mixture of image and text data can yield optimal multimodal performance and retain strong text performance. 데이터 레슨 4: 합성 데이터는 퓨-샷 학습에 도움이 됩니다. Data lesson 4: Synthetic data helps with few-shot learning. [...] # Apple이 Multimodal LLM인 MM1에 대해 공개한 논문을 정리해 보았습니다. Apple에서 MM1이라는 멀티모달 LLM에 대한 연구 결과를 공개하였습니다. (모델 코드나 가중치는 공개하지 않았고, 앞으로도 안 할 것 같습니다) Image Encoder...",
+    "tags": [
+      "data engineering",
+      "sql",
+      "data modeling",
+      "spark",
+      "real-time data"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-11T10:13:15.943105"
+  },
+  {
+    "title": "데이터 엔지니어링 전망: Data Engineering Weekly의 2025년 예상",
+    "link": "https://news.hada.io/topic?id=18402",
+    "summary": "2024년 데이터 엔지니어링의 주요 변화 : 생성형 AI의 급성장, 데이터 거버넌스의 성숙화, 효율성과 실시간 처리에 대한 집중2025년에는 이러한 흐름 위에서 데이터 세계를 변화시킬 다섯 가지 주요 트렌드가 예상됨1. AI 컴퓨팅의 발전NVIDIA가 시가총액 기준으로 세계 최대 기업으로 부상하며 세대에 한...",
+    "tags": [
+      "data engineering",
+      "real-time data",
+      "sql",
+      "data pipeline",
+      "modern data stack"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-11T10:13:45.966207"
+  },
+  {
+    "title": "AI 시대에 Modern Data Stack이 중요한 이유 - GeekNews",
+    "link": "https://news.hada.io/topic?id=20192",
+    "summary": "2021년부터 2023년 초까지 데이터 기술 분야, 특히 Modern Data Stack은 기술 산업 내에서 가장 활발하고 주목받는 영역이었음; 2023년 말 ChatGPT가 등장하면서 관심...",
+    "tags": [
+      "data engineering",
+      "real-time data",
+      "sql",
+      "data pipeline",
+      "modern data stack"
+    ],
+    "category": "tech_news",
+    "collected_at": "2026-01-11T10:13:45.966233"
   }
 ]

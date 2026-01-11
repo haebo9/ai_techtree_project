@@ -8,7 +8,7 @@ import json
 import os
 
 # Load AI_TECH_TREE from JSON
-TRACK_DB_PATH = os.path.join(os.path.dirname(__file__), "../../source/track.json")
+TRACK_DB_PATH = os.path.join(os.path.dirname(__file__), "../../source/tracks.json")
 def _load_track_data():
     try:
         with open(TRACK_DB_PATH, "r", encoding="utf-8") as f:
