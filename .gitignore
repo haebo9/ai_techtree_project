@@ -33,3 +33,6 @@ frontend/.env.local
 frontend/out/
 frontend/.vercel/
 node_modules/
+
+# --- Root ---
+.env
