@@ -13,6 +13,7 @@
 ## 2026년 1월
 | Date | Tag | Category | Details |
 |:---:|:---:|:---:|:---|
+| **26.01.11(일)** | 🟣 | **Add** | Langserve API 구현 및 테스트 |
 | **26.01.10(토)** | 🟢 | **Feat** | DB collection 생성 및 track 데이터 동기화 로직 구현 |
 | **26.01.09(금)** | 🔵 | **Update** | Source Data에 맞춰 db schema 구조 변경 |
 | | 🟢 | **Update** | db_schema.md 에 맞춰 pydantic model 코드 수정 |
