@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # Import Legacy API Router (추후 구현 시 활성화)
-# from app.api.v1.api import api_router
+from app.api.v1.router import api_router
 
 app = FastAPI(
     title="AI TechTree Backend",
@@ -24,7 +24,7 @@ app.add_middleware(
 
 # 2. Include Legacy API Router (Stateful CRUD)
 # -> http://localhost:8000/api/v1/...
-# app.include_router(api_router, prefix="/api/v1")
+app.include_router(api_router, prefix="/api/v1")
 
 @app.get("/")
 async def root():

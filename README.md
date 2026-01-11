@@ -90,7 +90,7 @@
 > `docs/README.md`를 참고하여 개발 환경을 구축할 수 있습니다.
 
 ### Prerequisites
-- Python 3.14.0
+- Python 3.13.11
 - Node.js v25.2.1
 - Docker & Docker Compose
 - OpenAI API Key

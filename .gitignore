@@ -3,6 +3,9 @@
 .pytest_cache
 Thumbs.db
 
+# --- Env ---
+.env
+
 # --- Editor ---
 .vscode/
 .idea/
@@ -20,7 +23,6 @@ build/
 # --- Backend (Python) ---
 backend/.venv/
 backend/__pycache__/
-backend/.env
 backend/*.pyc
 backend/.pytest_cache/
 __pycache__/
