@@ -138,7 +138,7 @@ def _clean_text(text: str) -> str:
 
 def _process_and_save_background(results: list[dict], search_terms: list[str], category: str = "tech_news"):
     """
-    Background Task: Clean content and save unique items to MongoDB 'trends' collection.
+    Background Task: Clean content and save unique items to MongoDB 'trends' collection (Grouped by Category).
     """
     try:
         db = get_db()
@@ -149,26 +149,39 @@ def _process_and_save_background(results: list[dict], search_terms: list[str], c
             if not link: 
                 continue
 
-            # Check for duplicates using the link
-            if collection.find_one({"link": link}):
+            # Check for duplicates using the link WITHIN the specific category
+            # We look for a document with this category that ALREADY has this link in 'items'
+            exists = collection.find_one({
+                "category": category,
+                "items.link": link
+            })
+            
+            if exists:
                 continue
             
             clean_summary = _clean_text(res.get("content", ""))[:800] + "..."
             domain = _extract_domain(link)
             
-            new_doc = {
+            new_item = {
                 "title": _clean_text(res.get("title")),
                 "link": link,
                 "summary": clean_summary,
-                "category": category,
                 "tags": search_terms,
                 "source_domain": domain,
                 "collected_at": datetime.utcnow(),
                 "view_count": 0
             }
             
-            collection.insert_one(new_doc)
-            print(f"[Async] Saved new trend: {new_doc['title']}")
+            # Upsert logic: Update the array of the category document
+            collection.update_one(
+                {"category": category},
+                {
+                    "$push": {"items": new_item},
+                    "$set": {"last_updated": datetime.utcnow()}
+                },
+                upsert=True
+            )
+            print(f"[Async] Saved new trend to category '{category}': {new_item['title']}")
             
     except Exception as e:
         print(f"[Async] Background save to MongoDB failed: {e}")

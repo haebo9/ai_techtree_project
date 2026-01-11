@@ -3,7 +3,7 @@ from .user import User, UserProfile, UserStats, AuthInfo
 from .track import Track, TrackStep, TrackNode # TrackNode was removed, need to check tracks.py content again. TrackNode is replaced by TrackSubject/TrackBranchOption.
 from .interview import Interview, InterviewResult, InterviewMessage
 from .question import Question
-from .trend import Trend
+from .trend import Trend, TrendCategory
 from .concept import Concept
 
 # Track exports need to be accurate
@@ -15,6 +15,6 @@ __all__ = [
     "Track", "TrackStep", "TrackSubject", "TrackBranchOption",
     "Interview", "InterviewResult", "InterviewMessage",
     "Question",
-    "Trend",
+    "Trend", "TrendCategory",
     "Concept"
 ]

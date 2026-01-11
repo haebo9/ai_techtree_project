@@ -159,21 +159,37 @@
 ```
 
 ### 2.4 `trends` (기술 트렌드 데이터)
-> **[Source Data]** 기존 `trend.json`을 대체하며, 웹 검색 에이전트가 수집한 최신 기술 동향을 저장합니다.
+> **[Source Data]** 기존 `trend.json`을 대체하며, 웹 검색 에이전트가 수집한 최신 기술 동향을 주제별로 그룹화하여 저장합니다.
 
-* **Index**: `{"link": 1}` (Unique - 중복 수집 방지), `{"tags": 1}`, `{"category": 1}`
+* **Index**: `{"category": 1}` (Unique per category ID), `{"items.link": 1}` (Embedded Index - 카테고리 내 중복 방지)
 
 ```javascript
 {
   "_id": ObjectId("..."), // [PK] MongoDB 자동 생성 ID
-  "title": "2025년을 위한 7개의 데이터베이스 | GeekNews",
-  "link": "https://news.hada.io/weekly/202451",
-  "summary": "AI 시대에 주목받는 DB 7선 정리...",
-  "category": "tech_news",           // tech_news, engineering, research, k_blog
-  "tags": ["데이터베이스", "Backend", "2025_Trend"],
-  "source_domain": "news.hada.io",
-  "collected_at": ISODate("2026-01-08T12:00:00Z"),
-  "view_count": 0                    // [Internal] 서비스 내 사용자 조회수 (인기 트렌드 랭킹용)
+  "category": "tech_news",             // tech_news, engineering, research, k_blog
+  
+  /**
+   * [Grouped Items] 해당 카테고리에 속한 트렌드 리스트
+   * 개별 문서로 나뉘지 않고 하나의 카테고리 문서 내에 임베딩됨
+   */
+  "items": [
+    {
+      "title": "2025년을 위한 7개의 데이터베이스 | GeekNews",
+      "link": "https://news.hada.io/weekly/202451",
+      "summary": "AI 시대에 주목받는 DB 7선 정리...",
+      "tags": ["데이터베이스", "Backend", "2025_Trend"],
+      "source_domain": "news.hada.io",
+      "collected_at": ISODate("2026-01-08T12:00:00Z"),
+      "view_count": 0
+    },
+    {
+      "title": "State of AI Report 2025",
+      "link": "...",
+      ...
+    }
+  ],
+  
+  "last_updated": ISODate("...")
 }
 ```
 
