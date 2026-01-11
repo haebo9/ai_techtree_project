@@ -17,9 +17,9 @@ load_dotenv(os.path.join(current_dir, "../.env"))
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 API_ENDPOINT = f"{BACKEND_URL}/api/v1/agent/chat"
 
-st.set_page_config(page_title="AI TechTree MCP", page_icon="🌳", layout="wide")
+st.set_page_config(page_title="AI TechTree MCP", page_icon="", layout="wide")
 
-st.title("🤖 AI TechTree MCP")
+st.title("😃 AI TechTree MCP")
 st.caption(f"Backend Connected: {BACKEND_URL}")
 
 # -------------------------------------------------------------------------
@@ -27,7 +27,7 @@ st.caption(f"Backend Connected: {BACKEND_URL}")
 # -------------------------------------------------------------------------
 if "messages" not in st.session_state:
     st.session_state["messages"] = [
-        AIMessage(content="안녕하세요! AI 커리큘럼 추천, 로드맵 조회, 최신 트렌드 검색을 도와드릴 수 있습니다. 무엇을 도와드릴까요?")
+        AIMessage(content="안녕하세요! AI 커리큘럼 추천, 로드맵 조회, 최신 트렌드 검색을 도와드릴 수 있습니다. 무엇을 도와드릴까요?"), 
     ]
 
 # -------------------------------------------------------------------------
@@ -53,7 +53,7 @@ if prompt := st.chat_input("예: 데이터 분석 학습 순서 알려줘"):
 
     # 2. Call Backend API
     with st.chat_message("assistant"):
-        with st.spinner("AI가 생각 중입니다..."):
+        with st.spinner("AI is Thinking..."):
             try:
                 # Prepare Payload
                 # 객체 -> JSON 변환 (role, content 만 추출)
