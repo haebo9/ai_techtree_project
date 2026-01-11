@@ -9,28 +9,73 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from tavily import TavilyClient
 
+# Database Connection
+from app.core.database import get_db
+
 # =========================================================
 # 1. Global Configuration & Lazy Loaders
 # =========================================================
 
-# Construct absolute paths relative to this file
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# ../source/trends.json
-TREND_DB_PATH = os.path.join(BASE_DIR, "..", "source", "trends.json")
-# ../source/tracks.json
-TRACK_DB_PATH = os.path.join(BASE_DIR, "..", "source", "tracks.json")
+# =========================================================
+# 1. Global Configuration & Lazy Loaders
+# =========================================================
+
 MIN_MATCH_COUNT = 1 
 
 def _load_track_data() -> dict:
-    """Loads track data from JSON."""
-    if not os.path.exists(TRACK_DB_PATH):
-        print(f"Track DB not found at: {TRACK_DB_PATH}")
-        return {}
+    """
+    Loads track data from MongoDB and converts it to the legacy dictionary format.
+    Target Collection: tracks
+    """
     try:
-        with open(TRACK_DB_PATH, "r", encoding="utf-8") as f:
-            return json.load(f)
+        db = get_db()
+        # Sort by 'order' to maintain Track 0, 1, 2... sequence
+        cursor = db["tracks"].find({}).sort("order", 1)
+        
+        tracks_dict = {}
+        for doc in cursor:
+            # Use 'title' as the track key (e.g., "Track 0: The Origin")
+            track_name = doc.get("title") 
+            if not track_name: 
+                continue
+
+            # Reconstruct 'steps' dictionary from List[TrackStep]
+            steps_dict = {}
+            for step in doc.get("steps", []):
+                step_name = step.get("step_name")
+                
+                # Reconstruct 'options' dictionary from List[TrackBranchOption]
+                options_dict = {}
+                for option in step.get("options", []):
+                    option_name = option.get("option_name")
+                    
+                    # Reconstruct 'subjects' dictionary from List[TrackSubject]
+                    subjects_dict = {}
+                    for subject in option.get("subjects", []):
+                        subject_title = subject.get("title")
+                        
+                        # levels is a nested dict or object (LevelsContent)
+                        levels = subject.get("levels", {})
+                        
+                        subjects_dict[subject_title] = {
+                            "Lv1": levels.get("Lv1", []),
+                            "Lv2": levels.get("Lv2", []),
+                            "Lv3": levels.get("Lv3", [])
+                        }
+                    
+                    options_dict[option_name] = subjects_dict
+                
+                steps_dict[step_name] = options_dict
+            
+            tracks_dict[track_name] = {
+                "description": doc.get("description", ""),
+                "steps": steps_dict
+            }
+            
+        return tracks_dict
+
     except Exception as e:
-        print(f"Error loading track data: {e}")
+        print(f"Error loading track data from MongoDB: {e}")
         return {} 
 
 # Global instances
@@ -91,57 +136,42 @@ def _clean_text(text: str) -> str:
 # 3. Core Logic: Web Search (get_ai_trend)
 # =========================================================
 
-def _load_knowledge_base() -> list[dict]:
-    """Loads trend data from JSON."""
-    if not os.path.exists(TREND_DB_PATH):
-        return []
-    try:
-        with open(TREND_DB_PATH, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except Exception as e:
-        print(f"Error loading knowledge base: {e}")
-        return []
-
-def _save_knowledge_base(data: list[dict]):
-    """Saves trend data to JSON."""
-    try:
-        os.makedirs(os.path.dirname(TREND_DB_PATH), exist_ok=True)
-        with open(TREND_DB_PATH, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-    except Exception as e:
-        print(f"Error saving knowledge base: {e}")
-
 def _process_and_save_background(results: list[dict], search_terms: list[str], category: str = "tech_news"):
-    """Background Task: Clean content and save to JSON archive."""
+    """
+    Background Task: Clean content and save unique items to MongoDB 'trends' collection.
+    """
     try:
-        accumulated_items = []
+        db = get_db()
+        collection = db["trends"]
+        
         for res in results:
+            link = res.get("url")
+            if not link: 
+                continue
+
+            # Check for duplicates using the link
+            if collection.find_one({"link": link}):
+                continue
+            
             clean_summary = _clean_text(res.get("content", ""))[:800] + "..."
+            domain = _extract_domain(link)
             
-            item = {
+            new_doc = {
                 "title": _clean_text(res.get("title")),
-                "link": res.get("url"),
+                "link": link,
                 "summary": clean_summary,
-                "tags": search_terms,
                 "category": category,
-                "collected_at": datetime.utcnow().isoformat()
+                "tags": search_terms,
+                "source_domain": domain,
+                "collected_at": datetime.utcnow(),
+                "view_count": 0
             }
-            accumulated_items.append(item)
             
-        all_knowledge = _load_knowledge_base()
-        existing_links = {item["link"] for item in all_knowledge}
-        added_count = 0
-        
-        for item in accumulated_items:
-            if item["link"] not in existing_links:
-                all_knowledge.append(item)
-                added_count += 1
-        
-        if added_count > 0:
-            _save_knowledge_base(all_knowledge)
+            collection.insert_one(new_doc)
+            print(f"[Async] Saved new trend: {new_doc['title']}")
             
     except Exception as e:
-        print(f"[Async] Background save failed: {e}")
+        print(f"[Async] Background save to MongoDB failed: {e}")
 
 def perform_web_search(keywords: list[str], category: str = "tech_news") -> list[dict]:
     """
