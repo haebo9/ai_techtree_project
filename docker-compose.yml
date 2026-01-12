@@ -48,4 +48,4 @@ services:
 # 이제 Frontend는 .env 파일(비밀키)을 아예 로드하지 않습니다.
 # 오직 API 요청만 보내므로 보안상 훨씬 안전합니다.
 
-# 오직 API 요청만 보내므로 보안상 훨씬 안전합니다.
+# docker-compose up -d && docker-compose logs

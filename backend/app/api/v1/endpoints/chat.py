@@ -92,13 +92,29 @@ async def chat_endpoint(request: ChatRequest):
                     tool_id = tool_call["id"]
                     
                     # Tool 실행
-                    selected_tool = next((t for t in tools if t.name == tool_name), None)
+                    # tools 리스트 안의 요소가 LangChain Tool 객체일 수도 있고, 함수일 수도 있음
+                    selected_tool = None
+                    for t in tools:
+                        # 1. LangChain Tool 객체인 경우 (.name 속성)
+                        if hasattr(t, "name") and t.name == tool_name:
+                            selected_tool = t
+                            break
+                        # 2. 파이썬 함수인 경우 (.__name__ 속성)
+                        elif hasattr(t, "__name__") and t.__name__ == tool_name:
+                            selected_tool = t
+                            break
+                    
                     tool_result_content = ""
                     
                     if selected_tool:
                         try:
                             # 실제 실행
-                            tool_result = selected_tool.invoke(tool_args)
+                            # 함수라면 바로 호출(tool_args), Tool 객체라면 .invoke(tool_args)
+                            if hasattr(selected_tool, "invoke"):
+                                tool_result = selected_tool.invoke(tool_args)
+                            else:
+                                tool_result = selected_tool(**tool_args)
+                                
                             tool_result_content = str(tool_result)
                         except Exception as e:
                             tool_result_content = f"Error: {str(e)}"

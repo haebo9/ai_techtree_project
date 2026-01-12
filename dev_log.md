@@ -13,6 +13,8 @@
 ## 2026년 1월
 | Date | Tag | Category | Details |
 |:---:|:---:|:---:|:---|
+| **26.01.12(월)** | 🟢 | **Add** | Dockerfile 수정 및 테스트, Ver1 서버 빌드 및 로컬 테스트 |
+| | 🟣 | **Fix** | MCP-SDK 구조로 변경(playmcp 규정), tool docstring 수정 |
 | **26.01.11(일)** | 🟢 | **Add** | Langserve API 도입(for mcp), docker file 작성 |
 |  | 🟢 | **Feat** | Source Data를 DB로 이관, Trend 분류 도입 |
 | | 🟠 | **Feat** | Streamlit 및 requrements을 Frontend 폴더로 분리 |
