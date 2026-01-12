@@ -13,6 +13,7 @@
 ## 2026년 1월
 | Date | Tag | Category | Details |
 |:---:|:---:|:---:|:---|
+| **26.01.12(월)** | 🟣 | **Add** | FastMCP Agent 구현 및 테스트 |
 | **26.01.11(일)** | 🟢 | **Add** | Langserve API 도입(for mcp), docker file 작성 |
 |  | 🟢 | **Feat** | Source Data를 DB로 이관, Trend 분류 도입 |
 | | 🟠 | **Feat** | Streamlit 및 requrements을 Frontend 폴더로 분리 |
