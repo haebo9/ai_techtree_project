@@ -1,14 +1,15 @@
-import numpy as np
-from typing import List, Dict, Any, Optional
-from langchain_core.tools import tool
+from typing import List, Dict, Any
+from mcp.server.fastmcp import FastMCP
 from app.mcp.tools_functions import perform_web_search, recommend_ai_track, get_roadmap_details, get_subject_details
 
+# Initialize FastMCP Server
+mcp = FastMCP("AI TechTree")
 
 # ---------------------------------------------------------
 # Tool Definitions
 # ---------------------------------------------------------
 
-@tool
+@mcp.tool()
 def get_techtree_track(interests: List[str], experience_level: str) -> Dict[str, Any]:
     """
     Analyzes user interests to recommend a track, OR lists all available tracks.
@@ -26,7 +27,7 @@ def get_techtree_track(interests: List[str], experience_level: str) -> Dict[str,
     """
     return recommend_ai_track(interests, experience_level)
 
-@tool
+@mcp.tool()
 def get_techtree_path(track_name: str) -> Dict[str, Any]:
     """
     Retrieves the full hierarchical curriculum roadmap for a specific track.
@@ -45,18 +46,18 @@ def get_techtree_path(track_name: str) -> Dict[str, Any]:
     """
     return get_roadmap_details(track_name)
 
-@tool
+@mcp.tool()
 def get_techtree_trend(keywords: List[str], category: str = "k_blog") -> List[Dict[str, str]]:
     """
     Performs a web search to provide the latest AI trend, news, and GitHub repositories based on keywords.
     Uses Tavily Search API with category-based domain filtering.
     
     Args:
-        keywords (List[str]): List of technical keywords (e.g., ["LLM", "Agent", "RAG"]). Include 3-5 related keywords for better tagging.
-        category (str): Target content category ("tech_news", "engineering", "research", "k_blog").
+        keywords: List of technical keywords (e.g., ["LLM", "Agent", "RAG"]). Include 3-5 related keywords for better tagging.
+        category: Target content category ("tech_news", "engineering", "research", "k_blog").
         
     Returns:
-        List[Dict[str, str]]: List of dictionaries with trend title, link, and summary.
+        List of dictionaries with trend title, link, and summary.
 
     IMPORTANT FOR LLM: 
     - "tech_news": Global Tech News & Trend (English sources like GeekNews, HackerNews).
@@ -66,7 +67,7 @@ def get_techtree_trend(keywords: List[str], category: str = "k_blog") -> List[Di
     """
     return perform_web_search(keywords, category)
 
-@tool
+@mcp.tool()
 def get_techtree_detail(subject_name: str) -> Dict[str, Any]:
     """
     Retrieves detailed learning concepts (Lv1, Lv2, Lv3) for a specific subject.
@@ -77,4 +78,9 @@ def get_techtree_detail(subject_name: str) -> Dict[str, Any]:
     """
     return get_subject_details(subject_name)
 
-MCP_TOOLS = [get_techtree_track, get_techtree_path, get_techtree_trend, get_techtree_detail]
+MCP_TOOLS = [
+    get_techtree_track,
+    get_techtree_path,
+    get_techtree_trend,
+    get_techtree_detail
+]
