@@ -4,7 +4,7 @@ services:
     build: .
     image: ai-techtree:v1
     container_name: ai-techtree-backend-v1
-    command: uvicorn backend.app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
     ports:
       - "8000:8000"
     env_file:

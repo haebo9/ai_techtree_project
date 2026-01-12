@@ -36,4 +36,4 @@ if __name__ == "__main__":
 
 
 # run streamlit
-# streamlit run app/mcp/streamlit.py
+# streamlit run frontend/App.py
