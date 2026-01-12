@@ -8,9 +8,13 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 
 # 의존성 패키지 설치
-# backend 폴더의 requirements.txt를 먼저 복사해서 캐시 활용
-COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# 1. Backend Requirements
+COPY backend/requirements.txt ./requirements-backend.txt
+RUN pip install --no-cache-dir -r requirements-backend.txt
+
+# 2. Frontend Requirements (혹시 모를 추가 의존성을 위해 분리 설치)
+COPY frontend/requirements.txt ./requirements-frontend.txt
+RUN pip install --no-cache-dir -r requirements-frontend.txt
 
 # 전체 프로젝트 코드 복사 (frontend, backend, docs 등 모두 포함)
 COPY . .
@@ -22,5 +26,5 @@ ENV PYTHONPATH=/app/backend
 # 포트 노출 (문서화 용도)
 # 8000: Backend (FastAPI)
 # 8100: Frontend (Streamlit)
-# 8200: MCP Server (Agent)
+# 8200: MCP Server (Tools)
 EXPOSE 8000 8100 8200
