@@ -17,13 +17,29 @@ services:
     build: .
     image: ai-techtree:v1
     container_name: ai-techtree-frontend-v1
-    command: streamlit run frontend/App.py
+    command: streamlit run frontend/App.py --server.port 8100
     ports:
-      - "8501:8501"
+      - "8100:8100"
     environment:
       - PYTHONPATH=/app
       # 중요: 프론트엔드가 백엔드를 찾을 수 있는 주소 (Service Name 사용)
       - BACKEND_URL=http://backend:8000
+    depends_on:
+      - backend
+
+  # 3. MCP Server (Agent Interface)
+  mcp:
+    build: .
+    image: ai-techtree:v1
+    container_name: ai-techtree-mcp-v1
+    # SSE Transport mode on port 8200
+    command: python -m app.mcp.mcp_server --transport sse --port 8200
+    ports:
+      - "8200:8200"
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app
     depends_on:
       - backend
 

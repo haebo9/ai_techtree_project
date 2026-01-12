@@ -20,5 +20,7 @@ COPY . .
 ENV PYTHONPATH=/app/backend
 
 # 포트 노출 (문서화 용도)
-# 8000: FastAPI, 8501: Streamlit
-EXPOSE 8000 8501
+# 8000: Backend (FastAPI)
+# 8100: Frontend (Streamlit)
+# 8200: MCP Server (Agent)
+EXPOSE 8000 8100 8200
