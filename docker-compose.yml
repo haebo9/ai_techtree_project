@@ -4,13 +4,14 @@ services:
     build: .
     image: ai-techtree:v1
     container_name: ai-techtree-backend-v1
-    command: uvicorn backend.app.main:app --host 0.0.0.0 --port 8000
+    # PYTHONPATH가 /app/backend 이므로, app.main:app 으로 시작해야 함
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     ports:
       - "8000:8000"
     env_file:
       - .env # 모든 Key (OpenAI, Mongo 등)는 백엔드에만 있으면 됨!
     environment:
-      - PYTHONPATH=/app
+      - PYTHONPATH=/app/backend
 
   # 2. Frontend Interface (Streamlit)
   frontend:

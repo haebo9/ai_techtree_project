@@ -77,3 +77,10 @@ def get_techtree_detail(subject_name: str) -> Dict[str, Any]:
         subject_name: The exact name of the subject (e.g., "Vector DB", "Python Syntax").
     """
     return get_subject_details(subject_name)
+
+MCP_TOOLS = [
+    get_techtree_track,
+    get_techtree_path,
+    get_techtree_trend,
+    get_techtree_detail
+]

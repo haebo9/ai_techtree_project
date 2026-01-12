@@ -37,5 +37,5 @@ tavily-python==0.5.0
 # # MCP Server 
 langserve[all]==0.3.3
 sse-starlette==1.8.2
-mcp==1.1.2
+mcp==1.25.0
 
