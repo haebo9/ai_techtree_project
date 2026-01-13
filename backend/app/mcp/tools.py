@@ -1,7 +1,12 @@
-from typing import List, Dict, Any, Annotated
+from typing import List, Annotated
 from mcp.server.fastmcp import FastMCP
 from pydantic import Field
-from app.mcp.tools_functions import perform_web_search, recommend_ai_track, get_roadmap_details, get_subject_details
+from app.mcp.schemas import (
+    TrackOutput, 
+    PathOutput, 
+    TrendOutput, 
+    DetailOutput
+)
 
 # Initialize FastMCP Server
 mcp = FastMCP("AI TechTree")
@@ -14,7 +19,7 @@ mcp = FastMCP("AI TechTree")
 def get_techtree_track(
     interests: Annotated[List[str], Field(description="List of keywords. Pass ['ALL'] to see all available tracks.")],
     experience_level: Annotated[str, Field(description="User's experience level ('beginner', 'intermediate', 'expert').")]
-) -> Dict[str, Any]:
+) -> TrackOutput:
     """
     Analyzes user interests to recommend a track, OR lists all available tracks.
 
@@ -22,12 +27,13 @@ def get_techtree_track(
     - **Trigger Condition**: Use this tool IMMEDIATELY when the user asks "What should I study?" or "What tracks are available?".
     - **Show All Tracks**: If the user asks for a list of tracks or is unsure, Call this tool with `interests=["ALL"]`.
     """
-    return recommend_ai_track(interests, experience_level)
+    data = recommend_ai_track(interests, experience_level)
+    return TrackOutput(**data)
 
 @mcp.tool()
 def get_techtree_path(
     track_name: Annotated[str, Field(description="Exact name of the track (e.g., 'Track 1: AI Engineer').")]
-) -> Dict[str, Any]:
+) -> PathOutput:
     """
     Retrieves the full hierarchical curriculum roadmap for a specific track.
 
@@ -37,13 +43,14 @@ def get_techtree_path(
     - Step 3 (Application) focuses on projects and specialized domains.
     - Do NOT suggest specific time durations (e.g., "2 weeks") unless explicitly asked. Focus on **what to learn first** and **why**.
     """
-    return get_roadmap_details(track_name)
+    data = get_roadmap_details(track_name)
+    return PathOutput(**data)
 
 @mcp.tool()
 def get_techtree_trend(
     keywords: Annotated[List[str], Field(description="List of technical keywords (e.g., ['LLM', 'Agent', 'RAG']). Include 3-5 related keywords for better tagging.")],
     category: Annotated[str, Field(description="Target content category ('tech_news', 'engineering', 'research', 'k_blog').")] = "k_blog"
-) -> List[Dict[str, str]]:
+) -> TrendOutput:
     """
     Performs a web search to provide the latest AI trend, news, and GitHub repositories based on keywords.
     Uses Tavily Search API with category-based domain filtering.
@@ -54,18 +61,22 @@ def get_techtree_trend(
     - "engineering": Implementation details (GitHub, WandB, LangChain).
     - "research": Academic papers (Arxiv).
     """
-    return perform_web_search(keywords, category)
+    data = perform_web_search(keywords, category)
+    return TrendOutput(**data)
 
 @mcp.tool()
 def get_techtree_detail(
     subject_name: Annotated[str, Field(description="The exact name of the subject (e.g., 'Vector DB', 'Python Syntax').")]
-) -> Dict[str, Any]:
+) -> DetailOutput:
     """
     Retrieves detailed learning concepts (Lv1, Lv2, Lv3) for a specific subject.
     Use this when the user asks for "What is X?", "What should I study in X?", or details about a specific roadmap item.
     """
-    return get_subject_details(subject_name)
+    data = get_subject_details(subject_name)
+    return DetailOutput(**data)
 
+# No need to explicitly manually list MCP_TOOLS list if using @mcp.tool decorator with FastMCP's internal registry,
+# but keeping it for reference if needed elsewhere. 
 MCP_TOOLS = [
     get_techtree_track,
     get_techtree_path,

@@ -16,6 +16,7 @@
 * **[Langchain](https://docs.langchain.com/oss/python/langchain/multi-agent/index)**: multi-agent 시스템 구축 가이드.
 * **[LangGraph](https://langchain-ai.github.io/langgraph/)**: Stateful 에이전트 워크플로우 및 순환형 그래프 설계.
 * **[OpenAI API](https://platform.openai.com/docs/introduction)**: LLM 모델 활용 및 프롬프트 엔지니어링 가이드.
+* **[python-sdk](https://github.com/modelcontextprotocol/python-sdk?tab=readme-ov-file#tools)**: MCP Agent 구현 가이드.
 
 ## 4. Infrastructure (DevOps)
 * **[Vercel](https://vercel.com/docs)**: 프론트엔드 배포 및 Edge Network 관련 문서.
