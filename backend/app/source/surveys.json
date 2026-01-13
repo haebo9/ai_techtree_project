@@ -1,0 +1,53 @@
+{
+    "intro_message": "반갑습니다! AI 로드맵 추천을 위해 간단한 2가지 질문을 드릴게요.",
+    "questions": [
+        {
+            "id": "q_exp",
+            "text": "현재 개발 경험이나 지식 수준은 어느 정도신가요?",
+            "options": [
+                {
+                    "label": "AI/개발 경험이 거의 없는 입문자",
+                    "value": {
+                        "level": "beginner"
+                    }
+                },
+                {
+                    "label": "웹/앱 개발 경험이 있는 개발자 (1~3년차)",
+                    "value": {
+                        "level": "intermediate"
+                    }
+                },
+                {
+                    "label": "AI 관련 논문 구현이나 현업 프로젝트 경험자",
+                    "value": {
+                        "level": "expert"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "q_interest",
+            "text": "어떤 분야에 가장 관심이 있으신가요?",
+            "options": [
+                {
+                    "label": "AI 모델을 활용한 웹 서비스/앱 개발 (챗봇 등)",
+                    "value": {
+                        "track": "AI Engineer"
+                    }
+                },
+                {
+                    "label": "데이터 분석 및 인사이트 도출",
+                    "value": {
+                        "track": "Data Scientist"
+                    }
+                },
+                {
+                    "label": "최신 AI 모델 아키텍처 연구 및 개발",
+                    "value": {
+                        "track": "AI Researcher"
+                    }
+                }
+            ]
+        }
+    ]
+}

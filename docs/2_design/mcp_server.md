@@ -14,26 +14,53 @@
 
 ### 2. 대화 예시 (Conversation Examples)
 *(MCP 정보 > 대화 예시 란에 각각 입력)*
-1. 웹 개발 3년차인데 AI 쪽으로 커리어를 전환하고 싶어. 내 경험에 맞는 트랙을 추천해줘.
-2. AI Engineer 트랙의 학습 로드맵을 단계별로 자세히 보여줘.
-3. 요즘 주목받는 LLM Agent와 RAG 기술의 최신 트렌드를 알려줘.
+1. AI 공부를 시작해보고 싶어. 
+2. AI Engineer가 되려면 뭐부터 공부해야돼? 
+3. LLM Agent 관련된 한국어 정보 찾아줘.
 
 ---
 
 ## 🛠️ 도구 상세 명세 (Tool Specifications)
 *(참고: 아래의 'LLM 지침' 내용은 실제 구현 시 Tool의 `description` 필드나 `docstring`에 포함되어야 LLM이 인식할 수 있습니다.)*
 
-### `get_ai_track`
-*   **용도 및 지침 (Description & Instruction)**
-    Analyzes user interests and experience to recommend the most suitable AI career track.
-    
-    [Instruction for LLM]
-    1. **Thought**: Analyze the user's input to extract technical interests and experience level.
-    2. **Response**: Use the `reason` field from the result to explain why this track is a good match, and encourage them to start at the `starting_point`.
-*   **파라미터 (Parameters)**
-    *   `interests: list[str]`
-    *   `experience_level: string`
-*   **출력 형식 (Observation)**
+### `❗get_techtree_survey`
+*   **활성 조건 (Trigger Condition)**
+    *   **대화 시작 시** 혹은 사용자의 배경 정보가 없을 때 사용합니다.
+*   **입력 (Input)**
+    *   None
+*   **출력 (Output)**
+    *   `interests`와 `experience_level`을 파악하기 위한 **두 가지 핵심 질문(객관식)**을 제공합니다.
+    *   각 선택지(Option)는 특정 **Track**이나 **Level** 정보와 매핑되어 있습니다.
+*   **출력 형식 (Output Format)**
+    ```json
+    {
+      "intro_message": "string",
+      "questions": [
+        {
+          "id": "string",
+          "text": "string (질문 내용)",
+          "options": [
+            {
+              "label": "string (선택지 텍스트)",
+              "value": {
+                 "level": "string" // or "track": "string"
+              }
+            }
+          ]
+        }
+      ]
+    }
+    ```
+
+### `❗get_techtree_track`
+*   **활성 조건 (Trigger Condition)**
+    *   사용자의 `interests`와 `experience_level`이 파악되었을 때 사용합니다 (예: `get_techtree_survey` 등을 통해).
+*   **입력 (Input)**
+    *   `interests: list[str]` (관심 키워드 리스트. 모든 트랙을 보려면 `["ALL"]` 전달.)
+    *   `experience_level: string` (사용자 경력 수준: "beginner", "intermediate", "expert")
+*   **출력 (Output)**
+    *   사용자 입력을 분석하여 가장 적합한 Track을 추천하거나, 모든 사용 가능한 Track 리스트를 제공합니다.
+*   **출력 형식 (Output Format)**
     ```json
     {
       "recommended_track": "string (Track Name)",
@@ -42,16 +69,14 @@
     }
     ```
 
-### `get_ai_path`
-*   **용도 및 지침 (Description & Instruction)**
-    Retrieves a structured learning roadmap (Subjects & Concepts) for a specific AI track.
-
-    [Instruction for LLM]
-    1. **Thought**: Identify the specific track name the user is interested in.
-    2. **Response**: Present the `roadmap` from the result in a clear, hierarchical list. Highlight the `next_milestone` as the immediate goal.
-*   **파라미터 (Parameters)**
-    *   `track_name: string`
-*   **출력 형식 (Observation)**
+### `❗get_techtree_path`
+*   **활성 조건 (Trigger Condition)**
+    *   사용자가 특정 Track을 선택하고 로드맵을 보고 싶어할 때 사용합니다.
+*   **입력 (Input)**
+    *   `track_name: string` (Track의 정확한 명칭, 예: 'Track 1: AI Engineer')
+*   **출력 (Output)**
+    *   해당 Track의 전체 계층적 커리큘럼 로드맵(Subjects & Concepts)을 조회합니다.
+*   **출력 형식 (Output Format)**
     ```json
     {
       "roadmap": [
@@ -61,21 +86,34 @@
     }
     ```
 
-### `get_ai_trend`
-*   **용도 및 지침 (Description & Instruction)**
-    Fetches real-time AI technology trend and news based on keywords with specific content categories.
+### `❗get_techtree_detail`
+*   **활성 조건 (Trigger Condition)**
+    *   사용자가 "X가 뭐야?", "X에서 뭘 공부해야 해?"라고 묻거나 특정 로드맵 항목의 상세 정보를 요청할 때 사용합니다.
+*   **입력 (Input)**
+    *   `subject_name: string` (Subject의 정확한 명칭, 예: 'Vector DB', 'Python Syntax')
+*   **출력 (Output)**
+    *   특정 Subject의 상세 학습 개념(Lv1, Lv2, Lv3)을 조회합니다.
+*   **출력 형식 (Output Format)**
+    ```json
+    {
+      "subject": "string",
+      "concepts": {
+        "Lv1": ["concept1", "concept2"],
+        "Lv2": ["concept3"],
+        "Lv3": ["concept4"]
+      }
+    }
+    ```
 
-    [Instruction for LLM]
-    1. **Thought**: Extract key technical terms from the user's query and DETERMINE the appropriate content `category`.
-       - Use "k_blog" if the user query is in Korean or asks for Korean content. (Primary choice for Korean users)
-       - Use "tech_news" for Global/English news updates.
-       - Use "engineering" for implementation details, code, or GitHub repos.
-       - Use "research" for academic papers, Arxiv, or deep research.
-    2. **Response**: Summarize the `trend_brief` items from the result. Ensure all URLs in `link` are clickable Markdown links.
-*   **파라미터 (Parameters)**
-    *   `keywords: list[str]`
-    *   `category: string` ("tech_news", "engineering", "research", "k_blog")
-*   **출력 형식 (Observation)**
+### `❗get_techtree_trend`
+*   **활성 조건 (Trigger Condition)**
+    *   최신 뉴스, 트렌드, 사례 등을 요청할 때 사용합니다 (한국어 질문에는 'k_blog' 사용).
+*   **입력 (Input)**
+    *   `keywords: list[str]` (3-5개의 관련 기술 키워드 리스트)
+    *   `category: string` (기본값: "k_blog")
+*   **출력 (Output)**
+    *   키워드를 기반으로 웹 검색을 수행하여 최신 AI 기술 트렌드와 뉴스를 제공합니다.
+*   **출력 형식 (Output Format)**
     ```json
     {
       "trend_brief": [
@@ -89,28 +127,47 @@
 ## 🔬 ReAct 동작 예시 (Execution Trace)
 LLM이 실제 추론(Reasoning)과 행동(Acting)을 통해 응답을 생성하는 과정입니다.
 
-### Scenario: 적성 진단
-**User**: "웹 개발 3년차인데 AI 쪽으로 커리어를 전환하고 싶어."
+### Scenario: 적성 진단 및 트랙 추천
+**Step 1: 초기 진단 (Survey)**
+**User**: "AI 공부를 시작해보고 싶어."
 
-**Agent (ReAct Loop)**:
-1.  **Thought**: 사용자가 '웹 개발 3년차(Web, Intermediate)' 경험과 'AI 전환' 의사를 밝혔다. 적합한 트랙 추천을 위해 `get_ai_track` 도구를 사용해야 한다.
-2.  **Action**: `get_ai_track(interests=["web", "backend"], experience_level="intermediate")`
+**Agent**:
+1.  **Thought**: 사용자가 막연하게 AI 학습을 시작하려 한다. 사용자의 배경지식과 관심사를 파악하기 위해 `get_techtree_survey`를 호출해야 한다.
+2.  **Action**: `get_techtree_survey()`
+3.  **Observation**:
+    ```json
+    {
+      "intro_message": "반갑습니다! 딱 맞는 AI 로드맵을 찾기 위해 몇 가지만 여쭤볼게요.",
+      "questions": [
+        "현재 어떤 개발 경험이 있으신가요? (예: 웹 프론트엔드, 백엔드, 비전공 등)",
+        "AI 기술 중 특별히 흥미로운 분야가 있나요? (예: 챗봇, 데이터 분석, 자동화 등)"
+      ]
+    }
+    ```
+4.  **Final Answer**: "반갑습니다! 딱 맞는 AI 로드맵을 찾아드리기 위해 몇 가지만 먼저 여쭤볼게요. \n1. 현재 어떤 개발 경험이나 직무에 계신가요? (예: 웹 백엔드 3년차)\n2. AI 기술 중에서 특별히 관심 가는 분야가 있으신가요?"
+
+**Step 2: 트랙 추천 (Recommendation)**
+**User**: "웹 백엔드 개발을 3년 정도 했고, 챗봇이나 시스템 구축 쪽에 관심이 있어."
+
+**Agent**:
+1.  **Thought**: 사용자의 답변에서 '웹 백엔드 3년차(Intermediate)', '챗봇/시스템(Backend/System Interest)' 정보를 추출했다. 이를 바탕으로 트랙을 추천한다.
+2.  **Action**: `get_techtree_track(interests=["web", "backend", "chatbot"], experience_level="intermediate")`
 3.  **Observation**:
     ```json
     {
       "recommended_track": "Track 1: AI Engineer",
-      "reason": "웹 개발 경험을 살려 API 서빙 및 시스템 구축 분야로 확장하기 좋습니다.",
+      "reason": "웹 백엔드 경험을 살려 LLM 애플리케이션 및 서빙 시스템을 구축하기에 최적의 트랙입니다.",
       "starting_point": "Tier 1: Core System Foundation"
     }
     ```
-4.  **Final Answer**: "웹 개발 3년차 경력을 살려 **Track 1: AI Engineer**로 시작해보시는 것을 추천합니다! 이 트랙은 백엔드 경험을 바탕으로 시스템 구축 역량을 확장하기에 가장 적합합니다. 첫 단계인 **Tier 1: Core System Foundation**부터 학습을 시작해보세요."
+4.  **Final Answer**: "웹 백엔드 3년 경력을 보유하고 계시군요! 그렇다면 **Track 1: AI Engineer** 과정을 강력히 추천합니다. \n\n이 트랙은 기존의 백엔드 역량 위에 AI 모델을 서빙하고 애플리케이션을 구축하는 기술을 더해, 가장 빠르게 실무형 AI 엔지니어로 성장할 수 있는 경로입니다. \n\n첫 단계인 **Tier 1: Core System Foundation**부터 살펴보시겠어요?"
 
 ### Scenario: 기술 트렌드 파악 (한국 기업 사례)
 **User**: "요즘 한국 기업들은 RAG 기술을 실무에 어떻게 적용하고 있어?"
 
 **Agent (ReAct Loop)**:
 1.  **Thought**: 사용자가 'RAG' 기술에 대해 묻고 있으며, 특히 '한국 기업 실무 사례'를 원한다. 이는 `k_blog` 카테고리에 적합하다.
-2.  **Action**: `get_ai_trend(keywords=["RAG", "실무", "적용"], category="k_blog")`
+2.  **Action**: `get_techtree_trend(keywords=["RAG", "실무", "적용"], category="k_blog")`
 3.  **Observation**:
     ```json
     {
