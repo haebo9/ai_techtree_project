@@ -64,8 +64,13 @@
     ```json
     {
       "recommended_track": "string (Track Name)",
+      "description": "string",
+      "matching_score": float,
       "reason": "string (Why this track fits based on input)",
-      "starting_point": "string (Immediate next step)"
+      "starting_point": "string (Immediate next step)",
+      "message": "string (Only if listing all tracks)",
+      "available_tracks": [ { "track_name": "string",
+                              "description": "string" } ]
     }
     ```
 
@@ -79,10 +84,17 @@
 *   **출력 형식 (Output Format)**
     ```json
     {
-      "roadmap": [
-        { "tier": "string", "subjects": ["string"] }
-      ],
-      "next_milestone": "string"
+      "track": "string",
+      "description": "string",
+      "roadmap": {
+        "Step 1": [ { 
+                      "subject": "string",
+                      "category": "string",
+                      "importance": "string" 
+                    } ],
+        "Step 2": [ ... ]
+      },
+      "note": "string"
     }
     ```
 
@@ -97,10 +109,12 @@
     ```json
     {
       "subject": "string",
-      "concepts": {
-        "Lv1": ["concept1", "concept2"],
-        "Lv2": ["concept3"],
-        "Lv3": ["concept4"]
+      "track": "string",
+      "category": "string",
+      "details": {
+        "Lv1": ["string (concept)"],
+        "Lv2": ["string (concept)"],
+        "Lv3": ["string (concept)"]
       }
     }
     ```
@@ -116,9 +130,16 @@
 *   **출력 형식 (Output Format)**
     ```json
     {
-      "trend_brief": [
-        { "title": "string", "link": "string (URL)", "summary": "string" }
-      ]
+      "answer": "string (AI summarized insight)",
+      "items": [
+        { "title": "string",
+          "link": "string (URL)",
+          "summary": "string",
+          "tags": ["string"],
+          "collected_at": "string"
+        }
+      ],
+      "category": "string"
     }
     ```
 

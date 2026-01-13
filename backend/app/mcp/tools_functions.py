@@ -1,12 +1,9 @@
-import json
 import os
 import threading
 import numpy as np
 from datetime import datetime
 from urllib.parse import urlparse
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from langchain_core.prompts import PromptTemplate
-from langchain_core.output_parsers import StrOutputParser
+from langchain_openai import OpenAIEmbeddings
 from tavily import TavilyClient
 
 # Database Connection
@@ -15,12 +12,6 @@ from app.core.database import get_db
 # =========================================================
 # 1. Global Configuration & Lazy Loaders
 # =========================================================
-
-# =========================================================
-# 1. Global Configuration & Lazy Loaders
-# =========================================================
-
-MIN_MATCH_COUNT = 1 
 
 def _load_track_data() -> dict:
     """
@@ -310,7 +301,8 @@ def perform_web_search(keywords: list[str], category: str = "tech_news") -> list
     except Exception as e:
         return {
             "answer": f"검색 중 오류가 발생했습니다: {str(e)}",
-            "items": [{"title": "Search Error", "link": "", "summary": str(e)}]
+            "items": [{"title": "Search Error", "link": "", "summary": str(e)}],
+            "category": category
         }
 
 
