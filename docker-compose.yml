@@ -1,8 +1,8 @@
 services:
   # 1. Backend Server (FastAPI)
   backend:
-    image: ai-techtree:v1
-    # image: haebo/ai-techtree:v1
+    # image: ai-techtree:v1
+    image: haebo/ai-techtree:v1
     container_name: ai-techtree-backend-v1
     # PYTHONPATH가 /app/backend 이므로, app.main:app 으로 시작해야 함
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
@@ -12,11 +12,13 @@ services:
       - .env # 모든 Key (OpenAI, Mongo 등)는 백엔드에만 있으면 됨!
     environment:
       - PYTHONPATH=/app/backend
+    volumes:
+      - ./backend:/app/backend
 
   # 2. Frontend Interface (Streamlit)
   frontend:
-    image: ai-techtree:v1
-    # image: haebo/ai-techtree:v1
+    # image: ai-techtree:v1
+    image: haebo/ai-techtree:v1
     container_name: ai-techtree-frontend-v1
     command: streamlit run frontend/App.py --server.port 8100
     ports:
@@ -31,8 +33,8 @@ services:
 
   # 3. MCP Server (Agent Interface)
   mcp:
-    image: ai-techtree:v1
-    # image: haebo/ai-techtree:v1
+    # image: ai-techtree:v1
+    image: haebo/ai-techtree:v1
     container_name: ai-techtree-mcp-v1
     # SSE Transport mode on port 8200
     command: python -m app.mcp.mcp_server --transport sse --port 8200
@@ -42,12 +44,21 @@ services:
       - .env
     environment:
       - PYTHONPATH=/app/backend
+    volumes:
+      - ./backend:/app/backend
     depends_on:
       - backend
 
-# 참고:
-# 이제 Frontend는 .env 파일(비밀키)을 아예 로드하지 않습니다.
-# 오직 API 요청만 보내므로 보안상 훨씬 안전합니다.
-
+## For Local 
 # $ docker build -t ai-techtree:v1 .
 # $ docker-compose up -d && docker-compose logs -f
+
+## For AWS
+# $ docker build --platform linux/amd64 -t haebo/ai-techtree:v1 .
+# $ docker push haebo/ai-techtree:v1
+# $ scp -i ~/docker-compose.yml techtree-server:~/
+# $ scp -i ~/.env techtree-server:~/
+
+## In AWS
+# $ docker-compose pull 
+# $ docker-compose up -d --remove-orphans
