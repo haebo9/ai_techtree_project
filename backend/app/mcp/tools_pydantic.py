@@ -29,6 +29,7 @@ class TrackOutput(BaseModel):
 class PathNode(BaseModel):
     subject: str = Field(description="Name of the subject to study.")
     category: Optional[str] = Field(None, description="Category of the subject (e.g., 'Language', 'Framework').")
+    description: Optional[str] = Field(None, description="Short explanation of what this subject covers.")
     importance: str = Field("Medium", description="Importance level of the subject ('High', 'Medium', 'Low').")
 
 class PathOutput(BaseModel):
@@ -55,8 +56,8 @@ class TrendItem(BaseModel):
     title: str = Field(description="Title of the article or resource.")
     link: str = Field(description="URL link to the resource.")
     summary: str = Field(description="Brief summary of the content.")
-    tags: List[str] = Field([], description="Keywords or tags related to the content.")
-    collected_at: Optional[str] = Field(None, description="ISO timestamp when this item was collected.")
+    tags: List[str] = Field(description="Keywords or tags related to the content.")
+    # collected_at: Optional[str] = Field(None, description="ISO timestamp when this item was collected.")
 
 class TrendOutput(BaseModel):
     answer: str = Field(description="AI-generated summary/insight synthesizing the search results to answer the user's query.")

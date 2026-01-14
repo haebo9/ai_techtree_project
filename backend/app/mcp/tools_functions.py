@@ -68,29 +68,48 @@ def _load_track_data() -> dict:
             steps_dict = {}
             for step in doc.get("steps", []):
                 step_name = step.get("step_name")
+                step_desc = step.get("description", "")
                 
                 # Reconstruct 'options' dictionary from List[TrackBranchOption]
                 options_dict = {}
                 for option in step.get("options", []):
                     option_name = option.get("option_name")
+                    option_desc = option.get("description", "")
                     
                     # Reconstruct 'subjects' dictionary from List[TrackSubject]
                     subjects_dict = {}
                     for subject in option.get("subjects", []):
                         subject_title = subject.get("title")
+                        subject_desc = subject.get("description", "")
                         
                         # levels is a nested dict or object (LevelsContent)
                         levels = subject.get("levels", {})
                         
-                        subjects_dict[subject_title] = {
+                        # If description exists, add it to the subject dict as well (custom format for tool logic)
+                        # NOTE: The original logic expects levels dict here. 
+                        # To keep it compatible but carry description, we might need a wrapper or just rely on 'description' key if it's treated as a dict.
+                        # Ideally, tracks_json structure is: "SubjectName": { "description": "...", "Lv1": [...] }
+                        
+                        formatted_subject_data = {
                             "Lv1": levels.get("Lv1", []),
                             "Lv2": levels.get("Lv2", []),
                             "Lv3": levels.get("Lv3", [])
                         }
+                        if subject_desc:
+                            formatted_subject_data["description"] = subject_desc
+                            
+                        subjects_dict[subject_title] = formatted_subject_data
                     
+                    # Same for Option, it needs to be a dict of Subjects but also carry its own description
+                    # tracks.json structure: "OptionName": { "description": "...", "Subject1": ... }
                     options_dict[option_name] = subjects_dict
+                    if option_desc:
+                        options_dict[option_name]["description"] = option_desc
                 
+                # Same for Step
                 steps_dict[step_name] = options_dict
+                if step_desc:
+                    steps_dict[step_name]["description"] = step_desc
             
             tracks_dict[track_name] = {
                 "description": doc.get("description", ""),
@@ -260,7 +279,8 @@ def f_get_techtree_track(interests: list[str], experience_level: str) -> dict:
             for step_key, step_val in track_info["steps"].items():
                 step_summary = {
                     "step": step_key,
-                    "topics": list(step_val.keys())[:3] # Preview top 3 topics
+                    "description": step_val.get("description", ""), # Add Step description
+                    "topics": [k for k in step_val.keys() if k != "description"][:3] # Exclude 'description' key from topics list
                 }
                 track_summary["key_steps"].append(step_summary)
 
@@ -310,25 +330,55 @@ def f_get_techtree_path(track_name: str) -> dict:
     steps = track_data.get("steps", {})
     
     for step_name, step_content in steps.items():
+        # step_content has keys: "description", "Option 1...", "Option 2..."
+        # We need to preserve step description? The output schema Dict[str, List[PathNode]] uses Step Name as Key.
+        # Ideally, we put description in the key or pass it separately. 
+        # But PathOutput schema has 'roadmap' as Dict[str, List]. 
+        # Combining Step Name + Desc in the key is a hack but works for LLM context.
+        
+        step_desc = step_content.get("description", "")
+        # display_step_name = f"{step_name} ({step_desc})" if step_desc else step_name
+        # Keep key clean for now, maybe add a special node? or just rely on Subject descriptions.
+        # Let's keep key clean. The LLM can infer from Subject descriptions. 
+        # OR: we could append a 'Summary Node' at the start of the list.
+        
         roadmap_structure[step_name] = []
         
         for key, val in step_content.items():
-                # Check if it's a direct Subject (Level 1)
+            if key == "description": continue
+
+            # Check if it's a direct Subject (Level 1)
+            # val is a dict. If it has "Lv1", it's a Subject (or Option pretending to be Subject)
             if isinstance(val, dict) and "Lv1" in val:
                 subject_info = {
                     "subject": key,
-                    # "description": val.get("desc", ""), # Reduced for token efficiency
+                    "description": val.get("description", ""), 
                     "importance": "High"
                 }
                 roadmap_structure[step_name].append(subject_info)
             else: 
                 # It's a Group/Option (Nested)
+                # val is { "description": "...", "Subject1": ... }
+                option_desc = val.get("description", "")
+                
                 for sub_key, sub_val in val.items():
+                     if sub_key == "description": continue
+                     
                      if isinstance(sub_val, dict) and "Lv1" in sub_val:
+                         # Merge Option desc with Subject desc for better context?
+                         # Or just pass Subject desc.
+                         subj_desc = sub_val.get("description", "")
+                         
+                         full_desc = subj_desc
+                         if option_desc and not subj_desc:
+                             full_desc = f"[{key}] {option_desc}" # Fallback to Option desc if specific subj desc missing?
+                         elif option_desc and subj_desc:
+                             full_desc = f"({key}) {subj_desc}"
+
                          subject_info = {
                             "subject": sub_key,
                             "category": key, # e.g. "Language"
-                            # "description": sub_val.get("desc", ""), # Reduced for token efficiency
+                            "description": full_desc,
                             "importance": "Medium"
                         }
                          roadmap_structure[step_name].append(subject_info)
