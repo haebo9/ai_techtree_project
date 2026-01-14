@@ -67,7 +67,11 @@
       "description": "string",
       "matching_score": float,
       "reason": "string (Why this track fits based on input)",
-      "starting_point": "string (Immediate next step)",
+      "track_content": { 
+          "track_name": "string",
+          "description": "string",
+          "key_steps": [ { "step": "string", "description": "string", "topics": ["string"] } ]
+      },
       "message": "string (Only if listing all tracks)",
       "available_tracks": [ { "track_name": "string",
                               "description": "string" } ]
@@ -90,6 +94,7 @@
         "Step 1": [ { 
                       "subject": "string",
                       "category": "string",
+                      "description": "string (Short user-friendly explanation)",
                       "importance": "string" 
                     } ],
         "Step 2": [ ... ]
@@ -98,7 +103,7 @@
     }
     ```
 
-### `❗get_techtree_detail`
+### `❗get_techtree_subject`
 *   **활성 조건 (Trigger Condition)**
     *   사용자가 "X가 뭐야?", "X에서 뭘 공부해야 해?"라고 묻거나 특정 로드맵 항목의 상세 정보를 요청할 때 사용합니다.
 *   **입력 (Input)**
@@ -135,8 +140,7 @@
         { "title": "string",
           "link": "string (URL)",
           "summary": "string",
-          "tags": ["string"],
-          "collected_at": "string"
+          "tags": ["string"]
         }
       ],
       "category": "string"
@@ -178,7 +182,7 @@ LLM이 실제 추론(Reasoning)과 행동(Acting)을 통해 응답을 생성하�
     {
       "recommended_track": "Track 1: AI Engineer",
       "reason": "웹 백엔드 경험을 살려 LLM 애플리케이션 및 서빙 시스템을 구축하기에 최적의 트랙입니다.",
-      "starting_point": "Tier 1: Core System Foundation"
+      "track_content": { ... }
     }
     ```
 4.  **Final Answer**: "웹 백엔드 3년 경력을 보유하고 계시군요! 그렇다면 **Track 1: AI Engineer** 과정을 강력히 추천합니다. \n\n이 트랙은 기존의 백엔드 역량 위에 AI 모델을 서빙하고 애플리케이션을 구축하는 기술을 더해, 가장 빠르게 실무형 AI 엔지니어로 성장할 수 있는 경로입니다. \n\n첫 단계인 **Tier 1: Core System Foundation**부터 살펴보시겠어요?"

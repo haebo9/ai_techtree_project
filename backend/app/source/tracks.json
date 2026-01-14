@@ -2,9 +2,12 @@
     "Track 0: The Origin": {
         "description": "모든 AI 클래스로 전직하기 위한 선행 조건입니다.",
         "steps": {
-            "Step 1: Core Python Mastery": {
-                "Option 1: Core Curriculum": {
+            "Step 1: Programming Basics": {
+                "description": "AI 학습의 기초가 되는 Python 프로그래밍 언어의 핵심 문법과 자료구조를 익힙니다.",
+                "Option 1: Python Fundamentals": {
+                    "description": "Python 언어 그 자체에 집중하여 기초를 탄탄히 다집니다.",
                     "Python Syntax & Types": {
+                        "description": "변수, 제어문, 함수 등 Python의 가장 기초적인 문법 요소들입니다.",
                         "Lv1": [
                             "변수 할당과 명명 규칙 (Snake Case)",
                             "기본 자료형 (int, float, str, bool)의 특징",
@@ -28,6 +31,7 @@
                         ]
                     },
                     "Data Structure Core": {
+                        "description": "List, Dictionary 등 데이터 관리를 위한 핵심 자료구조입니다.",
                         "Lv1": [
                             "List의 주요 메서드 (append, extend, pop) 사용법",
                             "Dictionary의 Key-Value 구조 이해 및 기본 조작",
@@ -47,6 +51,7 @@
                         ]
                     },
                     "OOP & Functional": {
+                        "description": "객체지향(Class)과 함수형 프로그래밍의 기초 개념입니다.",
                         "Lv1": [
                             "Class 정의와 Instance 생성 방법",
                             "self 키워드의 의미와 역할",
@@ -69,9 +74,12 @@
                     }
                 }
             },
-            "Step 2: Core DevOps Foundations": {
-                "Option 1: Core Curriculum": {
+            "Step 2: Infrastructure Fundamentals": {
+                "description": "개발 환경 설정, 버전 관리, 서버 운영의 기본이 되는 리눅스와 Git을 배웁니다.",
+                "Option 1: System Basics (Linux & Git)": {
+                    "description": "검은 화면(CLI)과 친해지고 코드를 안전하게 저장하는 방법을 익힙니다.",
                     "Linux CLI": {
+                        "description": "마우스 없이 컴퓨터를 제어하는 명령어 기초입니다.",
                         "Lv1": [
                             "디렉토리 이동 (cd)과 목록 확인 (ls) 명령어",
                             "파일 생성 (touch), 복사 (cp), 이동 (mv), 삭제 (rm) 기초",
@@ -93,6 +101,7 @@
                         ]
                     },
                     "Git Version Control": {
+                        "description": "소스코드의 역사를 기록하고 협업하기 위한 도구입니다.",
                         "Lv1": [
                             "Git 저장소 초기화 (init)와 상태 확인 (status)",
                             "파일 스테이징 (add)과 커밋 (commit) 기초",
@@ -115,9 +124,12 @@
                     }
                 }
             },
-            "Step 3: Core Math & Logic": {
-                "Option 1: Core Curriculum": {
+            "Step 3: Math & Logic": {
+                "description": "AI 알고리즘 이해에 필수적인 선형대수와 통계 기초를 다집니다.",
+                "Option 1: Mathematical Foundations": {
+                    "description": "딥러닝의 재료가 되는 행렬 연산과 확률 통계입니다.",
                     "Linear Algebra & Statistics": {
+                        "description": "데이터를 숫자로 표현하고 패턴을 찾는 수학적 도구입니다.",
                         "Lv1": [
                             "평균(Mean)과 중앙값(Median)의 차이",
                             "벡터(Vector)와 행렬(Matrix)의 기본 생김새",
@@ -145,9 +157,12 @@
     "Track 1: AI Engineer": {
         "description": "모델을 실제 서비스 환경에 이식하고 가동합니다.",
         "steps": {
-            "Step 1: Core System Foundation": {
-                "Option 1: Core Curriculum": {
+            "Step 1: System Engineering": {
+                "description": "견고하고 확장 가능한 서버 시스템을 구축하기 위한 아키텍처와 도구들을 학습합니다.",
+                "Option 1: Service Infrastructure": {
+                    "description": "FastAPI와 같은 모던 프레임워크와 비동기 처리를 통해 고성능 백엔드를 구축합니다.",
                     "FastAPI Essentials": {
+                        "description": "Python 기반의 고성능 웹 프레임워크인 FastAPI의 핵심 기능을 익힙니다.",
                         "Lv1": [
                             "GET vs POST 요청 메서드의 차이",
                             "Path Parameter(`/items/{id}`)와 Query Parameter(`?skip=0`) 사용법",
@@ -169,6 +184,7 @@
                         ]
                     },
                     "Dependency Injection": {
+                        "description": "코드의 결합도를 낮추고 테스트 용이성을 높이는 설계 패턴입니다.",
                         "Lv1": [
                             "함수 인자로 객체 전달하기 (DI의 기초)",
                             "Global 변수 사용의 문제점"
@@ -186,6 +202,7 @@
                         ]
                     },
                     "Async Architecture": {
+                        "description": "동시성 처리를 통해 서버의 처리량을 극대화하는 비동기 프로그래밍입니다.",
                         "Lv1": [
                             "동기(Sync) vs 비동기(Async) 개념 차이",
                             "Python `async def`와 `await` 키워드 기본 문법"
@@ -203,6 +220,7 @@
                         ]
                     },
                     "Docker Basics": {
+                        "description": "어디서나 동일하게 실행되는 컨테이너 환경을 구축합니다.",
                         "Lv1": [
                             "Docker 이미지와 컨테이너의 차이",
                             "Dockerfile 기본 명령어 (FROM, RUN, CMD)",
@@ -222,9 +240,12 @@
                     }
                 }
             },
-            "Step 2: Branching Point": {
+            "Step 2: Advanced Specialization": {
+                "description": "AI 모델을 서빙하거나 전체 애플리케이션 아키텍처를 설계하는 전문 분야로 나뉩니다.",
                 "Option 1: Serving Specialist": {
+                    "description": "학습된 모델을 실제 사용자가 사용할 수 있도록 효율적으로 배포하고 최적화합니다.",
                     "Model Serialization": {
+                        "description": "모델 객체를 파일로 저장하고 포맷을 변환하여 이식성을 확보합니다.",
                         "Lv1": [
                             "모델 파일 저장(.pt, .pkl)과 불러오기 기초",
                             "Pickle 모듈 기본 사용법"
@@ -240,6 +261,7 @@
                         ]
                     },
                     "Inference Optimization": {
+                        "description": "모델의 크기를 줄이고 추론 속도를 높이는 최적화 기술입니다.",
                         "Lv1": [
                             "모델 경량화의 필요성 이해",
                             "Python 코드 실행 시간 측정 (time 모듈)"
@@ -257,6 +279,7 @@
                         ]
                     },
                     "Serving Frameworks": {
+                        "description": "Triton 등 전문적인 모델 서빙 프레임워크를 활용하여 운영 환경을 구축합니다.",
                         "Lv1": [
                             "Flask/FastAPI로 모델 결과 반환하기",
                             "REST API 기본 구조 설계"
@@ -274,7 +297,9 @@
                     }
                 },
                 "Option 2: App Architect": {
+                    "description": "대규모 트래픽을 처리하고 데이터를 안정적으로 관리하는 백엔드 시스템 전문가 과정입니다.",
                     "Database Design": {
+                        "description": "데이터의 무결성을 보장하고 조회 성능을 고려한 DB 설계 기법입니다.",
                         "Lv1": [
                             "Table, Row, Column 개념",
                             "PK (Primary Key)와 FK (Foreign Key)의 역할"
@@ -292,6 +317,7 @@
                         ]
                     },
                     "Caching Strategy": {
+                        "description": "자주 찾는 데이터를 메모리에 저장하여 응답 속도를 획기적으로 개선합니다.",
                         "Lv1": [
                             "캐시(Cache)의 기본 개념과 필요성",
                             "Key-Value 저장소(Redis)의 특징"
@@ -308,6 +334,7 @@
                         ]
                     },
                     "Message Queue": {
+                        "description": "시스템 간의 결합도를 낮추고 비동기 작업을 처리하는 메시징 시스템입니다.",
                         "Lv1": [
                             "Producer와 Consumer의 개념",
                             "비동기 작업이 필요한 상황 예시"
@@ -325,9 +352,12 @@
                     }
                 }
             },
-            "Step 3: Core Infrastructure Mastery": {
-                "Option 1: Core Curriculum": {
+            "Step 3: Infrastructure Scale-up": {
+                "description": "수많은 컨테이너와 GPU 자원을 효율적으로 관리하는 인프라 확장 기술을 다룹니다.",
+                "Option 1: Scalable Infrastructure": {
+                    "description": "쿠버네티스를 활용한 컨테이너 오케스트레이션과 GPU 클러스터 관리입니다.",
                     "Container Orchestration": {
+                        "description": "Kubernetes를 통해 수백, 수천 개의 컨테이너를 자동으로 배포하고 관리합니다.",
                         "Lv1": [
                             "컨테이너 하나로는 부족한 이유 (Scaling)",
                             "Kubernetes(K8s)란 무엇인가?"
@@ -345,6 +375,7 @@
                         ]
                     },
                     "GPU Scaling": {
+                        "description": "딥러닝에 필수적인 GPU 자원을 클러스터 환경에서 효율적으로 할당하고 관리합니다.",
                         "Lv1": [
                             "GPU가 딥러닝에 유리한 이유 (병렬 처리)",
                             "CUDA와 cuDNN의 역할"
@@ -366,9 +397,12 @@
     "Track 2: AI Modeler / Researcher": {
         "description": "데이터를 지능으로 변환하는 핵심 모델을 설계합니다.",
         "steps": {
-            "Step 1: Core Deep Learning Engine": {
-                "Option 1: Core Curriculum": {
+            "Step 1: Deep Learning Fundamentals": {
+                "description": "딥러닝의 핵심 요소인 텐서 연산부터 학습 루프 구현까지, 모델링의 기초를 다집니다.",
+                "Option 1: Deep Learning Basics": {
+                    "description": "PyTorch를 사용하여 딥러닝 모델이 어떻게 학습되는지 바닥부터 이해합니다.",
                     "Tensor Operations": {
+                        "description": "다차원 배열인 텐서를 자유자재로 다루는 방법입니다.",
                         "Lv1": [
                             "Tensor(텐서)의 정의와 Rank(차원)",
                             "Tensor Shape 확인 및 기본 생성 (`torch.tensor`)"
@@ -385,6 +419,7 @@
                         ]
                     },
                     "AutoGrad & Backprop": {
+                        "description": "모델 학습의 핵심 원리인 자동 미분과 역전파 과정을 이해합니다.",
                         "Lv1": [
                             "미분(Derivative)과 기울기(Gradient)의 의미",
                             "Loss Function(손실 함수)의 역할"
@@ -401,6 +436,7 @@
                         ]
                     },
                     "Training Loop": {
+                        "description": "데이터를 주입하고 오차를 줄여가며 모델을 학습시키는 전체 과정을 구현합니다.",
                         "Lv1": [
                             "Epoch, Batch Size, Iteration 용어 정의",
                             "Train / Validation / Test 데이터셋 분리 이유"
@@ -418,9 +454,12 @@
                     }
                 }
             },
-            "Step 2: Branching Point": {
+            "Step 2: Domain Specialization": {
+                "description": "이미지 처리(Vision) 또는 자연어 처리(NLP) 중 하나의 도메인을 선택하여 깊이 있게 학습합니다.",
                 "Option 1: Vision Sage": {
+                    "description": "이미지를 보고 이해하고 생성하는 컴퓨터 비전 기술을 마스터합니다.",
                     "CNN Backbones": {
+                        "description": "이미지의 특징을 추출하는 합성곱 신경망의 발전 과정을 학습합니다.",
                         "Lv1": [
                             "픽셀(Pixel)과 RGB 채널의 이해",
                             "Convolution 연산의 기본 개념"
@@ -438,6 +477,7 @@
                         ]
                     },
                     "Object Detection": {
+                        "description": "이미지 내의 객체 위치와 종류를 찾아내는 기술입니다.",
                         "Lv1": [
                             "Image Classification vs Object Detection 차이",
                             "Bounding Box (x, y, w, h) 표현 방식"
@@ -454,6 +494,7 @@
                         ]
                     },
                     "Generative Vision": {
+                        "description": "Stable Diffusion과 같이 새로운 이미지를 만들어내는 생성 모델을 다룹니다.",
                         "Lv1": [
                             "생성 모델(Generative Model)의 목표",
                             "Noise에서 이미지를 생성하는 기본 아이디어"
@@ -471,7 +512,9 @@
                     }
                 },
                 "Option 2: Language Sage": {
+                    "description": "인간의 언어를 이해하고 생성하는 최신 자연어 처리 기술을 마스터합니다.",
                     "Transformer Arch": {
+                        "description": "현대 NLP의 기반이 된 트랜스포머 아키텍처를 해부합니다.",
                         "Lv1": [
                             "단어 임베딩(Embedding)의 필요성",
                             "RNN/LSTM의 장기 의존성(Long-term Dependency) 문제"
@@ -489,6 +532,7 @@
                         ]
                     },
                     "Tokenization": {
+                        "description": "텍스트를 모델이 이해할 수 있는 숫자로 변환하는 토크나이징 기법입니다.",
                         "Lv1": [
                             "공백 기준 분절 vs 형태소 분석",
                             "Token ID와 Decoding 개념"
@@ -505,6 +549,7 @@
                         ]
                     },
                     "PEFT": {
+                        "description": "거대 모델을 적은 자원으로 효율적으로 튜닝하는 기법(LoRA 등)입니다.",
                         "Lv1": [
                             "Pre-training vs Fine-tuning 차이",
                             "모델 전체 학습(Full Fine-tuning)의 비용 문제"
@@ -522,9 +567,12 @@
                     }
                 }
             },
-            "Step 3: Core Advanced Training": {
-                "Option 1: Core Curriculum": {
+            "Step 3: Advanced Training Techniques": {
+                "description": "초거대 모델을 학습시키기 위한 분산 학습 기술과 메모리 최적화 기법을 다룹니다.",
+                "Option 1: Advanced Model Training": {
+                    "description": "GPU 메모리 한계를 극복하고 대규모 모델을 학습시키는 엔지니어링 기술입니다.",
                     "Distributed Training": {
+                        "description": "여러 GPU에 데이터를 나누거나 모델을 쪼개어 학습하는 분산 처리 기법입니다.",
                         "Lv1": [
                             "배치 사이즈를 키우기 위해 여러 GPU가 필요한 이유",
                             "GPU 메모리 부족 (OOM) 현상"
@@ -540,6 +588,7 @@
                         ]
                     },
                     "Memory Optimization": {
+                        "description": "한정된 GPU 메모리를 쥐어짜내어 더 큰 모델을 올리는 최적화 기술입니다.",
                         "Lv1": [
                             "모델 파라미터 외에 메모리를 차지하는 것들 (Optimizer State, Gradient)",
                             "Batch Size 조절의 영향"
@@ -561,9 +610,12 @@
     "Track 3: LLM Application Engineer": {
         "description": "LLM을 활용하여 지능형 앱과 자율 에이전트를 개발합니다.",
         "steps": {
-            "Step 1: Core Context Integration": {
-                "Option 1: Core Curriculum": {
+            "Step 1: LLM Application Basics": {
+                "description": "LLM을 활용하여 유용한 애플리케이션을 만들기 위한 프롬프팅 기초와 RAG 핵심 요소를 배웁니다.",
+                "Option 1: LLM Fundamentals": {
+                    "description": "프롬프트 엔지니어링부터 벡터 DB까지 LLM 애플리케이션의 필수 구성 요소를 익힙니다.",
                     "Prompting Basics": {
+                        "description": "LLM에게 원하는 답변을 얻어내기 위한 프롬프트 작성의 기초 기술입니다.",
                         "Lv1": [
                             "Prompt Engineering이란?",
                             "System Prompt vs User Prompt 차이"
@@ -580,6 +632,7 @@
                         ]
                     },
                     "Chain of Thought": {
+                        "description": "LLM이 단계별로 생각하게 만들어 추론 능력을 극대화하는 기법입니다.",
                         "Lv1": [
                             "생각의 사슬(Chain of Thought) 직관적 이해",
                             "Step-by-step으로 생각하라고 지시하기"
@@ -595,6 +648,7 @@
                         ]
                     },
                     "Embeddings": {
+                        "description": "문장의 의미를 숫자로 변환하여 검색 가능한 형태로 만듭니다.",
                         "Lv1": [
                             "텍스트를 벡터로 변환하는 이유",
                             "유사도(Similarity) 개념"
@@ -611,6 +665,7 @@
                         ]
                     },
                     "Vector DB": {
+                        "description": "임베딩된 벡터를 저장하고 초고속으로 유사한 문서를 검색하는 데이터베이스입니다.",
                         "Lv1": [
                             "일반 DB와 Vector DB의 차이점",
                             "Nearest Neighbor Search 개념"
@@ -629,9 +684,12 @@
                     }
                 }
             },
-            "Step 2: Branching Point": {
+            "Step 2: Advanced Application Patterns": {
+                "description": "단순 챗봇을 넘어 스스로 행동하는 Agent와 신뢰성 있 RAG 시스템을 구축합니다.",
                 "Option 1: Agentic Workflow": {
+                    "description": "도구를 사용하고 계획을 수립하는 자율 에이전트 시스템을 설계합니다.",
                     "ReAct Pattern": {
+                        "description": "생각(Reasoning)하고 행동(Acting)하며 문제를 해결하는 에이전트의 기본 패턴입니다.",
                         "Lv1": [
                             "AI Agent 정의: 생각하고 행동하는 AI",
                             "ReAct (Reasoning + Acting) 약어 의미"
@@ -647,6 +705,7 @@
                         ]
                     },
                     "Tool Use": {
+                        "description": "LLM이 외부 세계(API, 검색, DB)와 상호작용하도록 도구를 쥐어줍니다.",
                         "Lv1": [
                             "LLM이 외부 도구(계산기, 검색)를 쓰는 이유",
                             "Function Calling 개념"
@@ -662,6 +721,7 @@
                         ]
                     },
                     "Multi-Agent": {
+                        "description": "여러 에이전트가 협력하여 복잡한 태스크를 수행하는 시스템입니다.",
                         "Lv1": [
                             "Single Agent vs Multi-Agent 차이",
                             "역할 분담의 필요성"
@@ -678,7 +738,9 @@
                     }
                 },
                 "Option 2: Reliability & Eval": {
+                    "description": "실제 서비스 가능한 수준의 정확도와 신뢰성을 확보하는 고급 기술들입니다.",
                     "Advanced RAG": {
+                        "description": "단순 검색을 넘어 검색 정확도를 획기적으로 높이는 고급 RAG 기법들입니다.",
                         "Lv1": [
                             "RAG(검색 증강 생성) 기본 개념",
                             "Context Window 한계 극복"
@@ -696,6 +758,7 @@
                         ]
                     },
                     "Chunking Strategy": {
+                        "description": "문서를 의미 단위로 적절히 잘라내어 검색 품질을 최적화하는 전략입니다.",
                         "Lv1": [
                             "문서를 쪼개는 (Chunking) 이유",
                             "Token 개수 제한"
@@ -711,6 +774,7 @@
                         ]
                     },
                     "LLM Evaluation": {
+                        "description": "정답이 없는 생성형 AI의 답변 품질을 정량적으로 측정하고 개선합니다.",
                         "Lv1": [
                             "LLM 답변 평가가 어려운 이유",
                             "정성 평가 vs 정량 평가"
@@ -727,9 +791,12 @@
                     }
                 }
             },
-            "Step 3: Core Production Excellence": {
-                "Option 1: Core Curriculum": {
+            "Step 3: Production Engineering": {
+                "description": "LLM 서비스를 지속적으로 운영하고 개선하기 위한 Ops 방법론을 익힙니다.",
+                "Option 1: LLM Ops & Production": {
+                    "description": "프롬프트 버전 관리부터 피드백 루프 구축까지 LLM 운영의 모든 것입니다.",
                     "Prompt Management": {
+                        "description": "프롬프트를 코드처럼 체계적으로 버전 관리하고 테스트합니다.",
                         "Lv1": [
                             "프롬프트를 코드처럼 관리해야 하는 이유",
                             "Prompt Template 개념"
@@ -744,6 +811,7 @@
                         ]
                     },
                     "Feedback Loop": {
+                        "description": "사용자 피드백을 수집하여 모델과 프롬프트를 지속적으로 개선하는 선순환 구조입니다.",
                         "Lv1": [
                             "사용자 피드백 수집 (좋아요/싫어요)",
                             "데이터 플라이휠 개념"
@@ -765,9 +833,12 @@
     "Track 4: Data Engineer": {
         "description": "안정적인 데이터 파이프라인과 대규모 데이터 인프라를 관리합니다.",
         "steps": {
-            "Step 1: Core Data Flow": {
-                "Option 1: Core Curriculum": {
+            "Step 1: Data Pipeline Basics": {
+                "description": "데이터 엔지니어의 기초 체력인 SQL과 데이터 모델링을 다집니다.",
+                "Option 1: Data Fundamentals": {
+                    "description": "데이터를 추출, 변형, 적재하는 기본기를 탄탄히 익힙니다.",
                     "SQL Mastery": {
+                        "description": "데이터 조작의 표준 언어인 SQL을 자유자재로 다루는 능력입니다.",
                         "Lv1": [
                             "SELECT, WHERE, ORDER BY, LIMIT 기본 문법",
                             "GROUP BY와 집계 함수 (COUNT, SUM, AVG)"
@@ -784,6 +855,7 @@
                         ]
                     },
                     "Data Modeling": {
+                        "description": "효율적인 데이터 저장을 위한 테이블 설계 이론과 정규화입니다.",
                         "Lv1": [
                             "ERD (Entity Relationship Diagram) 읽는 법",
                             "정규화(Normalization)의 목적 (중복 제거)"
@@ -800,6 +872,7 @@
                         ]
                     },
                     "Workflow Orchestration": {
+                        "description": "복잡한 데이터 처리 작업들의 순서와 의존성을 관리하는 도구입니다.",
                         "Lv1": [
                             "작업 스케줄링 (Cron)의 개념",
                             "Airflow DAG과 Task 정의"
@@ -817,9 +890,12 @@
                     }
                 }
             },
-            "Step 2: Branching Point": {
+            "Step 2: Advanced Data Processing": {
+                "description": "대규모 데이터(Big Data)를 분산 처리하거나 실시간으로 처리하는 고급 기술입니다.",
                 "Option 1: Big Data Master": {
+                    "description": "Spark와 Hadoop 생태계를 활용한 대용량 배치 처리 전문가 과정입니다.",
                     "Distributed Concept": {
+                        "description": "한 대의 컴퓨터로 처리 불가능한 데이터를 나누어 처리하는 분산 시스템 원리입니다.",
                         "Lv1": [
                             "분산 처리의 필요성 (Scale-out vs Scale-up)",
                             "HDFS (하둡 분산 파일 시스템) 기본 개념"
@@ -835,6 +911,7 @@
                         ]
                     },
                     "Spark Logic": {
+                        "description": "인메모리 기반의 고속 분산 처리 프레임워크인 Spark의 내부 동작을 배웁니다.",
                         "Lv1": [
                             "Spark가 Hadoop MapReduce보다 빠른 이유 (In-memory)",
                             "PySpark 기본 DataFrame 조작"
@@ -852,7 +929,9 @@
                     }
                 },
                 "Option 2: Real-time Master": {
+                    "description": "끊임없이 들어오는 데이터 스트림을 지연 없이 처리하는 아키텍처를 설계합니다.",
                     "Event Streaming": {
+                        "description": "Kafka를 활용하여 대규모 이벤트를 안정적으로 중계하는 메시징 시스템입니다.",
                         "Lv1": [
                             "배치(Batch) vs 스트리밍(Streaming) 차이",
                             "Kafka 기본 용어 (Topic, Producer, Consumer)"
@@ -869,6 +948,7 @@
                         ]
                     },
                     "Stream Processing": {
+                        "description": "흐르는 데이터에서 실시간으로 인사이트를 추출하는 기술입니다.",
                         "Lv1": [
                             "Stateless vs Stateful 스트림 처리",
                             "Windowing 개념 (시간 단위 묶기)"
@@ -886,9 +966,12 @@
                     }
                 }
             },
-            "Step 3: Core Data Architecture": {
-                "Option 1: Core Curriculum": {
+            "Step 3: Enterprise Data Architecture": {
+                "description": "전사적 데이터 플랫폼을 설계하고 관리하는 모던 데이터 스택을 다룹니다.",
+                "Option 1: Modern Data Stack": {
+                    "description": "클라우드 기반의 최신 데이터 웨어하우스와 데이터 레이크 아키텍처입니다.",
                     "Modern Data Stack": {
+                        "description": "Snowflake, Databricks 등 최신 데이터 플랫폼 트렌드와 아키텍처입니다.",
                         "Lv1": [
                             "Data Warehouse vs Data Lake 개념",
                             "ETL vs ELT 차이"
@@ -910,9 +993,12 @@
     "Track 5: MLOps Engineer": {
         "description": "전체 ML 생명 주기를 자동화하고 운영 효율을 극대화합니다.",
         "steps": {
-            "Step 1: Core Automation Core": {
-                "Option 1: Core Curriculum": {
+            "Step 1: MLOps Foundation": {
+                "description": "ML 모델을 위한 안정적인 자동화 파이프라인의 기초를 다집니다.",
+                "Option 1: Automation Foundations": {
+                    "description": "컨테이너, CI/CD, 로깅 등 자동화를 위한 핵심 DevOps 기술을 ML에 적용합니다.",
                     "Docker & Registry": {
+                        "description": "ML 모델 학습/배포 환경을 표준화하는 컨테이너 이미지 관리입니다.",
                         "Lv1": [
                             "이미지 레지스트리(ECR, DockerHub) 역할",
                             "Image Build 기본 명령어"
@@ -928,6 +1014,7 @@
                         ]
                     },
                     "CI/CD Pipelines": {
+                        "description": "코드 변경사항을 자동으로 테스트하고 배포하는 파이프라인 구축입니다.",
                         "Lv1": [
                             "CI(지속적 통합)와 CD(지속적 배포)의 의미",
                             "GitHub Actions 기본 YAML 구조"
@@ -944,6 +1031,7 @@
                         ]
                     },
                     "Model Logging": {
+                        "description": "실험 결과를 기록하고 모델 버전을 관리하여 재현성을 확보합니다.",
                         "Lv1": [
                             "실험 관리(Experiment Tracking)의 필요성",
                             "모델의 Hyperparameter와 Metric 기록"
@@ -960,9 +1048,12 @@
                     }
                 }
             },
-            "Step 2: Branching Point": {
+            "Step 2: Operations & Reliability": {
+                "description": "비용 효율적이고 안정적인 ML 인프라 운영 기술과 모델 품질 모니터링을 배웁니다.",
                 "Option 1: FinOps": {
+                    "description": "클라우드 자원 비용을 최적화하고 인프라를 코드로 관리합니다.",
                     "Resource Mgmt": {
+                        "description": "값비싼 GPU 인스턴스 비용을 줄이고 효율적으로 스케줄링하는 전략입니다.",
                         "Lv1": [
                             "클라우드 비용 구성 요소 (Compute, Storage, Network)",
                             "Unused Resource 찾기"
@@ -979,6 +1070,7 @@
                         ]
                     },
                     "IaC": {
+                        "description": "인프라 구성을 코드로 작성하여 휴먼 에러를 방지하고 자동화합니다.",
                         "Lv1": [
                             "IaC (Infrastructure as Code) 개념",
                             "Terraform 기본 문법 (HCL)"
@@ -996,7 +1088,9 @@
                     }
                 },
                 "Option 2: Model Health": {
+                    "description": "배포된 모델이 멍청해지지 않는지 감시하고 성능을 유지합니다.",
                     "Drift Detection": {
+                        "description": "데이터 분포 변화나 모델 성능 저하를 조기에 감지하는 기술입니다.",
                         "Lv1": [
                             "Model Decay (성능 저하) 현상 이해",
                             "Training 데이터와 Serving 데이터의 차이"
@@ -1013,6 +1107,7 @@
                         ]
                     },
                     "Observability": {
+                        "description": "시스템 내부 상태를 투명하게 들여다보기 위한 로깅 및 모니터링 체계입니다.",
                         "Lv1": [
                             "Logging의 중요성 (Access Log, Error Log)",
                             "Metrics (CPU, Memory) 모니터링"
@@ -1030,9 +1125,12 @@
                     }
                 }
             },
-            "Step 3: Core Monitoring Mastery": {
-                "Option 1: Core Curriculum": {
+            "Step 3: Continuous Operations": {
+                "description": "사람의 개입 없이 스스로 진화하는 ML 시스템(CT)을 구축합니다.",
+                "Option 1: ML Pipeline Automation": {
+                    "description": "데이터 수집부터 재학습, 배포까지 전 과정을 자동화합니다.",
                     "Continuous Training": {
+                        "description": "성능 저하 감지 시 자동으로 모델을 재학습시키는 파이프라인입니다.",
                         "Lv1": [
                             "재학습(Retraining) 프로세스 개요",
                             "Manual Retraining vs Automated Retraining"

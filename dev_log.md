@@ -13,6 +13,7 @@
 ## 2026년 1월
 | Date | Tag | Category | Details |
 |:---:|:---:|:---:|:---|
+| **26.01.14(수)** | ⚪️ | **Add** | AWS EC2 연결 및 Docker 빌드 테스트 |
 | **26.01.13(화)** | ⚪️ | **Init** | `"haebo.pro"` 도메인 구매 |
 | | 🟣 | **Feat** | Pydantic Model 구현 (Structured Output) |
 | | 🔵 | **Feat** | mcp Tool(survey) 추가 및 mcp_schema 문서 수정 |

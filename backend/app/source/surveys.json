@@ -1,24 +1,36 @@
 {
-    "intro_message": "반갑습니다! AI 로드맵 추천을 위해 간단한 2가지 질문을 드릴게요.",
+    "intro_message": "반갑습니다! 딱 맞는 AI 로드맵을 찾기 위해 핵심 질문 두 가지만 드릴게요.",
     "questions": [
         {
-            "id": "q_exp",
-            "text": "현재 개발 경험이나 지식 수준은 어느 정도신가요?",
+            "id": "experience_level",
+            "text": "현재 어떤 개발 경험이 있으신가요? (경력 수준 파악)",
             "options": [
                 {
-                    "label": "AI/개발 경험이 거의 없는 입문자",
+                    "label": "1. 코딩이 처음이에요 (비전공/입문)",
                     "value": {
                         "level": "beginner"
                     }
                 },
                 {
-                    "label": "웹/앱 개발 경험이 있는 개발자 (1~3년차)",
+                    "label": "2. 학교에서 조금 배워봤어요 (기초 수준)",
+                    "value": {
+                        "level": "beginner"
+                    }
+                },
+                {
+                    "label": "3. 개발자는 아니지만 IT 업계에서 일해요 (PM/기획/디자인)",
+                    "value": {
+                        "level": "beginner"
+                    }
+                },
+                {
+                    "label": "4. 실무에서 개발을 하고 있어요 (1~3년차 주니어)",
                     "value": {
                         "level": "intermediate"
                     }
                 },
                 {
-                    "label": "AI 관련 논문 구현이나 현업 프로젝트 경험자",
+                    "label": "5. 개발 경험이 풍부하고, AI 기술을 더 깊게 배우고 싶어요 (숙련자)",
                     "value": {
                         "level": "expert"
                     }
@@ -26,25 +38,84 @@
             ]
         },
         {
-            "id": "q_interest",
-            "text": "어떤 분야에 가장 관심이 있으신가요?",
+            "id": "interests",
+            "text": "AI 기술 중 특별히 흥미로운 분야가 있나요?",
             "options": [
                 {
-                    "label": "AI 모델을 활용한 웹 서비스/앱 개발 (챗봇 등)",
+                    "label": "1. 나만의 AI 서비스나 챗봇을 만들어보고 싶어요",
                     "value": {
-                        "track": "AI Engineer"
+                        "interest": [
+                            "llm",
+                            "langchain",
+                            "fastapi",
+                            "prompt_engineering",
+                            "service_development"
+                        ]
                     }
                 },
                 {
-                    "label": "데이터 분석 및 인사이트 도출",
+                    "label": "2. 데이터를 분석해서 숨겨진 의미를 찾고 싶어요",
                     "value": {
-                        "track": "Data Scientist"
+                        "interest": [
+                            "data_analysis",
+                            "pandas",
+                            "statistics",
+                            "visualization",
+                            "insight"
+                        ]
                     }
                 },
                 {
-                    "label": "최신 AI 모델 아키텍처 연구 및 개발",
+                    "label": "3. 대규모 트래픽을 처리하는 AI 시스템을 구축하고 싶어요",
                     "value": {
-                        "track": "AI Researcher"
+                        "interest": [
+                            "backend_system",
+                            "docker",
+                            "kubernetes",
+                            "model_serving",
+                            "ml_ops"
+                        ]
+                    }
+                },
+                {
+                    "label": "4. 반복 업무를 대신해주는 자동화 에이전트를 만들고 싶어요",
+                    "value": {
+                        "interest": [
+                            "automation",
+                            "ai_agent",
+                            "crawling",
+                            "process_optimization"
+                        ]
+                    }
+                },
+                {
+                    "label": "5. 이미지나 영상을 생성하거나 인식하는 기술이 궁금해요",
+                    "value": {
+                        "interest": [
+                            "computer_vision",
+                            "generative_ai",
+                            "image_processing",
+                            "stable_diffusion"
+                        ]
+                    }
+                },
+                {
+                    "label": "6. 최신 AI 논문을 읽고 모델을 직접 구현해보고 싶어요",
+                    "value": {
+                        "interest": [
+                            "ai_research",
+                            "deep_learning_theory",
+                            "paper_implementation",
+                            "model_architecture"
+                        ]
+                    }
+                },
+                {
+                    "label": "7. 아직 잘 모르겠어요, 전체적으로 둘러볼래요",
+                    "value": {
+                        "interest": [
+                            "ALL"
+                        ]
                     }
                 }
             ]

@@ -63,7 +63,8 @@ def sync_tracks():
         sorted_step_keys = sorted(track_data["steps"].keys())
         
         for step_key in sorted_step_keys:
-            step_content = track_data["steps"][step_key] # This is a Dict of Options
+            step_content = track_data["steps"][step_key].copy()
+            step_description = step_content.pop("description", "")
             
             options_doc = []
             
@@ -71,27 +72,37 @@ def sync_tracks():
             sorted_option_keys = sorted(step_content.keys())
             
             for opt_key in sorted_option_keys:
-                opt_data = step_content[opt_key] # This is a Dict of Subjects
+                opt_data = step_content[opt_key].copy()
+                opt_description = opt_data.pop("description", "")
                 
                 subjects_doc = []
                 # Sort subjects might not be strictly necessary but good for determinism
                 # We assume subjects order in dict might matter or arbitrary. sorting by key for now.
-                # Or if the user meant "Subjects" dict to be ordered... dicts are ordered in modern python.
-                # Let's just iterate.
                 
-                for subject_title, levels in opt_data.items():
+                for subject_title, subject_val in opt_data.items():
                     # Transform nested levels dict if needed, but schema says Dict[str, List[str]]
                     # track.py: "Lv1": [...]
                     # schema: levels: Dict[str, List[str]]
-                    # It matches directly.
                     
+                    # If subject_val is a dict and has 'description', extract it
+                    subject_description = ""
+                    levels = subject_val
+                    
+                    if isinstance(subject_val, dict):
+                        # We make a copy to avoid modifying the original dict during iteration if that were the case
+                        # but here subject_val is unique per loop.
+                        levels = subject_val.copy()
+                        subject_description = levels.pop("description", "")
+
                     subjects_doc.append({
                         "title": subject_title,
+                        "description": subject_description,
                         "levels": levels
                     })
                 
                 options_doc.append({
                     "option_name": opt_key,
+                    "description": opt_description,
                     "subjects": subjects_doc
                 })
             
@@ -103,6 +114,7 @@ def sync_tracks():
             
             steps_doc.append({
                 "step_name": step_key,
+                "description": step_description,
                 "type": step_type,
                 "subjects": [], # We use options structure even for FIXED to be unified
                 "options": options_doc
@@ -127,3 +139,7 @@ def sync_tracks():
 
 if __name__ == "__main__":
     sync_tracks()
+
+
+# ./.venv/bin/python3 -m pip install pymongo && ./.venv/bin/python3 backend/scripts/sync_track_to_db.py
+
