@@ -1,8 +1,8 @@
 services:
   # 1. Backend Server (FastAPI)
   backend:
-    build: .
-    image: ai-techtree:v1
+    # image: ai-techtree:v1
+    image: haebo/ai-techtree:v1
     container_name: ai-techtree-backend-v1
     # PYTHONPATH가 /app/backend 이므로, app.main:app 으로 시작해야 함
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
@@ -15,12 +15,13 @@ services:
 
   # 2. Frontend Interface (Streamlit)
   frontend:
-    build: .
-    image: ai-techtree:v1
+    # image: ai-techtree:v1
+    image: haebo/ai-techtree:v1
     container_name: ai-techtree-frontend-v1
     command: streamlit run frontend/App.py --server.port 8100
     ports:
       - "8100:8100"
+      - "80:8100" # AWS
     environment:
       - PYTHONPATH=/app
       # 중요: 프론트엔드가 백엔드를 찾을 수 있는 주소 (Service Name 사용)
@@ -30,8 +31,8 @@ services:
 
   # 3. MCP Server (Agent Interface)
   mcp:
-    build: .
-    image: ai-techtree:v1
+    # image: ai-techtree:v1
+    image: haebo/ai-techtree:v1
     container_name: ai-techtree-mcp-v1
     # SSE Transport mode on port 8200
     command: python -m app.mcp.mcp_server --transport sse --port 8200
