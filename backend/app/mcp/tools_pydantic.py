@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 # 1. Track Tool Schemas (get_techtree_track)
 # ==========================================
 class TrackItem(BaseModel):
-    track_name: str = Field(description="Name of the AI track (e.g., 'Track 1: AI Engineer')")
+    track_name: str = Field(description="Name of the AI track")
     description: str = Field(description="Brief overview of what this track covers.")
 
 class TrackOutput(BaseModel):
@@ -85,3 +85,19 @@ class SubjectOutput(BaseModel):
     guide: Optional[str] = Field(None, description="Guidance instruction for the Agent on what to do next (e.g., use another tool).")
     
     error: Optional[str] = Field(None, description="Error message if the operation failed.")
+
+# ==========================================
+# 5. Survey Tool Schemas (get_techtree_survey)
+# ==========================================
+class SurveyOption(BaseModel):
+    label: str = Field(description="Text displayed for this option.")
+    value: Dict[str, str] = Field(description="Mapping value (e.g., {'level': 'beginner'} or {'track': 'AI Engineer'}).")
+
+class SurveyQuestion(BaseModel):
+    id: str = Field(description="Unique identifier for the question.")
+    text: str = Field(description="The question text.")
+    options: List[SurveyOption] = Field(description="List of choices for this question.")
+
+class SurveyOutput(BaseModel):
+    intro_message: str = Field(description="Greeting message to explain why the survey is being conducted.")
+    questions: List[SurveyQuestion] = Field(description="List of survey questions to assess user background and interests.")

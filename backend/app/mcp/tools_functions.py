@@ -1,4 +1,5 @@
 import os
+import json
 import threading
 import numpy as np
 from datetime import datetime
@@ -12,6 +13,33 @@ from app.core.database import get_db
 # =========================================================
 # 1. Global Configuration & Lazy Loaders
 # =========================================================
+
+def f_get_techtree_survey() -> dict:
+    """
+    Returns the initial survey questions to diagnose user interests and experience.
+    Loads data from 'backend/app/source/surveys.json'.
+    """
+    try:
+        # Determine the absolute path to the JSON file
+        # Assuming this file is in backend/app/mcp/
+        # and we want to reach backend/app/source/surveys.json
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        # Go up two levels to 'backend/app' then into 'source'
+        source_path = os.path.join(current_dir, "..", "source", "surveys.json")
+        
+        if not os.path.exists(source_path):
+             return {"error": f"Survey file not found at {source_path}"}
+             
+        with open(source_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            return data
+            
+    except Exception as e:
+        print(f"Error loading survey data: {e}")
+        return {
+            "intro_message": "설문 데이터를 불러오는 중 오류가 발생했습니다.",
+            "questions": []
+        }
 
 def _load_track_data() -> dict:
     """

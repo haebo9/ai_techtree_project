@@ -5,13 +5,15 @@ from app.mcp.tools_functions import (
     f_get_techtree_track,
     f_get_techtree_path,
     f_get_techtree_trend,
-    f_get_techtree_subject
+    f_get_techtree_subject,
+    f_get_techtree_survey
 )
 from app.mcp.tools_pydantic import (
     TrackOutput, 
     PathOutput, 
     TrendOutput, 
-    SubjectOutput
+    SubjectOutput,
+    SurveyOutput
 )
 
 # Initialize FastMCP Server
@@ -20,6 +22,19 @@ mcp = FastMCP("AI TechTree")
 # ---------------------------------------------------------
 # Tool Definitions
 # ---------------------------------------------------------
+@mcp.tool()
+def get_techtree_survey() -> SurveyOutput:
+    """
+    Returns a simple survey to understand the user's development experience and AI interests.
+    
+    IMPORTANT FOR LLM:
+    - **Trigger Condition**: Use this tool at the **START of a conversation** if the user's background is unknown.
+    - **Goal**: Collect `experience_level` and `interests` to provide better track recommendations later.
+    - This tool requires NO input arguments.
+    """
+    data = f_get_techtree_survey()
+    return SurveyOutput(**data)
+
 
 @mcp.tool()
 def get_techtree_track(
@@ -32,7 +47,7 @@ def get_techtree_track(
     IMPORTANT FOR LLM:
     - **Trigger Condition**: Use this tool IMMEDIATELY when the user asks "What should I study?" or "What tracks are available?".
     - **Show All Tracks**: If the user asks for a list of tracks or is unsure, Call this tool with `interests=["ALL"]`.
-    
+
     """
     data = f_get_techtree_track(interests, experience_level)
     return TrackOutput(**data)
@@ -53,6 +68,18 @@ def get_techtree_path(
     data = f_get_techtree_path(track_name)
     return PathOutput(**data)
 
+
+@mcp.tool()
+def get_techtree_subject(
+    subject_name: Annotated[str, Field(description="The exact name of the subject (e.g., 'Vector DB', 'Python Syntax').")]
+) -> SubjectOutput:
+    """
+    Retrieves detailed learning concepts (Lv1, Lv2, Lv3) for a specific subject.
+    Use this when the user asks for "What is X?", "What should I study in X?", or details about a specific roadmap item.
+    """
+    data = f_get_techtree_subject(subject_name)
+    return SubjectOutput(**data)
+
 @mcp.tool()
 def get_techtree_trend(
     keywords: Annotated[List[str], Field(description="List of technical keywords (e.g., ['LLM', 'Agent', 'RAG']). Include 3-5 related keywords for better tagging.")],
@@ -71,22 +98,12 @@ def get_techtree_trend(
     data = f_get_techtree_trend(keywords, category)
     return TrendOutput(**data)
 
-@mcp.tool()
-def get_techtree_subject(
-    subject_name: Annotated[str, Field(description="The exact name of the subject (e.g., 'Vector DB', 'Python Syntax').")]
-) -> SubjectOutput:
-    """
-    Retrieves detailed learning concepts (Lv1, Lv2, Lv3) for a specific subject.
-    Use this when the user asks for "What is X?", "What should I study in X?", or details about a specific roadmap item.
-    """
-    data = f_get_techtree_subject(subject_name)
-    return SubjectOutput(**data)
-
 # No need to explicitly manually list MCP_TOOLS list if using @mcp.tool decorator with FastMCP's internal registry,
 # but keeping it for reference if needed elsewhere. 
 MCP_TOOLS = [
     get_techtree_track,
     get_techtree_path,
+    get_techtree_subject,
     get_techtree_trend,
-    get_techtree_subject
+    get_techtree_survey,
 ]
