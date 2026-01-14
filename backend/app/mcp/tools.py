@@ -23,20 +23,6 @@ mcp = FastMCP("AI TechTree")
 # Tool Definitions
 # ---------------------------------------------------------
 @mcp.tool()
-def get_techtree_survey() -> SurveyOutput:
-    """
-    Returns a simple survey to understand the user's development experience and AI interests.
-    
-    IMPORTANT FOR LLM:
-    - **Trigger Condition**: Use this tool at the **START of a conversation** if the user's background is unknown.
-    - **Goal**: Collect `experience_level` and `interests` to provide better track recommendations later.
-    - This tool requires NO input arguments.
-    """
-    data = f_get_techtree_survey()
-    return SurveyOutput(**data)
-
-
-@mcp.tool()
 def get_techtree_track(
     interests: Annotated[List[str], Field(description="List of keywords. Pass ['ALL'] to see all available tracks.")],
     experience_level: Annotated[str, Field(description="User's experience level ('beginner', 'intermediate', 'expert').")]
@@ -97,6 +83,20 @@ def get_techtree_trend(
     """
     data = f_get_techtree_trend(keywords, category)
     return TrendOutput(**data)
+
+@mcp.tool()
+def get_techtree_survey() -> SurveyOutput:
+    """
+    Returns a simple survey to understand the user's development experience and AI interests.
+    
+    IMPORTANT FOR LLM:
+    - **Trigger Condition**: Use this tool ONLY when you lack sufficient information about the user's **'experience_level'** OR **'interests'**.
+    - **Do NOT use**: If the user has already explicitly stated their development experience (e.g., "I'm a senior dev") AND their specific area of interest (e.g., "I want to build chatbots"). In that case, proceed directly to `get_techtree_track`.
+    - **Goal**: Collect missing metadata to provide accurate recommendations.
+    """
+    data = f_get_techtree_survey()
+    return SurveyOutput(**data)
+
 
 # No need to explicitly manually list MCP_TOOLS list if using @mcp.tool decorator with FastMCP's internal registry,
 # but keeping it for reference if needed elsewhere. 

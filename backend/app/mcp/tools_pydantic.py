@@ -91,7 +91,7 @@ class SubjectOutput(BaseModel):
 # ==========================================
 class SurveyOption(BaseModel):
     label: str = Field(description="Text displayed for this option.")
-    value: Dict[str, str] = Field(description="Mapping value (e.g., {'level': 'beginner'} or {'track': 'AI Engineer'}).")
+    value: Dict[str, Any] = Field(description="Mapping value (e.g., {'level': 'beginner'} or {'interest': ['llm', 'langchain']}).")
 
 class SurveyQuestion(BaseModel):
     id: str = Field(description="Unique identifier for the question.")

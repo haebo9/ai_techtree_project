@@ -44,8 +44,7 @@
                 {
                     "label": "1. 나만의 AI 서비스나 챗봇을 만들어보고 싶어요",
                     "value": {
-                        "interest": "chatbot",
-                        "keywords": [
+                        "interest": [
                             "llm",
                             "langchain",
                             "fastapi",
@@ -57,8 +56,7 @@
                 {
                     "label": "2. 데이터를 분석해서 숨겨진 의미를 찾고 싶어요",
                     "value": {
-                        "interest": "data_analysis",
-                        "keywords": [
+                        "interest": [
                             "data_analysis",
                             "pandas",
                             "statistics",
@@ -70,8 +68,7 @@
                 {
                     "label": "3. 대규모 트래픽을 처리하는 AI 시스템을 구축하고 싶어요",
                     "value": {
-                        "interest": "backend",
-                        "keywords": [
+                        "interest": [
                             "backend_system",
                             "docker",
                             "kubernetes",
@@ -83,8 +80,7 @@
                 {
                     "label": "4. 반복 업무를 대신해주는 자동화 에이전트를 만들고 싶어요",
                     "value": {
-                        "interest": "automation",
-                        "keywords": [
+                        "interest": [
                             "automation",
                             "ai_agent",
                             "crawling",
@@ -95,8 +91,7 @@
                 {
                     "label": "5. 이미지나 영상을 생성하거나 인식하는 기술이 궁금해요",
                     "value": {
-                        "interest": "vision",
-                        "keywords": [
+                        "interest": [
                             "computer_vision",
                             "generative_ai",
                             "image_processing",
@@ -107,8 +102,7 @@
                 {
                     "label": "6. 최신 AI 논문을 읽고 모델을 직접 구현해보고 싶어요",
                     "value": {
-                        "interest": "research",
-                        "keywords": [
+                        "interest": [
                             "ai_research",
                             "deep_learning_theory",
                             "paper_implementation",
@@ -119,11 +113,8 @@
                 {
                     "label": "7. 아직 잘 모르겠어요, 전체적으로 둘러볼래요",
                     "value": {
-                        "interest": "ALL",
-                        "keywords": [
-                            "ai_overview",
-                            "basic_concepts",
-                            "broad_exploration"
+                        "interest": [
+                            "ALL"
                         ]
                     }
                 }
