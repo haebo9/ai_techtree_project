@@ -98,7 +98,7 @@
     }
     ```
 
-### `❗get_techtree_detail`
+### `❗get_techtree_subject`
 *   **활성 조건 (Trigger Condition)**
     *   사용자가 "X가 뭐야?", "X에서 뭘 공부해야 해?"라고 묻거나 특정 로드맵 항목의 상세 정보를 요청할 때 사용합니다.
 *   **입력 (Input)**

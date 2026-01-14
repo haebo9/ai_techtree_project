@@ -177,7 +177,7 @@ def _process_and_save_background(results: list[dict], search_terms: list[str], c
     except Exception as e:
         print(f"[Async] Background save to MongoDB failed: {e}")
 
-def perform_web_search(keywords: list[str], category: str = "tech_news") -> list[dict]:
+def f_get_techtree_trend(keywords: list[str], category: str = "tech_news") -> list[dict]:
     """
     Executes web search using Tavily with domain filtering and background archiving.
     """
@@ -374,7 +374,7 @@ def perform_search_similarity(query_text: str) -> dict:
             
     return {"best_track": best_track, "score": best_score}
 
-def recommend_ai_track(interests: list[str], experience_level: str) -> dict:
+def f_get_techtree_track(interests: list[str], experience_level: str) -> dict:
     """
     Main logic for 'get_ai_track'.
     Handles both 'list all' requests and semantic search recommendations.
@@ -430,7 +430,7 @@ def recommend_ai_track(interests: list[str], experience_level: str) -> dict:
 # 5. Core Logic: Roadmap Details (get_ai_path)
 # =========================================================
 
-def get_roadmap_details(track_name: str) -> dict:
+def f_get_techtree_path(track_name: str) -> dict:
     """
     Main logic for 'get_ai_path'.
     Retrieves and structures the full roadmap for a specific track.
@@ -475,7 +475,7 @@ def get_roadmap_details(track_name: str) -> dict:
         "note": "Use 'get_techtree_detail' for specific subject details."
     }
 
-def get_subject_details(subject_name: str) -> dict:
+def f_get_techtree_subject(subject_name: str) -> dict:
     """
     Finds detailed concepts (Lv1, Lv2, Lv3) for a specific subject across all tracks.
     Used by 'get_techtree_detail'.

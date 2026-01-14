@@ -62,9 +62,9 @@ class TrendOutput(BaseModel):
     error: Optional[str] = Field(None, description="Error message if the operation failed.")
 
 # ==========================================
-# 4. Detail Tool Schemas (get_techtree_detail)
+# 4. Subject Tool Schemas (get_techtree_subject)
 # ==========================================
-class DetailOutput(BaseModel):
+class SubjectOutput(BaseModel):
     subject: Optional[str] = Field(None, description="The specific subject being queried.")
     track: Optional[str] = Field(None, description="The track this subject belongs to.")
     category: Optional[str] = Field(None, description="The category of the subject.")

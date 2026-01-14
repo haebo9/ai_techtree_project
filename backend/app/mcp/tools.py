@@ -2,16 +2,16 @@ from typing import List, Annotated
 from mcp.server.fastmcp import FastMCP
 from pydantic import Field
 from app.mcp.tools_functions import (
-    recommend_ai_track,
-    get_roadmap_details,
-    perform_web_search,
-    get_subject_details
+    f_get_techtree_track,
+    f_get_techtree_path,
+    f_get_techtree_trend,
+    f_get_techtree_subject
 )
 from app.mcp.tools_pydantic import (
     TrackOutput, 
     PathOutput, 
     TrendOutput, 
-    DetailOutput
+    SubjectOutput
 )
 
 # Initialize FastMCP Server
@@ -33,7 +33,7 @@ def get_techtree_track(
     - **Trigger Condition**: Use this tool IMMEDIATELY when the user asks "What should I study?" or "What tracks are available?".
     - **Show All Tracks**: If the user asks for a list of tracks or is unsure, Call this tool with `interests=["ALL"]`.
     """
-    data = recommend_ai_track(interests, experience_level)
+    data = f_get_techtree_track(interests, experience_level)
     return TrackOutput(**data)
 
 @mcp.tool()
@@ -49,7 +49,7 @@ def get_techtree_path(
     - Step 3 (Application) focuses on projects and specialized domains.
     - Do NOT suggest specific time durations (e.g., "2 weeks") unless explicitly asked. Focus on **what to learn first** and **why**.
     """
-    data = get_roadmap_details(track_name)
+    data = f_get_techtree_path(track_name)
     return PathOutput(**data)
 
 @mcp.tool()
@@ -67,19 +67,19 @@ def get_techtree_trend(
     - "engineering": Implementation details (GitHub, WandB, LangChain).
     - "research": Academic papers (Arxiv).
     """
-    data = perform_web_search(keywords, category)
+    data = f_get_techtree_trend(keywords, category)
     return TrendOutput(**data)
 
 @mcp.tool()
-def get_techtree_detail(
+def get_techtree_subject(
     subject_name: Annotated[str, Field(description="The exact name of the subject (e.g., 'Vector DB', 'Python Syntax').")]
-) -> DetailOutput:
+) -> SubjectOutput:
     """
     Retrieves detailed learning concepts (Lv1, Lv2, Lv3) for a specific subject.
     Use this when the user asks for "What is X?", "What should I study in X?", or details about a specific roadmap item.
     """
-    data = get_subject_details(subject_name)
-    return DetailOutput(**data)
+    data = f_get_techtree_subject(subject_name)
+    return SubjectOutput(**data)
 
 # No need to explicitly manually list MCP_TOOLS list if using @mcp.tool decorator with FastMCP's internal registry,
 # but keeping it for reference if needed elsewhere. 
@@ -87,5 +87,5 @@ MCP_TOOLS = [
     get_techtree_track,
     get_techtree_path,
     get_techtree_trend,
-    get_techtree_detail
+    get_techtree_subject
 ]
