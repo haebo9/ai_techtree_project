@@ -1,7 +1,13 @@
 from typing import List, Annotated
 from mcp.server.fastmcp import FastMCP
 from pydantic import Field
-from app.mcp.schemas import (
+from app.mcp.tools_functions import (
+    recommend_ai_track,
+    get_roadmap_details,
+    perform_web_search,
+    get_subject_details
+)
+from app.mcp.tools_pydantic import (
     TrackOutput, 
     PathOutput, 
     TrendOutput, 
