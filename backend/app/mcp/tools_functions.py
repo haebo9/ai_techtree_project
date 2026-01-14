@@ -248,21 +248,28 @@ def f_get_techtree_track(interests: list[str], experience_level: str) -> dict:
         ai_tech_tree = _load_track_data()
         track_info = ai_tech_tree[best_track]
         
-        # Determine starting point based on experience
-        steps = list(track_info.get("steps", {}).keys())
-        starting_point = steps[0] if steps else "Basis"
+        # Construct a rich summary of the track content
+        track_summary = {
+            "track_name": best_track,
+            "description": track_info.get("description", ""),
+            "key_steps": []
+        }
         
-        if experience_level.lower() == "intermediate" and len(steps) > 1:
-            starting_point = steps[1]
-        elif experience_level.lower() == "expert" and len(steps) > 2:
-            starting_point = steps[2]
+        # Add summary of steps to give context to the LLM
+        if "steps" in track_info:
+            for step_key, step_val in track_info["steps"].items():
+                step_summary = {
+                    "step": step_key,
+                    "topics": list(step_val.keys())[:3] # Preview top 3 topics
+                }
+                track_summary["key_steps"].append(step_summary)
 
         return {
             "recommended_track": best_track,
             "description": track_info.get("description", ""),
             "matching_score": round(float(best_score), 2),
             "reason": f"Your interests in '{', '.join(interests)}' match this track's focus on {track_info.get('description', '')}.",
-            "starting_point": starting_point
+            "track_content": track_summary # Replaced starting_point with rich content
         }
     else:
         return {"error": "No suitable track found."}

@@ -18,7 +18,7 @@ class TrackOutput(BaseModel):
     description: Optional[str] = Field(None, description="Description of the recommended track.")
     matching_score: Optional[float] = Field(None, description="Similarity score (0.0 to 1.0) indicating how well the track matches user interests.")
     reason: Optional[str] = Field(None, description="Explanation of why this track was recommended.")
-    starting_point: Optional[str] = Field(None, description="Recommended starting step (e.g., 'Step 1', 'Step 2') based on user's experience level.")
+    track_content: Optional[Dict[str, Any]] = Field(None, description="Summary of the track content, including key steps and topics. Use this to give a high-level overview.")
 
     # Common
     error: Optional[str] = Field(None, description="Error message if the operation failed.")

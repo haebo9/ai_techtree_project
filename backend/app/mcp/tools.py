@@ -32,8 +32,8 @@ def get_techtree_track(
 
     IMPORTANT FOR LLM:
     - **Trigger Condition**: Use this tool IMMEDIATELY when the user asks "What should I study?" or "What tracks are available?".
+    - **From Survey**: If you have the result from `get_techtree_survey`, use the EXACT list of keywords from the user's selected interest option as the `interests` argument. (e.g. `interests=['llm', 'langchain', ...]`)
     - **Show All Tracks**: If the user asks for a list of tracks or is unsure, Call this tool with `interests=["ALL"]`.
-
     """
     data = f_get_techtree_track(interests, experience_level)
     return TrackOutput(**data)
