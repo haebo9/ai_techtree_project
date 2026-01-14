@@ -127,3 +127,7 @@ def sync_tracks():
 
 if __name__ == "__main__":
     sync_tracks()
+
+
+# ./.venv/bin/python3 -m pip install pymongo && ./.venv/bin/python3 backend/scripts/sync_track_to_db.py
+

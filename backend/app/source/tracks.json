@@ -3,7 +3,7 @@
         "description": "모든 AI 클래스로 전직하기 위한 선행 조건입니다.",
         "steps": {
             "Step 1: Core Python Mastery": {
-                "Option 1: Core Curriculum": {
+                "Option 1: Python Fundamentals": {
                     "Python Syntax & Types": {
                         "Lv1": [
                             "변수 할당과 명명 규칙 (Snake Case)",
@@ -70,7 +70,7 @@
                 }
             },
             "Step 2: Core DevOps Foundations": {
-                "Option 1: Core Curriculum": {
+                "Option 1: System Basics (Linux & Git)": {
                     "Linux CLI": {
                         "Lv1": [
                             "디렉토리 이동 (cd)과 목록 확인 (ls) 명령어",
@@ -116,7 +116,7 @@
                 }
             },
             "Step 3: Core Math & Logic": {
-                "Option 1: Core Curriculum": {
+                "Option 1: Mathematical Foundations": {
                     "Linear Algebra & Statistics": {
                         "Lv1": [
                             "평균(Mean)과 중앙값(Median)의 차이",
@@ -146,7 +146,7 @@
         "description": "모델을 실제 서비스 환경에 이식하고 가동합니다.",
         "steps": {
             "Step 1: Core System Foundation": {
-                "Option 1: Core Curriculum": {
+                "Option 1: Service Infrastructure": {
                     "FastAPI Essentials": {
                         "Lv1": [
                             "GET vs POST 요청 메서드의 차이",
@@ -326,7 +326,7 @@
                 }
             },
             "Step 3: Core Infrastructure Mastery": {
-                "Option 1: Core Curriculum": {
+                "Option 1: Scalable Infrastructure": {
                     "Container Orchestration": {
                         "Lv1": [
                             "컨테이너 하나로는 부족한 이유 (Scaling)",
@@ -367,7 +367,7 @@
         "description": "데이터를 지능으로 변환하는 핵심 모델을 설계합니다.",
         "steps": {
             "Step 1: Core Deep Learning Engine": {
-                "Option 1: Core Curriculum": {
+                "Option 1: Deep Learning Basics": {
                     "Tensor Operations": {
                         "Lv1": [
                             "Tensor(텐서)의 정의와 Rank(차원)",
@@ -523,7 +523,7 @@
                 }
             },
             "Step 3: Core Advanced Training": {
-                "Option 1: Core Curriculum": {
+                "Option 1: Advanced Model Training": {
                     "Distributed Training": {
                         "Lv1": [
                             "배치 사이즈를 키우기 위해 여러 GPU가 필요한 이유",
@@ -562,7 +562,7 @@
         "description": "LLM을 활용하여 지능형 앱과 자율 에이전트를 개발합니다.",
         "steps": {
             "Step 1: Core Context Integration": {
-                "Option 1: Core Curriculum": {
+                "Option 1: LLM Fundamentals": {
                     "Prompting Basics": {
                         "Lv1": [
                             "Prompt Engineering이란?",
@@ -728,7 +728,7 @@
                 }
             },
             "Step 3: Core Production Excellence": {
-                "Option 1: Core Curriculum": {
+                "Option 1: LLM Ops & Production": {
                     "Prompt Management": {
                         "Lv1": [
                             "프롬프트를 코드처럼 관리해야 하는 이유",
@@ -766,7 +766,7 @@
         "description": "안정적인 데이터 파이프라인과 대규모 데이터 인프라를 관리합니다.",
         "steps": {
             "Step 1: Core Data Flow": {
-                "Option 1: Core Curriculum": {
+                "Option 1: Data Fundamentals": {
                     "SQL Mastery": {
                         "Lv1": [
                             "SELECT, WHERE, ORDER BY, LIMIT 기본 문법",
@@ -887,7 +887,7 @@
                 }
             },
             "Step 3: Core Data Architecture": {
-                "Option 1: Core Curriculum": {
+                "Option 1: Modern Data Stack": {
                     "Modern Data Stack": {
                         "Lv1": [
                             "Data Warehouse vs Data Lake 개념",
@@ -911,7 +911,7 @@
         "description": "전체 ML 생명 주기를 자동화하고 운영 효율을 극대화합니다.",
         "steps": {
             "Step 1: Core Automation Core": {
-                "Option 1: Core Curriculum": {
+                "Option 1: Automation Foundations": {
                     "Docker & Registry": {
                         "Lv1": [
                             "이미지 레지스트리(ECR, DockerHub) 역할",
@@ -1031,7 +1031,7 @@
                 }
             },
             "Step 3: Core Monitoring Mastery": {
-                "Option 1: Core Curriculum": {
+                "Option 1: ML Pipeline Automation": {
                     "Continuous Training": {
                         "Lv1": [
                             "재학습(Retraining) 프로세스 개요",
