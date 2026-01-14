@@ -43,6 +43,10 @@ class PathOutput(BaseModel):
     note: Optional[str] = Field(None, description="Additional notes or guidance for this roadmap.")
     
     error: Optional[str] = Field(None, description="Error message if the operation failed.")
+    
+    # Fuzzy / Guide
+    candidates: Optional[List[str]] = Field(None, description="List of similar tracks found.")
+    guide: Optional[str] = Field(None, description="Guidance for the agent if track is not found.")
 
 # ==========================================
 # 3. Trend Tool Schemas (get_techtree_trend)
@@ -74,5 +78,10 @@ class SubjectOutput(BaseModel):
         None, 
         description="Detailed learning concepts organized by levels (e.g., {'Lv1': [...], 'Lv2': [...]})."
     )
+
+    # Fuzzy Search / Guidance
+    message: Optional[str] = Field(None, description="Suggestion message when exact match is not found.")
+    candidates: Optional[List[str]] = Field(None, description="List of similar subjects found.")
+    guide: Optional[str] = Field(None, description="Guidance instruction for the Agent on what to do next (e.g., use another tool).")
     
     error: Optional[str] = Field(None, description="Error message if the operation failed.")

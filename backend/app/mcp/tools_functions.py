@@ -437,8 +437,24 @@ def f_get_techtree_path(track_name: str) -> dict:
     """
     ai_tech_tree = _load_track_data()
     track_data = ai_tech_tree.get(track_name)
+    
     if not track_data:
-        return {"error": f"Track '{track_name}' not found. Please provide exact track name."}
+        # 1. Fuzzy Search for Candidates
+        all_tracks = list(ai_tech_tree.keys())
+        matches = [t for t in all_tracks if track_name.lower() in t.lower() or t.lower() in track_name.lower()]
+        
+        if matches:
+             return {
+                "error": f"Track '{track_name}' not found exact match.",
+                "candidates": matches,
+                "guide": f"Did you mean '{matches[0]}'? Retry with the exact track name from the candidates."
+            }
+        
+        # 2. No Match -> Guide to Track Tool
+        return {
+            "error": f"Track '{track_name}' not found.",
+            "guide": "The track name seems incorrect or does not exist. Please Call 'get_techtree_track' with interests=['ALL'] or specific keywords to find the correct track name first."
+        }
     
     # Reconstruct hierarchy for better LLM Understanding
     roadmap_structure = {}
@@ -484,28 +500,45 @@ def f_get_techtree_subject(subject_name: str) -> dict:
     query = subject_name.lower().strip()
     
     ai_tech_tree = _load_track_data()
+    # =========================================================
+    # Refined Logic: Exact -> Fuzzy -> Guidance
+    # =========================================================
+    
+    # 1. Collect all subjects first for search
+    matches = []
+    
+    ai_tech_tree = _load_track_data()
     for track_name, track_val in ai_tech_tree.items():
         for step_name, step_val in track_val.get("steps", {}).items():
-            
             for key, val in step_val.items():
-                if not isinstance(val, dict): continue
+                if isinstance(val, dict):
+                    # Check Level 1 (Subject)
+                    if key.lower() == query:
+                         return {"subject": key, "track": track_name, "details": val}
+                    if query in key.lower():
+                        matches.append(key)
+                        
+                    # Check Group/Option Nested
+                    if "Lv1" not in val:
+                         for sub_key, sub_val in val.items():
+                            if isinstance(sub_val, dict):
+                                if sub_key.lower() == query:
+                                    return {"subject": sub_key, "track": track_name, "category": key, "details": sub_val}
+                                if query in sub_key.lower():
+                                    matches.append(sub_key)
 
-                # 1. Direct Match (Subject Key)
-                if key.lower() == query:
-                     return {
-                         "subject": key,
-                         "track": track_name,
-                         "details": val
-                     }
-                
-                # 2. Nested Match (Inside Group/Option)
-                for sub_key, sub_val in val.items():
-                    if isinstance(sub_val, dict) and sub_key.lower() == query:
-                        return {
-                            "subject": sub_key,
-                            "track": track_name,
-                            "category": key,
-                            "details": sub_val
-                        }
-                            
-    return {"error": f"Subject '{subject_name}' not found. Please check the exact name from the roadmap."}
+    # 2. Fuzzy Match Results (Partially Found)
+    if matches:
+        # Remove duplicates and sort
+        unique_matches = sorted(list(set(matches)))
+        return {
+            "error": f"Subject '{subject_name}' not found exact match.",
+            "message": f"Did you mean one of these? {', '.join(unique_matches[:5])}",
+            "candidates": unique_matches[:5]
+        }
+
+    # 3. Not Found -> Guide Agent to use Track Tool
+    return {
+        "error": f"Subject '{subject_name}' not found in the curriculum.",
+        "guide": f"RECOMMENDATION: The concept '{subject_name}' might be part of a broader track. Please Call 'get_techtree_track' with interests=['{subject_name}'] to find the relevant track first."
+    }

@@ -41,7 +41,7 @@ services:
     env_file:
       - .env
     environment:
-      - PYTHONPATH=/app
+      - PYTHONPATH=/app/backend
     depends_on:
       - backend
 
