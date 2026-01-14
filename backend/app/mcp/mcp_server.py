@@ -1,9 +1,14 @@
 from app.mcp.tools import mcp
 
 if __name__ == "__main__":
-    # Docker/웹 환경에서는 stdio가 아닌 sse로 실행해야 합니다.
-    # 호스트는 0.0.0.0, 포트는 Dockerfile/Compose와 일치하는 8200으로 설정
-    mcp.run(transport='sse')
+    import uvicorn
+    import sys
+    
+    # print(f"✅ [MCP] Starting FastMCP (SSE Mode) using uvicorn on port 8200...", flush=True)
+    
+    # 'sse_app' is the Starlette/FastAPI application exposed by FastMCP
+    # We run it directly to ensure stability and control over the port
+    uvicorn.run(mcp.sse_app, host="0.0.0.0", port=8200)
 
 # run streamlit
-# streamlit run frontend/App.py
+# streamlit run frontend/main.py
