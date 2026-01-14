@@ -12,10 +12,7 @@ services:
       - .env # 모든 Key (OpenAI, Mongo 등)는 백엔드에만 있으면 됨!
     environment:
       - PYTHONPATH=/app/backend
-    volumes:
-      - ./backend:/app/backend
-
-  # 2. Frontend Interface (Streamlit)
+    # 2. Frontend Interface (Streamlit)
   frontend:
     # image: ai-techtree:v1
     image: haebo/ai-techtree:v1
@@ -30,22 +27,21 @@ services:
       - BACKEND_URL=http://backend:8000
     depends_on:
       - backend
-
   # 3. MCP Server (Agent Interface)
   mcp:
     # image: ai-techtree:v1
     image: haebo/ai-techtree:v1
     container_name: ai-techtree-mcp-v1
     # SSE Transport mode on port 8200
-    command: python -m app.mcp.mcp_server --transport sse --port 8200
+    command: python -m app.mcp.mcp_server
     ports:
       - "8200:8200"
     env_file:
       - .env
     environment:
       - PYTHONPATH=/app/backend
-    volumes:
-      - ./backend:/app/backend
+      - UVICORN_HOST=0.0.0.0
+      - UVICORN_PORT=8200
     depends_on:
       - backend
 
@@ -56,9 +52,9 @@ services:
 ## For AWS
 # $ docker build --platform linux/amd64 -t haebo/ai-techtree:v1 .
 # $ docker push haebo/ai-techtree:v1
-# $ scp -i ~/docker-compose.yml techtree-server:~/
-# $ scp -i ~/.env techtree-server:~/
+# $ scp docker-compose.yml techtree-server:~/
+# $ scp .env techtree-server:~/
 
 ## In AWS
-# $ docker-compose pull 
-# $ docker-compose up -d --remove-orphans
+# $ docker-compose pull
+# $ docker-compose up -d --remove-orphans && docker-compose logs -f
