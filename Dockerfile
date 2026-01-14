@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir -r requirements-frontend.txt
 COPY . .
 
 # PYTHONPATH 설정
-# 이렇게 하면 frontend/App.py 에서도 "from backend.app..." 처럼 접근 가능합니다.
+# 이렇게 하면 frontend/main.py 에서도 "from backend.app..." 처럼 접근 가능합니다.
 ENV PYTHONPATH=/app/backend
 
 # 포트 노출 (문서화 용도)
