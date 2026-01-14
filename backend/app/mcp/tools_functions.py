@@ -11,35 +11,41 @@ from tavily import TavilyClient
 from app.core.database import get_db
 
 # =========================================================
-# 1. Global Configuration & Lazy Loaders
+# 1. Global Setup & Utilities
 # =========================================================
 
-def f_get_techtree_survey() -> dict:
-    """
-    Returns the initial survey questions to diagnose user interests and experience.
-    Loads data from 'backend/app/source/surveys.json'.
-    """
-    try:
-        # Determine the absolute path to the JSON file
-        # Assuming this file is in backend/app/mcp/
-        # and we want to reach backend/app/source/surveys.json
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        # Go up two levels to 'backend/app' then into 'source'
-        source_path = os.path.join(current_dir, "..", "source", "surveys.json")
-        
-        if not os.path.exists(source_path):
-             return {"error": f"Survey file not found at {source_path}"}
-             
-        with open(source_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            return data
-            
-    except Exception as e:
-        print(f"Error loading survey data: {e}")
-        return {
-            "intro_message": "설문 데이터를 불러오는 중 오류가 발생했습니다.",
-            "questions": []
-        }
+# Global instances (Lazy Loaded)
+EMBEDDING_MODEL = None
+TAVILY_CLIENT = None
+TRACK_EMBEDDINGS = {} 
+
+def _get_embedding_model():
+    """Lazily initialize Embedding Model (Only for Track Search)."""
+    global EMBEDDING_MODEL
+    if EMBEDDING_MODEL is None:
+        try:
+             api_key = os.environ.get("OPENAI_API_KEY")
+             if not api_key:
+                 raise ValueError("OpenAI API Key not found.")
+             EMBEDDING_MODEL = OpenAIEmbeddings(model="text-embedding-3-small", api_key=api_key)
+        except Exception as e:
+            print(f"Failed to initialize embedding model: {e}")
+            return None
+    return EMBEDDING_MODEL
+
+def _get_tavily_client():
+    """Lazily initialize Tavily Client."""
+    global TAVILY_CLIENT
+    if TAVILY_CLIENT is None:
+        try:
+            api_key = os.environ.get("TAVILY_API_KEY")
+            if api_key:
+                TAVILY_CLIENT = TavilyClient(api_key=api_key)
+            else:
+                print("Warning: TAVILY_API_KEY not found.")
+        except Exception as e:
+            print(f"Failed to initialize Tavily client: {e}")
+    return TAVILY_CLIENT
 
 def _load_track_data() -> dict:
     """
@@ -97,44 +103,6 @@ def _load_track_data() -> dict:
         print(f"Error loading track data from MongoDB: {e}")
         return {} 
 
-# Global instances
-EMBEDDING_MODEL = None
-TAVILY_CLIENT = None
-TRACK_EMBEDDINGS = {} 
-
-def _get_embedding_model():
-    """Lazily initialize Embedding Model (Only for Track Search)."""
-    global EMBEDDING_MODEL
-    if EMBEDDING_MODEL is None:
-        try:
-             api_key = os.environ.get("OPENAI_API_KEY")
-             if not api_key:
-                 raise ValueError("OpenAI API Key not found.")
-             EMBEDDING_MODEL = OpenAIEmbeddings(model="text-embedding-3-small", api_key=api_key)
-        except Exception as e:
-            print(f"Failed to initialize embedding model: {e}")
-            return None
-    return EMBEDDING_MODEL
-
-def _get_tavily_client():
-    """Lazily initialize Tavily Client."""
-    global TAVILY_CLIENT
-    if TAVILY_CLIENT is None:
-        try:
-            api_key = os.environ.get("TAVILY_API_KEY")
-            if api_key:
-                TAVILY_CLIENT = TavilyClient(api_key=api_key)
-            else:
-                print("Warning: TAVILY_API_KEY not found.")
-        except Exception as e:
-            print(f"Failed to initialize Tavily client: {e}")
-    return TAVILY_CLIENT
-
-
-# =========================================================
-# 2. Shared Utilities
-# =========================================================
-
 def _extract_domain(url: str) -> str:
     """Extracts simplified domain from URL."""
     try:
@@ -150,9 +118,281 @@ def _clean_text(text: str) -> str:
     text = text.replace("\n", " ").replace("\t", " ").replace("\r", " ")
     return " ".join(text.split())
 
+def _cosine_similarity(vec_a, vec_b):
+    """Calculates Cosine Similarity between two vectors."""
+    norm_a = np.linalg.norm(vec_a)
+    norm_b = np.linalg.norm(vec_b)
+    if norm_a == 0 or norm_b == 0:
+        return 0.0
+    return np.dot(vec_a, vec_b) / (norm_a * norm_b)
+
 
 # =========================================================
-# 3. Core Logic: Web Search (get_ai_trend)
+# 2. Tool Logic: Survey (get_techtree_survey)
+# =========================================================
+
+def f_get_techtree_survey() -> dict:
+    """
+    Returns the initial survey questions to diagnose user interests and experience.
+    Loads data from 'backend/app/source/surveys.json'.
+    """
+    try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        source_path = os.path.join(current_dir, "..", "source", "surveys.json")
+        
+        if not os.path.exists(source_path):
+             return {"error": f"Survey file not found at {source_path}"}
+             
+        with open(source_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            return data
+            
+    except Exception as e:
+        print(f"Error loading survey data: {e}")
+        return {
+            "intro_message": "설문 데이터를 불러오는 중 오류가 발생했습니다.",
+            "questions": []
+        }
+
+
+# =========================================================
+# 3. Tool Logic: Track Recommendation (get_techtree_track)
+# =========================================================
+
+def _initialize_track_embeddings():
+    """Lazily initializes embeddings for all tracks."""
+    if TRACK_EMBEDDINGS:
+        return
+    
+    model = _get_embedding_model()
+    if not model:
+        return
+
+    texts = []
+    keys = []
+    ai_tech_tree = _load_track_data()
+    for track_name, track_data in ai_tech_tree.items():
+        description = track_data.get("description", "")
+        # Include Step names to enhance context
+        steps_content = []
+        if "steps" in track_data:
+            for step_name in track_data["steps"].keys():
+                steps_content.append(step_name)
+        
+        full_text = f"{track_name}. {description}. Key Areas: {', '.join(steps_content)}"
+        texts.append(full_text)
+        keys.append(track_name)
+    
+    try:
+        embeddings = model.embed_documents(texts)
+        for key, vector in zip(keys, embeddings):
+            TRACK_EMBEDDINGS[key] = vector
+    except Exception as e:
+        print(f"Error generating embeddings: {e}")
+
+def perform_search_similarity(query_text: str) -> dict:
+    """Finds best matching track using embedding similarity."""
+    _initialize_track_embeddings()
+    if not TRACK_EMBEDDINGS:
+         return {"error": "Failed to initialize embeddings."}
+         
+    model = _get_embedding_model()
+    if not model:
+        return {"error": "Embedding model not initialized."}
+
+    try:
+        query_vector = model.embed_query(query_text)
+    except Exception as e:
+        return {"error": f"Embedding generation failed: {e}"}
+    
+    best_track = None
+    best_score = -1.0
+    
+    for track_name, track_vector in TRACK_EMBEDDINGS.items():
+        score = _cosine_similarity(query_vector, track_vector)
+        if score > best_score:
+            best_score = score
+            best_track = track_name
+            
+    return {"best_track": best_track, "score": best_score}
+
+def f_get_techtree_track(interests: list[str], experience_level: str) -> dict:
+    """
+    Main logic for 'get_ai_track'.
+    Handles both 'list all' requests and semantic search recommendations.
+    """
+    # 0. Check for "List All" request
+    check_keywords = {k.upper() for k in interests}
+    if any(k in check_keywords for k in ["ALL", "LIST", "TRACKS", "전체", "목록"]) or not interests:
+        all_tracks = []
+        ai_tech_tree = _load_track_data()
+        for name, data in ai_tech_tree.items():
+            all_tracks.append({
+                "track_name": name,
+                "description": data.get("description", "")
+            })
+        return {"available_tracks": all_tracks, "message": "Here are all the available AI Tech Tracks."}
+
+    # 1. Semantic Search
+    query_text = " ".join(interests)
+    result = perform_search_similarity(query_text)
+    
+    if "error" in result:
+        return result
+        
+    best_track = result.get("best_track")
+    best_score = result.get("score")
+
+    # 2. Construct detailed result
+    if best_track:
+        ai_tech_tree = _load_track_data()
+        track_info = ai_tech_tree[best_track]
+        
+        # Determine starting point based on experience
+        steps = list(track_info.get("steps", {}).keys())
+        starting_point = steps[0] if steps else "Basis"
+        
+        if experience_level.lower() == "intermediate" and len(steps) > 1:
+            starting_point = steps[1]
+        elif experience_level.lower() == "expert" and len(steps) > 2:
+            starting_point = steps[2]
+
+        return {
+            "recommended_track": best_track,
+            "description": track_info.get("description", ""),
+            "matching_score": round(float(best_score), 2),
+            "reason": f"Your interests in '{', '.join(interests)}' match this track's focus on {track_info.get('description', '')}.",
+            "starting_point": starting_point
+        }
+    else:
+        return {"error": "No suitable track found."}
+
+
+# =========================================================
+# 4. Tool Logic: Roadmap Details (get_techtree_path)
+# =========================================================
+
+def f_get_techtree_path(track_name: str) -> dict:
+    """
+    Main logic for 'get_ai_path'.
+    Retrieves and structures the full roadmap for a specific track.
+    """
+    ai_tech_tree = _load_track_data()
+    track_data = ai_tech_tree.get(track_name)
+    
+    if not track_data:
+        # 1. Fuzzy Search for Candidates
+        all_tracks = list(ai_tech_tree.keys())
+        matches = [t for t in all_tracks if track_name.lower() in t.lower() or t.lower() in track_name.lower()]
+        
+        if matches:
+             return {
+                "error": f"Track '{track_name}' not found exact match.",
+                "candidates": matches,
+                "guide": f"Did you mean '{matches[0]}'? Retry with the exact track name from the candidates."
+            }
+        
+        # 2. No Match -> Guide to Track Tool
+        return {
+            "error": f"Track '{track_name}' not found.",
+            "guide": "The track name seems incorrect or does not exist. Please Call 'get_techtree_track' with interests=['ALL'] or specific keywords to find the correct track name first."
+        }
+    
+    # Reconstruct hierarchy for better LLM Understanding
+    roadmap_structure = {}
+    steps = track_data.get("steps", {})
+    
+    for step_name, step_content in steps.items():
+        roadmap_structure[step_name] = []
+        
+        for key, val in step_content.items():
+                # Check if it's a direct Subject (Level 1)
+            if isinstance(val, dict) and "Lv1" in val:
+                subject_info = {
+                    "subject": key,
+                    # "description": val.get("desc", ""), # Reduced for token efficiency
+                    "importance": "High"
+                }
+                roadmap_structure[step_name].append(subject_info)
+            else: 
+                # It's a Group/Option (Nested)
+                for sub_key, sub_val in val.items():
+                     if isinstance(sub_val, dict) and "Lv1" in sub_val:
+                         subject_info = {
+                            "subject": sub_key,
+                            "category": key, # e.g. "Language"
+                            # "description": sub_val.get("desc", ""), # Reduced for token efficiency
+                            "importance": "Medium"
+                        }
+                         roadmap_structure[step_name].append(subject_info)
+    
+    return {
+        "track": track_name,
+        "description": track_data.get("description"),
+        "roadmap": roadmap_structure,
+        "note": "Use 'get_techtree_detail' for specific subject details."
+    }
+
+
+# =========================================================
+# 5. Tool Logic: Subject Details (get_techtree_subject)
+# =========================================================
+
+def f_get_techtree_subject(subject_name: str) -> dict:
+    """
+    Finds detailed concepts (Lv1, Lv2, Lv3) for a specific subject across all tracks.
+    Used by 'get_techtree_detail'.
+    """
+    # Normalize query
+    query = subject_name.lower().strip()
+    
+    ai_tech_tree = _load_track_data()
+    # =========================================================
+    # Refined Logic: Exact -> Fuzzy -> Guidance
+    # =========================================================
+    
+    # 1. Collect all subjects first for search
+    matches = []
+    
+    ai_tech_tree = _load_track_data()
+    for track_name, track_val in ai_tech_tree.items():
+        for step_name, step_val in track_val.get("steps", {}).items():
+            for key, val in step_val.items():
+                if isinstance(val, dict):
+                    # Check Level 1 (Subject)
+                    if key.lower() == query:
+                         return {"subject": key, "track": track_name, "details": val}
+                    if query in key.lower():
+                        matches.append(key)
+                        
+                    # Check Group/Option Nested
+                    if "Lv1" not in val:
+                         for sub_key, sub_val in val.items():
+                            if isinstance(sub_val, dict):
+                                if sub_key.lower() == query:
+                                    return {"subject": sub_key, "track": track_name, "category": key, "details": sub_val}
+                                if query in sub_key.lower():
+                                    matches.append(sub_key)
+
+    # 2. Fuzzy Match Results (Partially Found)
+    if matches:
+        # Remove duplicates and sort
+        unique_matches = sorted(list(set(matches)))
+        return {
+            "error": f"Subject '{subject_name}' not found exact match.",
+            "message": f"Did you mean one of these? {', '.join(unique_matches[:5])}",
+            "candidates": unique_matches[:5]
+        }
+
+    # 3. Not Found -> Guide Agent to use Track Tool
+    return {
+        "error": f"Subject '{subject_name}' not found in the curriculum.",
+        "guide": f"RECOMMENDATION: The concept '{subject_name}' might be part of a broader track. Please Call 'get_techtree_track' with interests=['{subject_name}'] to find the relevant track first."
+    }
+
+
+# =========================================================
+# 6. Tool Logic: Trends (get_techtree_trend)
 # =========================================================
 
 def _process_and_save_background(results: list[dict], search_terms: list[str], category: str = "tech_news"):
@@ -332,241 +572,3 @@ def f_get_techtree_trend(keywords: list[str], category: str = "tech_news") -> li
             "items": [{"title": "Search Error", "link": "", "summary": str(e)}],
             "category": category
         }
-
-
-# =========================================================
-# 4. Core Logic: Track Recommendation (get_ai_track)
-# =========================================================
-
-def _initialize_track_embeddings():
-    """Lazily initializes embeddings for all tracks."""
-    if TRACK_EMBEDDINGS:
-        return
-    
-    model = _get_embedding_model()
-    if not model:
-        return
-
-    texts = []
-    keys = []
-    ai_tech_tree = _load_track_data()
-    for track_name, track_data in ai_tech_tree.items():
-        description = track_data.get("description", "")
-        # Include Step names to enhance context
-        steps_content = []
-        if "steps" in track_data:
-            for step_name in track_data["steps"].keys():
-                steps_content.append(step_name)
-        
-        full_text = f"{track_name}. {description}. Key Areas: {', '.join(steps_content)}"
-        texts.append(full_text)
-        keys.append(track_name)
-    
-    try:
-        embeddings = model.embed_documents(texts)
-        for key, vector in zip(keys, embeddings):
-            TRACK_EMBEDDINGS[key] = vector
-    except Exception as e:
-        print(f"Error generating embeddings: {e}")
-
-def _cosine_similarity(vec_a, vec_b):
-    norm_a = np.linalg.norm(vec_a)
-    norm_b = np.linalg.norm(vec_b)
-    if norm_a == 0 or norm_b == 0:
-        return 0.0
-    return np.dot(vec_a, vec_b) / (norm_a * norm_b)
-
-def perform_search_similarity(query_text: str) -> dict:
-    """Finds best matching track using embedding similarity."""
-    _initialize_track_embeddings()
-    if not TRACK_EMBEDDINGS:
-         return {"error": "Failed to initialize embeddings."}
-         
-    model = _get_embedding_model()
-    if not model:
-        return {"error": "Embedding model not initialized."}
-
-    try:
-        query_vector = model.embed_query(query_text)
-    except Exception as e:
-        return {"error": f"Embedding generation failed: {e}"}
-    
-    best_track = None
-    best_score = -1.0
-    
-    for track_name, track_vector in TRACK_EMBEDDINGS.items():
-        score = _cosine_similarity(query_vector, track_vector)
-        if score > best_score:
-            best_score = score
-            best_track = track_name
-            
-    return {"best_track": best_track, "score": best_score}
-
-def f_get_techtree_track(interests: list[str], experience_level: str) -> dict:
-    """
-    Main logic for 'get_ai_track'.
-    Handles both 'list all' requests and semantic search recommendations.
-    """
-    # 0. Check for "List All" request
-    check_keywords = {k.upper() for k in interests}
-    if any(k in check_keywords for k in ["ALL", "LIST", "TRACKS", "전체", "목록"]) or not interests:
-        all_tracks = []
-        ai_tech_tree = _load_track_data()
-        for name, data in ai_tech_tree.items():
-            all_tracks.append({
-                "track_name": name,
-                "description": data.get("description", "")
-            })
-        return {"available_tracks": all_tracks, "message": "Here are all the available AI Tech Tracks."}
-
-    # 1. Semantic Search
-    query_text = " ".join(interests)
-    result = perform_search_similarity(query_text)
-    
-    if "error" in result:
-        return result
-        
-    best_track = result.get("best_track")
-    best_score = result.get("score")
-
-    # 2. Construct detailed result
-    if best_track:
-        ai_tech_tree = _load_track_data()
-        track_info = ai_tech_tree[best_track]
-        
-        # Determine starting point based on experience
-        steps = list(track_info.get("steps", {}).keys())
-        starting_point = steps[0] if steps else "Basis"
-        
-        if experience_level.lower() == "intermediate" and len(steps) > 1:
-            starting_point = steps[1]
-        elif experience_level.lower() == "expert" and len(steps) > 2:
-            starting_point = steps[2]
-
-        return {
-            "recommended_track": best_track,
-            "description": track_info.get("description", ""),
-            "matching_score": round(float(best_score), 2),
-            "reason": f"Your interests in '{', '.join(interests)}' match this track's focus on {track_info.get('description', '')}.",
-            "starting_point": starting_point
-        }
-    else:
-        return {"error": "No suitable track found."}
-
-
-# =========================================================
-# 5. Core Logic: Roadmap Details (get_ai_path)
-# =========================================================
-
-def f_get_techtree_path(track_name: str) -> dict:
-    """
-    Main logic for 'get_ai_path'.
-    Retrieves and structures the full roadmap for a specific track.
-    """
-    ai_tech_tree = _load_track_data()
-    track_data = ai_tech_tree.get(track_name)
-    
-    if not track_data:
-        # 1. Fuzzy Search for Candidates
-        all_tracks = list(ai_tech_tree.keys())
-        matches = [t for t in all_tracks if track_name.lower() in t.lower() or t.lower() in track_name.lower()]
-        
-        if matches:
-             return {
-                "error": f"Track '{track_name}' not found exact match.",
-                "candidates": matches,
-                "guide": f"Did you mean '{matches[0]}'? Retry with the exact track name from the candidates."
-            }
-        
-        # 2. No Match -> Guide to Track Tool
-        return {
-            "error": f"Track '{track_name}' not found.",
-            "guide": "The track name seems incorrect or does not exist. Please Call 'get_techtree_track' with interests=['ALL'] or specific keywords to find the correct track name first."
-        }
-    
-    # Reconstruct hierarchy for better LLM Understanding
-    roadmap_structure = {}
-    steps = track_data.get("steps", {})
-    
-    for step_name, step_content in steps.items():
-        roadmap_structure[step_name] = []
-        
-        for key, val in step_content.items():
-                # Check if it's a direct Subject (Level 1)
-            if isinstance(val, dict) and "Lv1" in val:
-                subject_info = {
-                    "subject": key,
-                    # "description": val.get("desc", ""), # Reduced for token efficiency
-                    "importance": "High"
-                }
-                roadmap_structure[step_name].append(subject_info)
-            else: 
-                # It's a Group/Option (Nested)
-                for sub_key, sub_val in val.items():
-                     if isinstance(sub_val, dict) and "Lv1" in sub_val:
-                         subject_info = {
-                            "subject": sub_key,
-                            "category": key, # e.g. "Language"
-                            # "description": sub_val.get("desc", ""), # Reduced for token efficiency
-                            "importance": "Medium"
-                        }
-                         roadmap_structure[step_name].append(subject_info)
-    
-    return {
-        "track": track_name,
-        "description": track_data.get("description"),
-        "roadmap": roadmap_structure,
-        "note": "Use 'get_techtree_detail' for specific subject details."
-    }
-
-def f_get_techtree_subject(subject_name: str) -> dict:
-    """
-    Finds detailed concepts (Lv1, Lv2, Lv3) for a specific subject across all tracks.
-    Used by 'get_techtree_detail'.
-    """
-    # Normalize query
-    query = subject_name.lower().strip()
-    
-    ai_tech_tree = _load_track_data()
-    # =========================================================
-    # Refined Logic: Exact -> Fuzzy -> Guidance
-    # =========================================================
-    
-    # 1. Collect all subjects first for search
-    matches = []
-    
-    ai_tech_tree = _load_track_data()
-    for track_name, track_val in ai_tech_tree.items():
-        for step_name, step_val in track_val.get("steps", {}).items():
-            for key, val in step_val.items():
-                if isinstance(val, dict):
-                    # Check Level 1 (Subject)
-                    if key.lower() == query:
-                         return {"subject": key, "track": track_name, "details": val}
-                    if query in key.lower():
-                        matches.append(key)
-                        
-                    # Check Group/Option Nested
-                    if "Lv1" not in val:
-                         for sub_key, sub_val in val.items():
-                            if isinstance(sub_val, dict):
-                                if sub_key.lower() == query:
-                                    return {"subject": sub_key, "track": track_name, "category": key, "details": sub_val}
-                                if query in sub_key.lower():
-                                    matches.append(sub_key)
-
-    # 2. Fuzzy Match Results (Partially Found)
-    if matches:
-        # Remove duplicates and sort
-        unique_matches = sorted(list(set(matches)))
-        return {
-            "error": f"Subject '{subject_name}' not found exact match.",
-            "message": f"Did you mean one of these? {', '.join(unique_matches[:5])}",
-            "candidates": unique_matches[:5]
-        }
-
-    # 3. Not Found -> Guide Agent to use Track Tool
-    return {
-        "error": f"Subject '{subject_name}' not found in the curriculum.",
-        "guide": f"RECOMMENDATION: The concept '{subject_name}' might be part of a broader track. Please Call 'get_techtree_track' with interests=['{subject_name}'] to find the relevant track first."
-    }
