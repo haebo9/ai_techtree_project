@@ -17,7 +17,8 @@ from app.mcp.tools_pydantic import (
 )
 
 # Initialize FastMCP Server
-mcp = FastMCP("AI TechTree")
+# Set host to 0.0.0.0 to allow external access (Docker) and port 8200
+mcp = FastMCP("AI TechTree", host="0.0.0.0", port=8200)
 
 # ---------------------------------------------------------
 # Tool Definitions

@@ -1,8 +1,8 @@
 services:
   # 1. Backend Server (FastAPI)
   backend:
-    image: haebo/ai-techtree:v1
-    # image: ai-techtree:v1
+    # image: haebo/ai-techtree:v1
+    image: ai-techtree:v1
     container_name: ai-techtree-backend-v1
     # PYTHONPATH가 /app/backend 이므로, app.main:app 으로 시작해야 함
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
@@ -12,13 +12,13 @@ services:
       - .env # 모든 Key (OpenAI, Mongo 등)는 백엔드에만 있으면 됨!
     environment:
       - PYTHONPATH=/app/backend
-      # volumes:
-      # - ./backend:/app/backend
+    volumes:
+      - ./backend:/app/backend
 
-      # 2. Frontend Interface (Streamlit)
+  # 2. Frontend Interface (Streamlit)
   frontend:
-    image: haebo/ai-techtree:v1
-    # image: ai-techtree:v1
+    # image: haebo/ai-techtree:v1
+    image: ai-techtree:v1
     container_name: ai-techtree-frontend-v1
     command: streamlit run frontend/main.py --server.port 8100
     ports:
@@ -29,11 +29,13 @@ services:
       - BACKEND_URL=http://backend:8000
     depends_on:
       - backend
+    volumes:
+      - ./frontend:/app/frontend
 
   # 3. MCP Server (Agent Interface)
   mcp:
-    image: haebo/ai-techtree:v1
-    # image: ai-techtree:v1
+    # image: haebo/ai-techtree:v1
+    image: ai-techtree:v1
     container_name: ai-techtree-mcp-v1
     # SSE Transport mode on port 8200 (Forced by sys.argv injection in mcp_server.py)
     command: python -m app.mcp.mcp_server
@@ -45,6 +47,8 @@ services:
       - PYTHONPATH=/app/backend
     depends_on:
       - backend
+    volumes:
+      - ./backend:/app/backend
 
   # 4. Nginx Reverse Proxy (Gateway)
   nginx:

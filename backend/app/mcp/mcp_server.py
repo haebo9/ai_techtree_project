@@ -12,7 +12,8 @@ if __name__ == "__main__":
     from starlette.middleware.trustedhost import TrustedHostMiddleware
     
     # Wrap the app with middleware to allow all hosts
-    app = TrustedHostMiddleware(mcp.sse_app, allowed_hosts=["*"])
+    # mcp.sse_app is a method that returns the ASGI app, so it must be called.
+    app = TrustedHostMiddleware(mcp.sse_app(), allowed_hosts=["*"])
 
     # We run it directly to ensure stability and control over the port
     # forwarded_allow_ips="*" is required when running behind a reverse proxy (Nginx)
