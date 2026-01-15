@@ -13,10 +13,14 @@
 ## 2026년 1월
 | Date | Tag | Category | Details |
 |:---:|:---:|:---:|:---|
-| **26.01.15(목)** | ⚪️ | **Fix** | Docker Volume 설정 복구 및 FastMCP Host 설정 변경 (421 에러 해결) |
+| **26.01.15(목)** | 🔴 | **V1.0.0** | `V1.0.0` 릴리즈 및 kakao playmcp 등록 (심사 대기) |
+| | ⚪️ | **Fix** | AWS 배포 및 playmcp 등록을 위한 https 인증서 발급 (`certbot`) |
+| | 🟣 | **Add** | MCP tool docstring 수정 (playmcp 도구 가독성 개선) |
+| | 🟢 | **Fix** | MCP server를 완전한 Stateless 구조로 변경 (mcp 등록 규정 준수) |
+| | 🟢 | **Fix** | Docker-compose 에러 수정 및 FastMCP Host 설정 변경 (421 에러 해결) |
 | **26.01.14(수)** | ⚪️ | **Add** | AWS EC2 연결(도메인 연결) 및 Docker 빌드 테스트 |
 | | 🟣 | **Add** | MCP tool 코드 완성 및 테스트, Source 데이터 보강 및 동기화 |
-| | 🟢 | **Add** | 서버 포트 정리 및 Nginx 도입 및 테스트 (mcp server 에러 수정중) |
+| | 🟢 | **Add** | 서버 포트 정리 및 `Nginx` 도입 및 테스트 (mcp server 에러 수정중) |
 | **26.01.13(화)** | ⚪️ | **Init** | `"haebo.pro"` 도메인 구매 |
 | | 🟣 | **Feat** | Pydantic Model 구현 (Structured Output) |
 | | 🔵 | **Feat** | mcp Tool(survey) 추가 및 mcp_schema 문서 수정 |
