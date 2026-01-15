@@ -70,7 +70,6 @@ services:
 # $ docker-compose -f docker-compose.local.yml up -d && docker-compose logs -f
 
 ## For AWS
-# $ docker build --platform linux/amd64 -t haebo/ai-techtree:v1 .
 # $ docker build --no-cache --platform linux/amd64 -t haebo/ai-techtree:v1 .
 # $ docker push haebo/ai-techtree:v1
 # $ scp -r nginx techtree-server:~/

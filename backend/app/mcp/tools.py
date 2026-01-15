@@ -18,7 +18,9 @@ from app.mcp.tools_pydantic import (
 
 # Initialize FastMCP Server
 # Set host to 0.0.0.0 to allow external access (Docker) and port 8200
-mcp = FastMCP("AI TechTree", host="0.0.0.0", port=8200)
+# Enable stateless_http=True to allow clients (like Kakao MCP Player) to send POST requests
+# without establishing an SSE session first. This fixes "Received request without session_id".
+mcp = FastMCP("AI TechTree", host="0.0.0.0", port=8200, stateless_http=True)
 
 # ---------------------------------------------------------
 # Tool Definitions
