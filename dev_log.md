@@ -13,6 +13,7 @@
 ## 2026년 1월
 | Date | Tag | Category | Details |
 |:---:|:---:|:---:|:---|
+| **26.01.15(목)** | ⚪️ | **Fix** | Docker Volume 설정 복구 및 FastMCP Host 설정 변경 (421 에러 해결) |
 | **26.01.14(수)** | ⚪️ | **Add** | AWS EC2 연결(도메인 연결) 및 Docker 빌드 테스트 |
 | | 🟣 | **Add** | MCP tool 코드 완성 및 테스트, Source 데이터 보강 및 동기화 |
 | | 🟢 | **Add** | 서버 포트 정리 및 Nginx 도입 및 테스트 (mcp server 에러 수정중) |
