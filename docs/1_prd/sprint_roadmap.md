@@ -28,42 +28,41 @@
     - [x] **Backend**: FastAPI 프로젝트 Scaffolding 및 환경 변수 설정
     - [x] **AI Core**: LangChain 기반의 단순 질의응답(Interviewer) 로직 구현 (CLI 테스트)
     
-- [ ] **Sprint 2 (1월 1주): AI 에이전트 고도화 (LangGraph)**
-    - [ ] **Evaluator**: 답변 체점 및 피드백 생성 로직 구현 (DB 연결)
-    - [ ] **QAmaker**: 문제 생성 에이전트 구현 (DB 연결)
-    - [ ] **Interviewer**: 면접관 에이전트 구현 (DB 연결)
-    - [ ] **Orchestration**: 에이전트 간의 상호작용 및 상태 관리 구현
-    - [ ] **Logging**: 대화 로그 DB 저장 및 조회 기능 연결
+- [x] **Sprint 2 (1월 1주): AI 에이전트 고도화**
+    - [x] **Evaluator**: 답변 체점 및 피드백 생성 로직 구현 (Beta)
+    - [x] **QAmaker**: 문제 생성 에이전트 구현 (Beta)
+    - [x] **Interviewer**: 면접관 에이전트 구현 (Beta)
 
-- [ ] **Sprint 3 (1월 2주): MCP Server & AWS Deploy**
-    - [ ] **MCP Wrapping**: 완성된 AI 로직을 `fetch_question`, `submit_answer` 툴로 포장 (mcp-server)
-    - [ ] **Deployment**: Docker 빌드 및 AWS EC2 배포
-    - [ ] **SSE Endpoint**: 외부 접속을 위한 SSE 서버 구현 및 테스트 (Claude Desktop 연결)
+- [x] **Sprint 3 (1월 2주): MCP Server & AWS Deploy**
+    - [x] **MCP Wrapping**: 완성된 AI 로직을 `get_techtree_*` 툴로 포장 (mcp-server)
+    - [x] **Deployment**: Docker 빌드 및 AWS EC2 배포
+    - [x] **Stateless HTTP**: Kakao MCP Player 호환을 위한 Stateless HTTP Endpoint 설정
 
-- [ ] **Sprint 4 (1월 3주): MCP Polish & Submission** (`~01.18`)
-    - [ ] **Resource**: `techtree://status` 등 데이터 조회용 리소스 추가
-    - [ ] **Documentation**: `README.md` 가이드 보강 및 심사용 데모 영상 촬영
-    - [ ] **🚀 MCP Hackathon 출품 완료**
+- [x] **Sprint 4 (1월 3주): MCP Polish & Submission** (`~01.18`)
+    - [x] **Refinement**: Tool Output 구조화 (JSON) 및 복합 툴 호출 로직 개선
+    - [x] **Documentation**: `mcp_server.md` 문서 현행화 및 사용 가이드 작성
+    - [x] **🚀 MCP player 10 출품 완료** / `V1.0.0` 런칭
 
 ---
 
-## ⚡ Phase 2: Web Service Integration (MVP)
+## ⚡ Phase 2: Web Service & Agent Completion (MVP)
 `2026.01 말 ~ 2026.02 말`
-> **Goal**: 완성된 백엔드/MCP 위에 **Next.js 프론트엔드**를 입혀, 일반 사용자를 위한 **웹 서비스(v1.0.0)**를 런칭한다.
+> **Goal**: 미완성된 AI 에이전트(State/DB)를 완성하고, 이를 웹 프론트엔드와 유기적으로 결합하여 **MVP 서비스(v1.0.0)**를 런칭한다.
 
-- [ ] **Sprint 5 (1월 4주): Frontend Skeleton & API 연결**
-    - [ ] **UI**: Next.js + Shadcn/ui 기본 레이아웃 구성
-    - [ ] **Integration**: Phase 1에서 만든 FastAPI/MCP 서버와 프론트엔드 연동
-    - [ ] **Streaming**: AI 답변 실시간 스트리밍(SSE)을 웹 화면에 렌더링
+- [ ] **Sprint 5 (1월 4주): Hybrid Foundation (DB & Chat UI)**
+    - [ ] **(AI/BE) DB Connection**: 에이전트(Evaluator/QAmaker)의 결과물을 DB에 저장하는 로직 구현 (필수 선행)
+    - [ ] **(AI/BE) LangGraph Init**: 단일 질문-답변 루프 및 상태 관리를 위한 기초 `workflow` 구현
+    - [ ] **(FE) Chat Interface**: Next.js 환경 구축 및 AI 답변 스트리밍(Streaming) UI 구현
 
-- [ ] **Sprint 6 (2월 1주~2주): Visualization & Gamification**
-    - [ ] **Tech Tree**: React Flow 기반의 인터랙티브 스킬 트리 시각화
-    - [ ] **UX Polish**: 별(Star) 획득 애니메이션 및 Golden Glow 이펙트 구현
-    - [ ] **Auth**: 사용자 로그인/가입 연동 (간편 로그인)
+- [ ] **Sprint 6 (2월 1주~2주): Core Integration (Tech Tree & Flow)**
+    - [ ] **(FE) Tech Tree**: DB의 직무 트랙(`Track`) 정보를 React Flow로 시각화
+    - [ ] **(FE) Auth**: 사용자 식별 및 데이터 매핑을 위한 로그인 연동 (NextAuth)
+    - [ ] **(AI/BE) Orchestration**: "특정 개념 클릭 -> 퀴즈 생성 -> 평가 -> 트리 업데이트"의 전체 흐름 완성
 
-- [ ] **Sprint 7 (2월 3주~4주): MVP Launch**
-    - [ ] **Stabilization**: 전체 시나리오 E2E 테스트
-    - [ ] **🚀 Web Service v1.0.0 Launch**: 실 사용자 대상 배포 및 피드백 수집
+- [ ] **Sprint 7 (2월 3주~4주): MVP Launch Prep**
+    - [ ] **(FE) My Report**: 면접 결과 및 성장 추이를 보여주는 대시보드 페이지 구현
+    - [ ] **(All) Polish**: 전체 시나리오 E2E 테스트, UI/UX 디테일 수정
+    - [ ] **🚀 Web Service v1.0.0 Launch**
 
 ---
 
