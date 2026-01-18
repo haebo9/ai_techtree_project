@@ -68,7 +68,7 @@
 | :--- | :--- | :--- | :--- | :--- |
 | **`feature/*`** | **Develop**<br/>기능 단위 개발 | **Localhost :3000**<br/>(Hot Reloading) | **Localhost :8000**<br/>(Docker Compose) | **MongoDB Atlas<br/>**(Dev) |
 | **`main`** | **Staging**<br/>PR 통합 및 테스트 | **Vercel Preview**<br/>(PR 시 자동 배포) | **Local Docker**<br/>(Prod simulation) | **MongoDB Atlas<br/>**(Dev) |
-| **`production`** | **Release**<br/>실제 사용자 배포 | **Vercel Prod**<br/>(Edge Network + CDN) | **AWS EC2**<br/>(t3.small + Docker) | **MongoDB Atlas<br/>**(Prod) |
+| **`Tag`** | **Release**<br/>실제 사용자 배포 | **Vercel Prod**<br/>(Edge Network + CDN) | **AWS EC2**<br/>(t3.small + Docker) | **MongoDB Atlas<br/>**(Prod) |
 
 ---
 
@@ -95,25 +95,30 @@
 - Docker & Docker Compose
 - OpenAI API Key
 
-### Backend Setup
+### Initial Setup 
+> **Mac OS (Homebrew + Pyenv)** 기준의 셋업 가이드입니다. 
+
 ```bash
-cd backend
-# Create Virtual Environment
-python -m venv .venv
+# 1. Install Pyenv (if not installed)
+brew install pyenv
+
+# 2. Install Python 3.13.11 & Set Local Version
+pyenv install 3.13.11
+pyenv local 3.13.11
+
+# 3. Create Virtual Environment with specific version
+# (Ensure you are in the project root)
+~/.pyenv/versions/3.13.11/bin/python -m venv .venv
+
+# 4. Activate Virtual Environment
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
-
-# Install Dependencies
-pip install -r requirements.txt
+ 
+# 5. Install Dependencies
+pip install --upgrade pip
+pip install -r backend/requirements.txt
 ```
 
-### Frontend Setup
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-### Run Server
+### Run Docker Server
 **1. Backend API (FastAPI)**
 ```bash
 # Run from project root
