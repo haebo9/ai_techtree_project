@@ -1,4 +1,4 @@
-from app.mcp.tools import mcp
+from app.interfaces.mcp.tools import mcp
 
 if __name__ == "__main__":
     import uvicorn

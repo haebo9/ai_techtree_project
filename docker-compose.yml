@@ -15,7 +15,7 @@ services:
   frontend:
     image: haebo/ai-techtree:v1
     container_name: ai-techtree-frontend-v1
-    command: streamlit run frontend/main.py --server.port 8100
+    command: streamlit run frontend/v1/main.py --server.port 8100
     ports:
       - "8100:8100"
     environment:
@@ -29,7 +29,7 @@ services:
     image: haebo/ai-techtree:v1
     container_name: ai-techtree-mcp-v1
     # SSE Transport mode on port 8200 (Forced by sys.argv injection in mcp_server.py)
-    command: python -m app.mcp.mcp_server
+    command: python -m app.interfaces.mcp.server
     ports:
       - "8200:8200"
     env_file:

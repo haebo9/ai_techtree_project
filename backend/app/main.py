@@ -3,12 +3,13 @@ load_dotenv()
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.core.config import settings
 
-# Import Legacy API Router (추후 구현 시 활성화)
-from app.api.v1.router import api_router
+# Import Legacy API Router (from interfaces)
+from app.interfaces.api.v1.router import api_router as api_router_v1
 
 app = FastAPI(
-    title="AI TechTree Backend",
+    title=settings.PROJECT_NAME,
     description="Unified Backend for Web Client (REST) and PlayMCP (Agent)",
     version="0.1.0"
 )
@@ -24,7 +25,7 @@ app.add_middleware(
 
 # 2. Include Legacy API Router (Stateful CRUD)
 # -> http://localhost:8000/api/v1/...
-app.include_router(api_router, prefix="/api/v1")
+app.include_router(api_router_v1, prefix=settings.API_V1_STR)
 
 
 

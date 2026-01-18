@@ -18,56 +18,34 @@
 │   │   ├── test_integration_flow.py
 │   │   └── test_mcp.py
 │   └── app/                        # Application Code
-│       ├── main.py                 # FastAPI Entrypoint
 │       ├── __init__.py
-│       ├── ai/                     # AI Logic
-│       │   ├── agents/             # AI Agents
-│       │   │   ├── evaluator_agent.py
-│       │   │   ├── interviewer_agent.py
-│       │   │   ├── main_agent.py
-│       │   │   └── qamaker_agent.py
-│       │   ├── graphs/             # LangGraph Workflows
-│       │   │   └── workflow.py
-│       │   └── prompts/            # Agent Prompts
-│       │       └── default.py
-│       ├── api/                    # REST API
-│       │   ├── deps.py
-│       │   └── v1/
-│       │       ├── router.py
-│       │       └── endpoints/
-│       ├── core/                   # Core Configuration
-│       │   ├── config.py
-│       │   ├── database.py
-│       │   ├── exceptions.py
-│       │   └── logging.py
-│       ├── mcp/                    # MCP Server
-│       │   ├── mcp_server.py
-│       │   ├── tools.py            # Tool Definitions
-│       │   ├── tools_functions.py  # Tool Implementations
-│       │   └── tools_pydantic.py   # Tool Schemas
-│       ├── schemas_api/            # API Pydantic Models
-│       │   ├── common.py
-│       │   ├── interview.py
-│       │   └── user.py
-│       ├── schemas_db/             # DB Pydantic Models
-│       │   ├── common.py
-│       │   ├── concept.py
-│       │   ├── interview.py
-│       │   ├── question.py
-│       │   ├── track.py
-│       │   ├── trend.py
-│       │   └── user.py
-│       ├── services/               # Business Logic / CRUD
-│       │   ├── crud_base.py
-│       │   ├── crud_interview.py
-│       │   └── crud_user.py
-│       └── source/                 # Static Data
-│           ├── surveys.json
-│           └── tracks.json
+│       ├── main.py                 # App Entrypoint
+│       │
+│       ├── engine/                 # [CORE LOGIC] Pure AI Business Logic (No dependencies on interfaces)
+│       │   ├── agents/             # [Brain] LLM Agents (Interviewer, Evaluator)
+│       │   ├── graphs/             # [Flow] LangGraph Orchestration & State
+│       │   ├── tools/              # [Skills] Core capabilities (Search, TechTree)
+│       │   └── prompts/            # [Context] System prompts & Templates
+│       │
+│       ├── interfaces/             # [ADAPTERS] Communication Layers (Depends on Engine)
+│       │   ├── mcp/                # MCP Server (for Kakao/Claude)
+│       │   └── api/                # REST API (for Web Frontend)
+│       │       ├── v1/             # Legacy Stateless API
+│       │       └── v2/             # New Stateful Chat API
+│       │
+│       ├── core/                   # [INFRA] Configuration, DB, Logging
+│       ├── services/               # [DAO] Database Access & CRUD
+│       ├── schemas_api/            # [DTO] API Request/Response Models
+│       ├── schemas_db/             # [MODEL] Database Models
+│       └── source/                 # [STATIC] Data Files (Surveys, Tracks)
+|
 ├── frontend/                       # Frontend Root
-│   ├── main.py                     # Streamlit Application
-│   └── requirements.txt
-├── docs/                           # Documentation
+│   ├── v1/                         # Streamlit App
+│   │   ├── main.py
+│   │   └── requirements.txt
+│   └── v2/                         # Next.js App
+|
+└── docs/                           # Documentation
 │   ├── README.md
 │   ├── 1_prd/                      # Product Requirements
 │   │   ├── personas.md

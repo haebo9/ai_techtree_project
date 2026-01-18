@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     DB_NAME: str = "ai_techtree"  # 기본값 설정
     
     # 선택적 환경 변수 (기본값 제공)
-    PROJECT_NAME: str = "AI TechTree Backend"
+    PROJECT_NAME: str = "AI TechTree"
     API_V1_STR: str = "/api/v1"
     
     # .env 파일 로드 설정

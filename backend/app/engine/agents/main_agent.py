@@ -4,7 +4,7 @@ import asyncio
 from langchain_core.tools import tool
 from langchain_core.messages import SystemMessage, HumanMessage
 
-from app.ai.agents import qamaker_agent, interviewer_agent, evaluator_agent
+from app.engine.agents import qamaker_agent, interviewer_agent, evaluator_agent
 # from app.core.config import settings
 
 # -------------------------------------------------------------------------
