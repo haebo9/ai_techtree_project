@@ -21,9 +21,10 @@
 > *이 단계에서 개발된 백엔드 로직은 추후 웹 서비스의 핵심 엔진으로 그대로 사용된다.*
 
 - [ ] **Sprint 1 (12월 3주~4주): 환경 구축 및 기본 로직**
+    - [x] **AWS**: AI Agent 기본 구조 구현 및 테스트
     - [x] **DB**: MongoDB Atlas 클러스터 생성 및 스키마 설계 (`questions`, `sessions`)
-    - [ ] **DB**: DB collection 구조 설계 및 스키마 저장 로직 구현
-    - [ ] **Dummy Data**: DB에 기본 데이터 추가(Agent 로직 테스트)
+    - [x] **DB**: DB collection 구조 설계 및 스키마 저장 로직 구현
+    - [x] **Dummy Data**: DB에 기본 데이터 추가(Agent 로직 테스트)
     - [x] **Backend**: FastAPI 프로젝트 Scaffolding 및 환경 변수 설정
     - [x] **AI Core**: LangChain 기반의 단순 질의응답(Interviewer) 로직 구현 (CLI 테스트)
     
