@@ -24,6 +24,7 @@
 
 ## 5. 기술 블로그 참고자료
 * [우아한기술블로그 (MCP)](https://techblog.woowahan.com/22342/) : 우리 서비스와 연결된 MCP Server 빠르게 구현해보기: MCP 해커톤 후기
+* [Supervised Agent](https://devocean.sk.com/blog/techBoardDetail.do?ID=168018&boardType=techBlog) : 
 
 ## 이후에 보기 위해 스크랩
 * [우아한형제들 (물어보새/Text-to-SQL)](https://techblog.woowahan.com/18144/)
