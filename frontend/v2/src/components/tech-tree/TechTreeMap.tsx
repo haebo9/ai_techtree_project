@@ -12,12 +12,16 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
+
+
 import TechNode from './TechNode';
-import { initialNodes, initialEdges } from '@/lib/mock-data';
+import { getLayoutedElements } from '@/lib/tracks-parser';
 
 const nodeTypes = {
     techNode: TechNode,
 };
+
+const { nodes: initialNodes, edges: initialEdges } = getLayoutedElements();
 
 export default function TechTreeMap() {
     const [nodes, , onNodesChange] = useNodesState(initialNodes);
