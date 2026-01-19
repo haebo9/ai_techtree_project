@@ -27,19 +27,30 @@ const TechNode = ({ data, selected }: NodeProps<TechNodeData>) => {
                     <Lock size={14} style={{ color: 'hsl(var(--color-text-muted))' }} />
                 ) : (
                     <div className={styles.stars}>
-                        {[1, 2, 3].map((star) => (
-                            <Star
-                                key={star}
-                                size={12}
-                                fill={star <= data.stars ? "currentColor" : "transparent"}
-                                style={{
-                                    color: star <= data.stars
-                                        ? (data.status === 'mastered' ? 'hsl(var(--color-gold))' : 'hsl(var(--color-text-main))')
-                                        : 'hsl(var(--color-text-muted))',
-                                    opacity: star <= data.stars ? 1 : 0.3
-                                }}
-                            />
-                        ))}
+                        {/* Level 1 Star */}
+                        <Star
+                            size={12}
+                            fill={data.stars >= 1 ? "currentColor" : "transparent"}
+                            className={data.stars >= 1
+                                ? (data.status === 'mastered' ? styles.starGold : styles.starActive)
+                                : styles.starInactive}
+                        />
+                        {/* Level 2 Star */}
+                        <Star
+                            size={12}
+                            fill={data.stars >= 2 ? "currentColor" : "transparent"}
+                            className={data.stars >= 2
+                                ? (data.status === 'mastered' ? styles.starGold : styles.starActive)
+                                : styles.starInactive}
+                        />
+                        {/* Level 3 Star */}
+                        <Star
+                            size={12}
+                            fill={data.stars >= 3 ? "currentColor" : "transparent"}
+                            className={data.stars >= 3
+                                ? styles.starGold  // 3rd star is always gold if achieved (implies mastery)
+                                : styles.starInactive}
+                        />
                     </div>
                 )}
             </div>
@@ -51,7 +62,7 @@ const TechNode = ({ data, selected }: NodeProps<TechNodeData>) => {
                 position={Position.Bottom}
                 className={styles.handle}
             />
-        </div>
+        </div >
     );
 };
 

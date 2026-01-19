@@ -54,6 +54,20 @@
     gap: 2px;
 }
 
+.starGold {
+    color: hsl(var(--color-gold));
+    filter: drop-shadow(0 0 2px hsl(var(--color-gold) / 0.5));
+}
+
+.starActive {
+    color: hsl(var(--color-primary));
+}
+
+.starInactive {
+    color: hsl(var(--color-text-muted));
+    opacity: 0.3;
+}
+
 .description {
     font-size: 0.7rem;
     color: hsl(var(--color-text-muted));
