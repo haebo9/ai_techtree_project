@@ -20,7 +20,7 @@
 > **Goal**: **Kakao MCP Player 10 출품 (1/18)** 을 목표로, **백엔드와 AI 로직을 완성**하고 이를 MCP 프로토콜로 서비스한다.
 > *이 단계에서 개발된 백엔드 로직은 추후 웹 서비스의 핵심 엔진으로 그대로 사용된다.*
 
-- [ ] **Sprint 1 (12월 3주~4주): 환경 구축 및 기본 로직**
+- [x] **Sprint 1 (12월 3주~4주): 환경 구축 및 기본 로직**
     - [x] **AWS**: AI Agent 기본 구조 구현 및 테스트
     - [x] **DB**: MongoDB Atlas 클러스터 생성 및 스키마 설계 (`questions`, `sessions`)
     - [x] **DB**: DB collection 구조 설계 및 스키마 저장 로직 구현
@@ -41,28 +41,32 @@
 - [x] **Sprint 4 (1월 3주): MCP Polish & Submission** (`~01.18`)
     - [x] **Refinement**: Tool Output 구조화 (JSON) 및 복합 툴 호출 로직 개선
     - [x] **Documentation**: `mcp_server.md` 문서 현행화 및 사용 가이드 작성
-    - [x] **🚀 MCP player 10 출품 완료** / `V1.0.0` 런칭
+    - [x] **🚀 MCP player 10 출품 완료** 
+    - [x] **🚀 Web Service v1.0.0 Launch**
 
 ---
 
 ## ⚡ Phase 2: Web Service & Agent Completion (MVP)
 `2026.01 말 ~ 2026.02 말`
-> **Goal**: 미완성된 AI 에이전트(State/DB)를 완성하고, 이를 웹 프론트엔드와 유기적으로 결합하여 **MVP 서비스(v1.0.0)**를 런칭한다.
+> **Goal**: 웹 프론트엔드 구축(Vercel) -> Stateful 에이전트 개발 -> 서비스 연동의 **순차적 프로세스**를 통해 MVP(v2.0.0)를 완성한다.
 
-- [ ] **Sprint 5 (1월 4주): Hybrid Foundation (DB & Chat UI)**
-    - [ ] **(AI/BE) DB Connection**: 에이전트(Evaluator/QAmaker)의 결과물을 DB에 저장하는 로직 구현 (필수 선행)
-    - [ ] **(AI/BE) LangGraph Init**: 단일 질문-답변 루프 및 상태 관리를 위한 기초 `workflow` 구현
-    - [ ] **(FE) Chat Interface**: Next.js 환경 구축 및 AI 답변 스트리밍(Streaming) UI 구현
+- [ ] **Sprint 5 (1월 4주): Frontend Foundation & Vercel Deploy**
+    - [x] **Setup**: Next.js 16 + TypeScript + Custom Design System 환경 구축
+    - [ ] **Deploy**: Vercel 배포 파이프라인 연결 및 도메인 연동
+    - [ ] **UI Implementation**: 랜딩 페이지, TechTree 시각화(ReactFlow Mockup), 채팅 인터페이스(UI Only) 구현
+    - [ ] **Navigation**: 주요 페이지 라우팅 (/login, /dashboard, /interview)
 
-- [ ] **Sprint 6 (2월 1주~2주): Core Integration (Tech Tree & Flow)**
-    - [ ] **(FE) Tech Tree**: DB의 직무 트랙(`Track`) 정보를 React Flow로 시각화
-    - [ ] **(FE) Auth**: 사용자 식별 및 데이터 매핑을 위한 로그인 연동 (NextAuth)
-    - [ ] **(AI/BE) Orchestration**: "특정 개념 클릭 -> 퀴즈 생성 -> 평가 -> 트리 업데이트"의 전체 흐름 완성
+- [ ] **Sprint 6 (2월 1주~2주): Stateful Agent Development (Backend Focus)**
+    - [ ] **LangGraph**: 단일 체인을 Stateful한 그래프 구조로 마이그레이션 (Context 관리)
+    - [ ] **DB Persistence**: 면접 기록, 평가 결과, 유저 상태를 MongoDB에 저장하는 로직
+    - [ ] **API V2**: 프론트엔드와 통신할 Stateful Chat API (Streaming 지원) 개발
 
-- [ ] **Sprint 7 (2월 3주~4주): MVP Launch Prep**
-    - [ ] **(FE) My Report**: 면접 결과 및 성장 추이를 보여주는 대시보드 페이지 구현
-    - [ ] **(All) Polish**: 전체 시나리오 E2E 테스트, UI/UX 디테일 수정
-    - [ ] **🚀 Web Service v1.0.0 Launch**
+- [ ] **Sprint 7 (2월 3주~4주): Integration & MVP Launch Prep**
+    - [ ] **Integration**: Frontend(Next.js) <-> Backend(FastAPI) API 연동
+    - [ ] **Real-time Chat**: AI 답변 스트리밍 처리를 위한 Hook 및 이벤트 핸들링 구현
+    - [ ] **Auth**: 사용자 세션 및 인증 처리
+    - [ ] **Polish**: E2E 테스트 및 UI 디자인 디테일 수정
+    - [ ] **🚀 Web Service v2.0.0 Launch**
 
 ---
 
