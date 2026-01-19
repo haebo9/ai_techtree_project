@@ -12,12 +12,7 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
-import {
-    useNodesState,
-    useEdgesState,
-    // ... other imports
-} from 'reactflow';
-import 'reactflow/dist/style.css';
+
 
 import TechNode from './TechNode';
 import { getLayoutedElements } from '@/lib/tracks-parser';
