@@ -33,7 +33,7 @@
 | Directory | Description | Key Documents |
 | --- | --- | --- |
 | [**1_prd**](docs/1_prd) | **기획 (Product Spec)**<br>요구사항 및 서비스 흐름 정의 | • [핵심 기능 명세](docs/1_prd/product_spec.md)<br>• [페르소나 정의](docs/1_prd/personas.md)<br>• [서비스 흐름도](docs/1_prd/user_flow.md)<br>• [스프린트 로드맵](docs/1_prd/sprint_roadmap.md) |
-| [**2_design**](docs/2_design) | **설계 (System Design)**<br>시스템 아키텍처 및 기술 설계 | • [시스템 아키텍처](docs/2_design/architecture.md)<br>• [AI 에이전트 설계](docs/2_design/agent_workflow.md)<br>• [DB 스키마](docs/2_design/db_schema.md)<br>• [MCP 서버 설계](docs/2_design/mcp_server.md)<br>• [스킬 트리 정의](docs/2_design/track.md) |
+| [**2_design**](docs/2_design) | **설계 (System Design)**<br>시스템 아키텍처 및 기술 설계 | • [시스템 아키텍처](docs/2_design/architecture.md)<br>• [AI 에이전트 설계](docs/2_design/agent_workflow.md)<br>• [DB 스키마](docs/2_design/db_schema.md)<br>• [MCP 서버 설계](docs/2_design/mcp_server.md)<br> |
 | [**3_knowledge**](docs/3_knowledge) | **지식 (Knowledge Base)**<br>기술 의사결정 및 참고 자료 | • [기술 스택 선정](docs/3_knowledge/tech_decisions.md)<br>• [참고 자료](docs/3_knowledge/references.md) |
 
 👉 [전체 문서 목록 보기](docs/README.md)
@@ -53,7 +53,7 @@
 
 ## Architecture
 
-- **Frontend**: Next.js로 구축되어 **Vercel**을 통해 배포됩니다. (**Streamlit**으로 MCP 테스트)
+- **Frontend**: `Next.js`로 구축되어 **Vercel**을 통해 배포됩니다.(자동배포)
 - **Backend**: FastAPI 서버를 **Docker** 컨테이너로 빌드하여 **AWS (EC2)** 에서 실행합니다.
 - **Database**: **MongoDB Atlas (Cloud)** 를 사용하여 데이터 안정성을 확보합니다.
 - **AI Engine**: LangGraph 기반의 Multi-Agent 시스템이 코드 분석 및 평가를 수행합니다.
@@ -91,48 +91,78 @@
 
 ### Prerequisites
 - Python 3.13.11
-- Node.js v25.2.1
+- Node.js v22.12.0
 - Docker & Docker Compose
 - OpenAI API Key
+- AWS EC2 Instance (Amazon Linux 2023)
+- MongoDB Atlas 
 
-### Initial Setup 
-> **Mac OS (Homebrew + Pyenv)** 기준의 셋업 가이드입니다. 
+### 1. Environment Setup
+Create a `.env` file in the project root. You can refer to `.env.example` if it exists, or ensure the following keys are present.
 
 ```bash
-# 1. Install Pyenv (if not installed)
-brew install pyenv
-
-# 2. Install Python 3.13.11 & Set Local Version
-pyenv install 3.13.11
-pyenv local 3.13.11
-
-# 3. Create Virtual Environment with specific version
-# (Ensure you are in the project root)
-~/.pyenv/versions/3.13.11/bin/python -m venv .venv
-
-# 4. Activate Virtual Environment
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
- 
-# 5. Install Dependencies
-pip install --upgrade pip
-pip install -r backend/requirements.txt
+# .env Configuration
+OPENAI_API_KEY=sk-...
+MONGODB_URL=mongodb+srv://...
+# Add other necessary environment variables
 ```
 
-### Run Docker Server
-**1. Backend API (FastAPI)**
+### 2. Run Local Server (Docker)
+This is the recommended way to run the full stack locally (Backend + Frontend + MCP + Nginx).
+
 ```bash
-# Run from project root
-PYTHONPATH=backend python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+# 1. Build & Run (Force Rebuild)
+docker-compose -f docker-compose.local.yml up -d --build
+
+# 2. Check Logs
+docker-compose -f docker-compose.local.yml logs -f
+
+# 3. Stop Server
+docker-compose -f docker-compose.local.yml down
+```
+> **Access Points:**
+> - Frontend (Next.js v2): http://localhost:8100
+> - Backend Docs: http://localhost:8000/docs
+> - MCP Server: http://localhost:8200/mcp
+
+### 3. Deploy to AWS
+For production deployment on AWS EC2.
+
+> **1. For AWS (Local Mac)**: Build image, push to Hub, and deploy config.
+```bash
+docker build --no-cache --platform linux/amd64 -t haebo/ai-techtree:v1 .
+docker push haebo/ai-techtree:v1
+scp -r nginx techtree-server:~/
+scp docker-compose.yml .env techtree-server:~/
 ```
 
-**2. MCP Server (Standalone)**
+> **2. In AWS (Server)**: Pull and run services.
 ```bash
-# Run from project root
-PYTHONPATH=backend python backend/app/mcp/mcp_server.py
+# Local terminal: 
+ssh techtree-server
+# AWS terminal:
+docker-compose pull
+docker-compose down
+docker-compose up -d --remove-orphans
+docker-compose logs -f
 ```
+> **Access Points:**
+> - Frontend: https://haebo.pro
+> - MCP Server: https://haebo.pro/mcp
 
-**3. Frontend (Streamlit)**
-```bash
-# Run from project root
-streamlit run frontend/App.py
-```
+### 4. Deploy Frontend to Vercel
+For the **Next.js (v2)** frontend deployment.
+
+1.  **Import Project**:
+    *   Go to Vercel Dashboard → **Add New Project**.
+    *   Select `ai-techtree-project` repository.
+
+2.  **Configure Settings**:
+    *   **Root Directory**: `frontend/v2`
+    *   **Framework Preset**: Next.js
+
+3.  **Environment Variables**:
+    *   `NEXT_PUBLIC_API_URL`: `https://haebo.pro/api`
+    *   *(Depending on implementation)* `NEXT_PUBLIC_MCP_URL`: `https://haebo.pro/mcp`
+
+

@@ -2,65 +2,46 @@
 
 ```
 .
-├── STRUCTURE.md                    # Project Structure
-├── docker-compose.yml              # Docker compose config
-├── Dockerfile                      # Backend Dockerfile
-├── README.md                       # Project README
-├── dev_log.md                      # Development Log
-├── backend/                        # Backend Root
-│   ├── requirements.txt
-│   ├── scripts/                    # Utility Scripts
-│   │   ├── init_db.py              # DB Initialization
-│   │   └── sync_track_to_db.py     # Sync JSON tracks to DB
-│   ├── tests/                      # Tests
-│   │   ├── __init__.py
-│   │   ├── test_ai_agents.py
-│   │   ├── test_integration_flow.py
-│   │   └── test_mcp.py
-│   └── app/                        # Application Code
-│       ├── __init__.py
-│       ├── main.py                 # App Entrypoint
-│       │
-│       ├── engine/                 # [CORE LOGIC] Pure AI Business Logic (No dependencies on interfaces)
-│       │   ├── agents/             # [Brain] LLM Agents (Interviewer, Evaluator)
-│       │   ├── graphs/             # [Flow] LangGraph Orchestration & State
-│       │   ├── tools/              # [Skills] Core capabilities (Search, TechTree)
-│       │   └── prompts/            # [Context] System prompts & Templates
-│       │
-│       ├── interfaces/             # [ADAPTERS] Communication Layers (Depends on Engine)
-│       │   ├── mcp/                # MCP Server (for Kakao/Claude)
-│       │   └── api/                # REST API (for Web Frontend)
-│       │       ├── v1/             # Legacy Stateless API
-│       │       └── v2/             # New Stateful Chat API
-│       │
-│       ├── core/                   # [INFRA] Configuration, DB, Logging
-│       ├── services/               # [DAO] Database Access & CRUD
-│       ├── schemas_api/            # [DTO] API Request/Response Models
-│       ├── schemas_db/             # [MODEL] Database Models
-│       └── source/                 # [STATIC] Data Files (Surveys, Tracks)
-|
-├── frontend/                       # Frontend Root
-│   ├── v1/                         # Streamlit App
-│   │   ├── main.py
-│   │   └── requirements.txt
-│   └── v2/                         # Next.js App
-|
-└── docs/                           # Documentation
-│   ├── README.md
-│   ├── 1_prd/                      # Product Requirements
-│   │   ├── personas.md
-│   │   ├── product_spec.md
-│   │   ├── sprint_roadmap.md
-│   │   └── user_flow.md
-│   ├── 2_design/                   # System Design
-│   │   ├── agent_workflow.md
-│   │   ├── architecture.md
-│   │   ├── db_schema.md
-│   │   ├── mcp_server.md
-│   │   └── track.md
-│   └── 3_knowledge/                # Knowledge Base
-│       ├── references.md
-│       └── tech_decisions.md
-└── nginx/                          # Nginx Config
-    └── default.conf
+├── STRUCTURE.md                    # 프로젝트 구조 설명
+├── docker-compose.yml              # 배포용 Docker 설정
+├── docker-compose.local.yml        # 로컬 개발용 Docker 설정
+├── README.md                       # 메인 설명서
+├── backend/                        # [Backend] 파이썬 서버
+│   ├── app/
+│   │   ├── main.py                 # 앱 진입점 (FastAPI)
+│   │   │
+│   │   ├── api/                    # [REST API] 웹 클라이언트용 (FastAPI Router)
+│   │   │   ├── v1/                 # (Legacy) Stateless API
+│   │   │   └── v2/                 # (New) Stateful Chat API
+│   │   │
+│   │   ├── api_mcp/                # [MCP API] AI 에이전트용 (MCP Server)
+│   │   │   ├── v1/                 # (Legacy) MCP 서버
+│   │   │   └── v2/                 # (New) MCP 서버
+│   │   │
+│   │   ├── engine/                 # [Engine] 핵심 비즈니스 로직 (Core)
+│   │   │   ├── agents/             # - AI 면접관/평가자 구현체 (Brain)
+│   │   │   ├── graphs/             # - LangGraph 실행 흐름 (Flow)
+│   │   │   ├── tools/              # - 검색/분석 도구 모음 (Skills)
+│   │   │   │   ├── v1/
+│   │   │   │   └── v2/
+│   │   │   └── prompts/            # - 프롬프트 템플릿
+│   │   │
+│   │   ├── core/                   # [Infra] 설정, DB 연결, 로깅
+│   │   ├── services/               # [Service] DB CRUD 로직
+│   │   ├── schemas_api/            # [DTO] API 요청/응답 모델
+│   │   ├── schemas_db/             # [Model] DB 스키마
+│   │   └── source/                 # [Static] 트랙/서베이 정적 데이터
+│   │
+│   └── tests/                      # 테스트 코드
+│
+├── frontend/                       # [Frontend] 웹 애플리케이션
+│   ├── v1/                         # (Legacy) Streamlit 앱
+│   └── v2/                         # (New) Next.js 앱
+│
+├── docs/                           # [Docs] 문서 보관소
+│   ├── 1_prd/                      # 기획서 (Spec, Persona)
+│   ├── 2_design/                   # 설계문서 (Architecture, DB)
+│   └── 3_knowledge/                # 기술 검토 및 참고 자료
+│
+└── nginx/                          # Nginx 게이트웨이 설정
 ```

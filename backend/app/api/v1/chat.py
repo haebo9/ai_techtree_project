@@ -4,7 +4,7 @@ from typing import List, Dict, Any, Optional
 
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage, SystemMessage
-from app.interfaces.mcp.tools import MCP_TOOLS
+from app.api_mcp.v1.tools import MCP_TOOLS
 
 router = APIRouter()
 

@@ -5,13 +5,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 
-# Import Legacy API Router (from interfaces)
-from app.interfaces.api.v1.router import api_router as api_router_v1
+# Import API Routers (New Flattened Structure)
+from app.api.v1.router import api_router as api_router_v1
+from app.api.v2.router import api_router as api_router_v2
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description="Unified Backend for Web Client (REST) and PlayMCP (Agent)",
-    version="0.1.0"
+    version="0.2.0"
 )
 
 # CORS 설정
@@ -23,9 +24,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 2. Include Legacy API Router (Stateful CRUD)
-# -> http://localhost:8000/api/v1/...
-app.include_router(api_router_v1, prefix=settings.API_V1_STR)
+# 2. Include API Routers
+# -> http://localhost:8000/api/v1/... (Legacy/Stable)
+app.include_router(api_router_v1, prefix="/api/v1")
+# -> http://localhost:8000/api/v2/... (New/Dev)
+app.include_router(api_router_v2, prefix="/api/v2")
 
 
 
