@@ -13,6 +13,7 @@
 ## 2026년 1월
 | Date | Tag | Category | Details |
 |:---:|:---:|:---:|:---|
+| **26.01.22(목)** | 🔵 | **Add** | Agent_workflow 수정(버전별 구조 정리), `LangGraph` 도입 결정 |
 | **26.01.21(수)** | 🔵 | **Refactor** | README.md 수정, 버전별 개발 일정 추가, 도메인 관리 규칙 추가 |
 | **26.01.19(월)** | 🟠 | **Init** | `next.js` 기본 파일 생성(template 적용) 및 `Vercel` 자동 배포 |
 | **26.01.18(일)** | 🟢 | **Refactor** | Ver2 개발을 위한 폴더 리팩토링 v1, v2 분리 (DB, API 등) |
