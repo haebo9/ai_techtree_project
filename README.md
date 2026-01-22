@@ -24,6 +24,7 @@
 - [Tech Stack](#tech-stack): 사용 기술 및 도구 <br/>
 - [Architecture](#architecture): 시스템 구조 <br/>
 - [Git & Deployment](#git--deployment): 브랜치 전략 및 배포 <br/>
+- [Version History](#version-history): 버전별 변경 사항 <br/>
 - [Roadmap](#roadmap): 개발 일정 <br/>
 - [Getting Started](#getting-started): 설치 및 실행 방법
 
@@ -84,9 +85,9 @@
 
 | Version | Feature | KeyTechnology | Release Date |
 | :--- | :--- | :--- | :--- |
-| **v1.0.0** | **MVP (Kakao PlayMCP 연동)**<br>MCP tool을 활용한 챗봇 서비스 | Langchain, MCP, FastAPI, AWS, streamlit | 2026.01.15<br/>(서비스 중) |
-| **v1.1.0** | **Multi-Agent System (Streamlit)**<br>동적 문제 출제 및 챗봇 서비스 | LangGraph, FastAPI, Streamlit, MongoDB | 2026.01.28<br/> |
-| **v2.0.0** | **Web Service & Agent (Web v2)**<br>Next.js 기반 웹 서비스 및 Agent | Next.js, Vercel, RAG, MongoDB | 2026.02.11<br/> |
+| **v1.0.0** | **MCP Tool Calling Agent**<br>MCP tool을 활용한 챗봇 서비스 | Langchain, MCP, FastAPI, AWS, streamlit | 2026.01.15<br/>(서비스 중) |
+| **v1.1.0** | **Multi-Agent System**<br>동적 문제 출제 및 챗봇 서비스 | LangGraph, FastAPI, Streamlit, MongoDB | 2026.01.28<br/> |
+| **v2.0.0** | **Web Service & Agent**<br>동적 화면 기반 웹 서비스 | Next.js, Vercel, RAG, MongoDB | 2026.02.11<br/> |
 
 ## ⭐ Sprint Roadmap
 > 상세한 개발 일정과 스프린트 계획은 [Sprint Roadmap](docs/1_prd/sprint_roadmap.md) 문서를 참고하세요.
@@ -94,10 +95,10 @@
 | Phase | Focus & Sprints | Period |
 | :--- | :--- | :--- |
 | **Phase 0** | **Planning & Design**<br>(Sprint 0) 기획 및 기술 조사 | 2025.12 (Early ~ Mid) |
-| **Phase 1** | **MCP Connection (Web v1)**<br>(Sprint 1-4) AI Core Logic & MCP Server | 2025.12 ~ 2026.01 (Mid) |
-| **Phase 2** | **Web Service & Agent (Web v2)**<br>(Sprint 5-7) Frontend & Stateful Agent | 2026.01 (Late) ~ 02 (Late) |
-| **Phase 3** | **Iteration & Scale-up**<br>(Sprint 8-9) 성능 개선 및 고도화 | 2026.03 ~ 04 |
-| **Phase 4** | **Polish & Stabilization**<br>(Sprint 10) 안정성 확보 및 유지보수 | 2026.05 ~ |
+| **Phase 1** | **MCP & Multi-Agent (v1.1)**<br>(Sprint 1-5) AI Core Logic, MCP, LangGraph Agent | 2025.12 ~ 2026.01 (Late) |
+| **Phase 2** | **Web Service MVP (v2.0)**<br>(Sprint 6-8) Next.js Frontend & Stateful Integration | 2026.02 (Early ~ Late) |
+| **Phase 3** | **Iteration & Scale-up**<br>(Sprint 9-10) 성능 개선 및 고도화 | 2026.03 ~ 04 |
+| **Phase 4** | **Polish & Stabilization**<br>(Sprint 11) 안정성 확보 및 유지보수 | 2026.05 ~ |
 
 ---
 

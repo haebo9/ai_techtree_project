@@ -1,139 +1,134 @@
-# AI Agent System Architecture
+# AI Agent System Architecture (v1.1 Updated)
+> 이 문서는 AI TechTree Agent의 진화 과정을 정의하며, 특히 v1.1의 상태 관리와 v2.0의 UI 상호작용 설계에 집중합니다.
 
-- **[1. Overview](#1-overview)**
-- **[2. Agent Roles & Responsibilities](#2-agent-roles--responsibilities)**
-- **[3. Detailed Tool Logic](#3-detailed-tool-logic)**
-- **[4. Sequence Diagram](#4-sequence-diagram)**
-
----
-
-## 1. Overview
-본 문서는 **AI TechTree 서비스**의 핵심인 **AI Agent 시스템 아키텍처**를 정의합니다.
-이 시스템은 **Stateless & Logic-Only** 원칙을 따르며, **Main Agent (Orchestrator)** 가 사용자 요청을 받아 적절한 **Sub-Agent (Expert)** 들을 도구(Tool)처럼 호출하여 면접 경험을 만듭니다.
-
-### 핵심 철학
-*   **Orchestration**: 모든 흐름 제어는 Main Agent가 담당하며, Sub-Agent는 서로를 직접 호출하지 않습니다.
-*   **Deterministic**: 예측 불가능한 Tool Call 대신, 명확한 코드 로직(Code-Driven)으로 Agent를 제어하여 안정성을 확보합니다.
-*   **Separation of Concerns**: 역할(사회자, 작가, 심판, 출제자)을 명확히 분리하여 유지보수성을 높입니다.
+### 📚 Index
+- **[v1.0: MCP Chatbot (Stateless)](#v10-mcp-chatbot-stateless)** - 단순 정보 제공
+- **[v1.1: Stateful Agent (Current)](#v11-stateful-agent-current)** - 실시간 상태 기반 면접관 (Router + Memory + Reward)
+- **[v1.2: Optimization & Scale (Planned)](#v12-optimization--scale-planned)** - 비용 절감 및 RAG 기반 문제 생성
+- **[v2.0: Interactive Web Service](#v20-interactive-web-service)** - UI 제어 및 시각적 경험(Confetti/Star) 강화
 
 ---
 
-## 2. Agent Roles & Responsibilities
+## v1.0: MCP Chatbot (Stateless)
+> **"단순 질문 및 정보 검색"**
+> 상태를 저장하지 않고, 사용자의 질문에 대해 MCP Tool을 호출하여 답변하는 1회성 봇입니다.
 
-시스템은 1개의 **Main Agent**와 3개의 **Sub-Agent**로 구성됩니다.
+### 🕸️ Flow Architecture
+```mermaid
+graph LR
+    User -->|Input| Pivot[Pivot Router]
+    Pivot -- "Search" --> Tool[MCP Tools]
+    Pivot -- "Chat" --> LLM
+    Tool --> LLM
+    LLM -->|Response| User
 
-### 👑 Main Agent (Orchestrator)
-*   **역할**: 전체 워크플로우를 관리하고 제어하는 **중앙 관리자**.
-*   **책임**:
-    *   사용자 요청 의도 파악.
-    *   적절한 하위 에이전트(Tool) 호출 및 데이터 중계(Routing).
-    *   최종 결과물 조합 및 반환.
-*   **특징**: 의사결정(Decision Making)과 흐름 제어(Flow Control)를 담당합니다.
-
-### 🎭 Interviewer Agent (Interaction Handler)
-*   **역할**: 사용자와의 상호작용 및 자연어 생성을 담당하는 **인터페이스 에이전트**.
-*   **책임**:
-    *   **커리큘럼 탐색**: 사용자의 관심사에 맞는 토픽 추천.
-    *   **피드백 생성**: 건조한 평가 데이터를 사용자 친화적인 자연어 피드백으로 변환.
-    *   **최종 리포트 포맷팅**: 분석 데이터를 구조화된 Markdown 리포트로 가공.
-*   **특징**: 사용자 경험(UX)과 톤앤매너(Tone & Manner)를 관리합니다.
-
-### ⚖️ Evaluator Agent (Analysis Engine)
-*   **역할**: 답변을 분석하고 정량적/정성적 평가를 수행하는 **분석 에이전트**.
-*   **책임**:
-    *   **채점 (Scoring)**: 기술적 정확성, 논리성을 기준으로 점수 산출.
-    *   **판정 (Decision)**: 기준 점수에 따른 통과/실패 여부 결정.
-    *   **종합 분석**: 전체 대화 로그를 기반으로 강점 및 약점 추출.
-*   **특징**: 객관적 사실에 기반한 정밀 분석을 수행합니다. (Temperature=0)
-
-### 📚 QAMaker Agent (Question Generator)
-*   **역할**: 커리큘럼 기반의 면접 질문을 생성하는 **생성 에이전트**.
-*   **책임**:
-    *   **문제 생성**: 특정 Topic/Level에 적합한 기술 면접 질문 생성.
-    *   **다양성 확보**: 중복되지 않는 다양한 유형의 질문 세트 제공.
-*   **특징**: AI TechTree의 기술셋(Skillset) 정의를 준수합니다.
+```
 
 ---
 
-## 3. Detailed Tool Logic
+## v1.1: Stateful Agent (Current)
 
-웹 서비스 및 외부 클라이언트가 호출할 수 있는 **전용 도구(Service Tools)**입니다.
+> **"살아있는 면접관 (Dynamic Topic Switcher)"**
+> 사용자의 학습 상태, 관심 분야, 숙련도를 기억하고 실시간으로 '별(Star)'을 부여하며 흐름을 제어합니다.
 
-### 🔵 1. 면접 시작 및 주제 추천 (`start_interview`)
-*   **Flow**: `User` -> `Main` -> `Interviewer` (의도 파악 및 커리큘럼 조회) -> `Main`
-*   **입력**: `user_input` (String)
-*   **출력**: 추천 멘트 (String)
-*   **설명**: 모호한 사용자 요청을 구체적인 **면접 주제(Topic)**로 변환 및 제안합니다.
+### 💡 Core Logic
 
-### 🔵 2. 문제 생성 (`generate_questions`)
-*   **Flow**: `Main` -> `QAMaker` (다중 문제 생성) -> `Main`
-*   **입력**: `topic`, `level`, `count`
-*   **출력**: 질문 리스트 (JSON List)
-*   **설명**: 실시간으로 중복 없는 기술 면접 질문 세트를 생성합니다.
+1. **Context-Aware Router**: 사용자의 현재 세션 상태(학습 이력, 최근 정답률)를 분석해 다음 질문의 난이도나 분야를 유동적으로 결정합니다.
+2. **Real-time State DB**:
+* **User State**: 관심 분야, 현재 진행도, 취약점 저장.
+* **Reward Logic**: 특정 유형에서 연속 정답 시 'Evaluator'가 별(Star) 부여 트리거를 발생시키고 DB에 즉시 기록.
 
-### 🔵 3. 답변 평가 및 피드백 (`evaluate_answer`)
-*   **Flow**:
-    1.  `Main` -> `Evaluator`: 답변 **채점** 요청 (Score, Pass/Fail).
-    2.  `Main` -> `Interviewer`: 채점 결과를 바탕으로 **피드백 멘트** 작성 (Conversational Response).
-    3.  `Main`: `next_action` (PASS/DEEP_DIVE) 결정 후 반환.
-*   **입력**: `question`, `user_answer`, `level`
-*   **출력**:
-    *   `score` (Int)
-    *   `feedback_message` (String)
-    *   `next_action` (Enum)
 
-### 🔵 4. 종합 리포트 (`summarize_result`)
-*   **Flow**:
-    1.  `Main` -> `Evaluator`: 로그 **종합 분석** (강점/약점 데이터 추출).
-    2.  `Main` -> `Interviewer`: 분석 데이터를 **Markdown 리포트**로 변환.
-*   **입력**: `conversation_history` (List)
-*   **출력**: 최종 리포트 (Markdown String)
+3. **Topic Switcher**: 한 분야의 숙련도가 일정 수준에 도달하면 관련 있는 다음 기술 스택으로 자연스럽게 대화 주제를 전환합니다.
+
+### 🕸️ Graph Flow (v1.1)
+
+```mermaid
+graph TD
+    Start((Start)) --> LoadState[Load User State/History]
+    LoadState --> Router{"Router (Intent & Topic)"}
+    
+    Router -- "New Topic" --> GenQ["Generate Topic-Specific Q"]
+    Router -- "Continue" --> CheckDB{Check Cache}
+    
+    CheckDB -- "Miss" --> GenQ
+    CheckDB -- "Hit" --> Deliver[Deliver Question]
+    
+    GenQ --> Deliver
+    Deliver --> Wait(("Wait for Answer"))
+    
+    Wait --> Eval["Evaluate & Update State"]
+    Eval --> RewardCheck{"Criteria Met? (Stars)"}
+    
+    RewardCheck -- "Yes" --> GrantStar[Grant Star & Update DB]
+    RewardCheck -- "No" --> Feedback
+    
+    GrantStar --> Feedback["Feedback & Next Action"]
+    Feedback --> Router
+
+```
 
 ---
 
-## 4. Sequence Diagram
+## v1.2: Optimization & Scale (Planned)
+
+> **"RAG 기반 문제 재고 관리"**
+> 오프라인 환경에서 고품질 문제를 생성해두고 실시간 응답 속도를 극대화합니다.
+
+### 💡 Key Improvements
+
+1. **RAG-Enhanced Generation**: '정보처리기사' 등 특정 도메인 지식 베이스를 참조하여 정확도 높은 문제를 생성.
+2. **Offline Worker**: Batch API를 활용해 야간 시간에 사용자별 맞춤형 문제 풀을 미리 확보 (비용 50% 절감).
+
+---
+
+## v2.0: Interactive Web Service
+
+> **"Agent as UI Controller (Protocol-Driven)"**
+> 에이전트가 텍스트를 넘어 웹의 모든 시각 요소(별 획득 효과, 게이지)를 직접 제어합니다.
+
+### 💡 UI Control Protocol (JSON Action)
+
+에이전트는 모든 응답에 `ui_action` 객체를 포함하여 프론트엔드(Next.js)에 명령을 내립니다.
+
+| Action Type | Description | UI Effect |
+| --- | --- | --- |
+| `SHOW_CONFETTI` | 별 획득 시 전체 화면에 폭죽 효과 발생 | 🎉 시각적 보상 제공 |
+| `UPDATE_LEVEL` | 실시간 경험치/숙련도 게이지 상승 | 📊 성취도 시각화 |
+| `SWITCH_LAYOUT` | 대화 주제 전환 시 배경 테마 또는 레이아웃 변경 | 🎨 몰입감 증대 |
+| `TOAST_MESSAGE` | 상단 알림창으로 실시간 피드백 전달 | 🔔 빠른 정보 확인 |
+
+### 🕸️ Interaction Sequence
 
 ```mermaid
 sequenceDiagram
-    autonumber
-    participant U as User (Client)
-    participant M as Main Agent (Orchestrator)
-    participant I as Interviewer (Interaction)
-    participant Q as QAMaker (Generator)
-    participant E as Evaluator (Analysis)
+    participant User
+    participant FastAPI as Agent (FastAPI)
+    participant DB as State DB
+    participant UI as Web UI (Next.js)
 
-    Note over U, E: 1. Start Phase (Topic Selection)
-    U->>M: "Start Interview" (start_interview)
-    M->>I: User Intent Analysis & Curriculum Lookup
-    I-->>M: Recommendation Message
-    M-->>U: Return Recommendation
+    User->>UI: 정답 제출 (Input/Click)
+    UI->>FastAPI: 답변 전달 (Stateful Request)
+    FastAPI->>DB: 숙련도 체크 및 별 부여 저장
+    
+    Note right of FastAPI: Generate UI Command
+    FastAPI-->>UI: { "msg": "완벽해요!", "ui_action": {"type": "SHOW_CONFETTI", "star_count": 1} }
+    
+    UI->>UI: 컨페티 효과 실행 및 사이드바 별 개수 +1
+    UI-->>User: 시각적 피드백 제공
 
-    Note over U, E: 2. Setup Phase (Question Generation)
-    U->>M: "Confirm Topic" (generate_questions)
-    M->>Q: Generate Questions Request (Topic, Level)
-    Q-->>M: Question List [Q1, Q2, Q3]
-    M-->>U: Ready Signal
-
-    Note over U, E: 3. Interaction Loop (Interview Process)
-    loop For each Question
-        U->>M: Submit Answer (user_answer)
-        
-        # Step A: Evaluation
-        M->>E: Evaluate Answer Request
-        E-->>M: Evaluation Result (Score, Status)
-        
-        # Step B: Feedback Generation
-        M->>I: Generate Feedback Message Request
-        I-->>M: Conversational Feedback
-        
-        M-->>U: Return Result (Score + Message + NextAction)
-    end
-
-    Note over U, E: 4. Closing Phase (Reporting)
-    U->>M: Finish Session
-    M->>E: Analyze Full Log Request
-    E-->>M: Structured Analysis Data
-    M->>I: Format Report Request
-    I-->>M: Final Markdown Report
-    M-->>U: Return Report
 ```
+
+---
+
+### 🛠️ Integrated Infrastructure Tools (No-LLM Logic)
+에이전트의 '정보 조회'를 넘어 '행동'과 '개인화'를 완성하는 핵심 도구셋입니다.
+
+| 카테고리 | 도구 명칭 | 역할 및 기능 |
+| :--- | :--- | :--- |
+| **로드맵 탐색** | `get_next_recommend_node` | 사용자의 학습 이력과 로드맵을 비교하여 **다음에 공부할 최적의 과목**을 추출합니다. |
+| **정보 검색** | `get_techtree_trend` | 외부 API를 통해 최신 기술 동향 데이터를 수집합니다. (기존 구현 완료) |
+| **상태 관리** | `get_user_state` | 사용자의 현재 별(Star) 개수, 관심사, 진행도를 DB에서 호출합니다. |
+| **보상 실행** | `grant_star_reward` | 특정 성취 달성 시 DB의 별 수치를 업데이트하고 성공 여부를 반환합니다. |
+| **상태 동기화** | `sync_progress_state` | 학습 완료 및 면접 결과 등 사용자의 모든 활동 상태를 DB에 실시간 기록합니다. |
+| **UI 제어** | `create_ui_action` | 폭죽(Confetti), 토스트, 프로그레스 바 제어를 위한 UI 명령 패킷을 생성합니다. |
