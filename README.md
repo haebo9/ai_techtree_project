@@ -78,9 +78,18 @@
 
 ---
 
-## ⭐ Roadmap
-> 상세한 개발 일정과 스프린트 계획은 [Sprint Roadmap](docs/1_prd/sprint_roadmap.md) 문서를 참고하세요.
+## ⭐ Version History
 
+> 프로젝트의 주요 릴리즈 및 변경 사항 내역입니다.
+
+| Version | Feature | KeyTechnology | Release Date |
+| :--- | :--- | :--- | :--- |
+| **v1.0.0** | **MVP (Kakao PlayMCP 연동)**<br>MCP tool을 활용한 챗봇 서비스 | Langchain, MCP, FastAPI, AWS, streamlit | 2026.01.15<br/>(서비스 중) |
+| **v1.1.0** | **Multi-Agent System (Streamlit)**<br>동적 문제 출제 및 챗봇 서비스 | LangGraph, FastAPI, Streamlit, MongoDB | 2026.01.28<br/> |
+| **v2.0.0** | **Web Service & Agent (Web v2)**<br>Next.js 기반 웹 서비스 및 Agent | Next.js, Vercel, RAG, MongoDB | 2026.02.11<br/> |
+
+## ⭐ Sprint Roadmap
+> 상세한 개발 일정과 스프린트 계획은 [Sprint Roadmap](docs/1_prd/sprint_roadmap.md) 문서를 참고하세요.
 
 | Phase | Focus & Sprints | Period |
 | :--- | :--- | :--- |
