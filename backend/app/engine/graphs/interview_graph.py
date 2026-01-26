@@ -1,11 +1,13 @@
+import asyncio
 from typing import TypedDict, List, Annotated, Optional, Literal
-from langgraph.graph import StateGraph, END
+from langgraph.graph import StateGraph, END, START
 from langgraph.graph.message import add_messages
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
 
 from app.engine.agents.qamaker_agent import generate_questions
 from app.engine.agents.evaluator_agent import evaluate_answer, analyze_interview_result
 from app.engine.agents.interviewer_agent import generate_feedback_message, format_final_report, recommend_topic_response
+from app.engine.agents.router_agent import route_user_input, RouterOutput
 from app.services.interview_service import interview_service
 
 # 1. State Definition
@@ -22,9 +24,10 @@ class InterviewState(TypedDict):
     
     # Internal State
     generated_questions: List[dict]  # Queue of questions
-    current_question: Optional[dict] # Currently active question
+    current_question: Optional[dict] # Currently active question (that the user is answering)
     evaluation_result: Optional[dict] # Result of the last evaluation
     star_gained: bool # Flag to check if star was gained in parsing turn
+    user_intent: Optional[str] # Router decision: ANSWER, NEXT_QUESTION, CHANGE_TOPIC, CONSULT, QUIT
     
     # Progress
     question_count: int
@@ -33,93 +36,112 @@ class InterviewState(TypedDict):
 
 # 2. Nodes
 
-async def consult_curriculum_node(state: InterviewState):
+async def load_state_node(state: InterviewState):
     """
-    [Phase 1] Consultation Node
-    Analyzes user input to recommend a track or topic using MCP tools.
-    Decides whether to stay in consultation or start the interview.
+    [Init] Ensure User Exists and Load State
     """
-    last_message = state["messages"][-1] if state["messages"] else None
-    user_input = last_message.content if isinstance(last_message, HumanMessage) else "Help me choose a topic."
-    
-    # Simple Heuristic for Demo:
-    # If input contains "start" or "begin" and we have a topic, we proceed.
-    # Otherwise, we treat it as consultation.
-    # In a real agent, we would use an LLM classifier here.
-    
-    if "start" in user_input.lower() or "시작" in user_input:
-        # Assuming the topic was set in previous turns or defaults
-        return {"messages": [AIMessage(content="네, 면접을 시작합니다!")]}
+    if not state.get("user_db_id"):
+        # For prototype, use a fixed guest email or derive from user_id if possible
+        uid = state.get("user_id", "guest")
+        email = f"{uid}@techtree.com"
+        nickname = f"User_{uid}"
+        
+        user = await interview_service.get_or_create_user(email, nickname)
+        return {"user_db_id": str(user.id)}
+    return {}
 
-    # Call Interviewer Agent (Consultant Mode)
-    recommendation = await recommend_topic_response(user_input)
+async def router_node(state: InterviewState):
+    """
+    [Router] Analyze User Intent and Route
+    """
+    messages = state["messages"]
+    if not messages:
+        # Should not happen if initiated correctly, but default to CONSULT
+        return {"user_intent": "CONSULT"}
+        
+    last_msg = messages[-1]
+    
+    # If the last message is AI, we are waiting for User. (Shouldn't happen in this node usually if called after User input)
+    if isinstance(last_msg, AIMessage):
+        return {"user_intent": "WAIT"}
+
+    user_input = last_msg.content
+    curr_topic = state.get("topic", "General")
+    last_q_text = state.get("current_question", {}).get("question_text", "")
+    
+    # Use Router Agent
+    route_result = await route_user_input(user_input, curr_topic, last_q_text)
+    intent = route_result.get("intent", "CONSULT")
+    new_topic = route_result.get("topic")
+    
+    updates = {"user_intent": intent}
+    
+    if intent == "CHANGE_TOPIC" and new_topic:
+        updates["topic"] = new_topic
+        updates["generated_questions"] = [] # Clear cache on topic switch
+        
+    return updates
+
+async def consult_node(state: InterviewState):
+    """
+    [Phase 1] Consultation / General Chat
+    """
+    last_message = state["messages"][-1]
+    user_input = last_message.content
+    
+    response_text = await recommend_topic_response(user_input)
     
     return {
-        "messages": [AIMessage(content=recommendation)]
+        "messages": [AIMessage(content=response_text)]
     }
 
 async def generate_question_node(state: InterviewState):
     """
-    [Phase 2] Generate Question Node
-    Generates a question if needed, or pops one from the queue.
-    Also handles User Initialization on first run.
+    [Phase 2] Generate Question
     """
-    # 0. DB Initialization (One-time)
-    if not state.get("user_db_id"):
-        # For prototype, use a fixed guest email or derive from user_id if possible
-        email = f"guest_{state.get('user_id', 'anon')}@techtree.com"
-        nickname = f"User_{state.get('user_id', 'anon')}"
-        
-        user = await interview_service.get_or_create_user(email, nickname)
-        state["user_db_id"] = str(user.id)
-
     # Initialize defaults if missing
-    track = state.get("track", "Python")
+    track = state.get("track", "Common")
     topic = state.get("topic", "General")
     level = state.get("level", "Intermediate")
     
-    # If no questions in queue, generate a batch (or just 1)
-    if not state.get("generated_questions"):
+    # Check Cache (generated_questions queue)
+    questions = state.get("generated_questions", [])
+    
+    if not questions:
+        # Cache Miss -> Generate New
+        # v1.2 Plan: Use RAG / Offline Worker. v1.1: Live Generation
         new_questions = await generate_questions(skill=track, topic=topic, level=level, count=1)
         
         if not new_questions:
              return {
-                "messages": [AIMessage(content="질문 생성에 실패했습니다. 다시 시도해주세요.")],
+                "messages": [AIMessage(content=f"죄송합니다. '{topic}' 주제에 대한 질문을 생성하는데 일시적인 문제가 발생했습니다.")],
              }
-        
-        # Save Generated Questions to Asset DB (Added Requirement)
-        # TODO: Implement bulk save in InterviewService
+             
+        # Optional: Save to Asset DB
         # await interview_service.save_questions(new_questions)
+        questions = new_questions
         
-        state["generated_questions"] = new_questions
-    
-    # Pop the next question
-    questions = state["generated_questions"]
+    # Deliver Question
     if not questions:
-        return {
-            "messages": [AIMessage(content="더 이상 질문을 생성할 수 없습니다. 면접을 종료합니다.")],
-            "interview_complete": True
-        }
-    
+        return {"messages": [AIMessage(content="질문 목록이 비어있습니다.")]}
+        
     next_q = questions.pop(0)
     current_q_text = next_q.get("question_text", "")
     
     return {
-        "user_db_id": state["user_db_id"],
         "generated_questions": questions,
         "current_question": next_q,
-        "current_answer": None, 
-        "star_gained": False,
+        "star_gained": False, # Reset star flag for new question
         "messages": [AIMessage(content=current_q_text)]
     }
 
 async def evaluate_answer_node(state: InterviewState):
     """
-    [Phase 2] Evaluate Answer Node
+    [Phase 2] Evaluate and Update DB
     """
     current_q = state.get("current_question")
     if not current_q:
-        return {"messages": [AIMessage(content="현재 진행 중인 질문이 없습니다. 새로운 질문을 준비하겠습니다.")]}
+        return {"messages": [AIMessage(content="평가할 질문이 없습니다. 넘어갑니다.")]}
         
     last_message = state["messages"][-1]
     user_answer = last_message.content
@@ -154,18 +176,15 @@ async def evaluate_answer_node(state: InterviewState):
 
 async def feedback_node(state: InterviewState):
     """
-    [Phase 2] Feedback Node
+    [Phase 2] Feedback
     """
     eval_result = state.get("evaluation_result", {})
     current_q = state.get("current_question", {})
     star_gained = state.get("star_gained", False)
     
-    if not eval_result:
-        return {"messages": [AIMessage(content="평가 결과를 불러오지 못했습니다.")]}
-
     feedback_msg = await generate_feedback_message(
         question=current_q.get("question_text", ""),
-        user_answer=state["messages"][-1].content,
+        user_answer=state["messages"][-1].content, # Note: This might grab the user's answer
         score=eval_result.get("score", 0),
         is_pass=eval_result.get("is_passed", False),
         feedback=eval_result.get("feedback", "")
@@ -181,7 +200,7 @@ async def feedback_node(state: InterviewState):
 
 async def final_report_node(state: InterviewState):
     """
-    [Phase 3] Final Report Node
+    [Phase 3] Final Report
     """
     history = [f"{m.type}: {m.content}" for m in state["messages"]]
     analysis_data = await analyze_interview_result(history)
@@ -195,104 +214,91 @@ async def final_report_node(state: InterviewState):
 
 # 3. Conditional Logic
 
-def route_input(state: InterviewState) -> Literal["consult_curriculum", "evaluate_answer", "generate_question"]:
-    """
-    Determines the entry point based on state and message.
-    """
-    messages = state.get("messages", [])
+def check_router_intent(state: InterviewState) -> Literal["generate", "evaluate", "consult", "report", "end"]:
+    intent = state.get("user_intent")
     
-    # Case 1: Start of Session -> Go to Consultation
-    if not messages:
-        return "consult_curriculum"
-    
-    last_msg = messages[-1]
-    
-    # Case 2: User reply
-    if isinstance(last_msg, HumanMessage):
-        # Case 2-A: If we have an active question, evaluate the answer
+    if intent == "ANSWER":
+        # Check if we actually have a question to answer
         if state.get("current_question"):
-            return "evaluate_answer"
+            return "evaluate"
+        else:
+            return "generate" # Treat as next/start if no question active
             
-        # Case 2-B: No active question -> It's a consultation turn
-        # But wait, if user said "Start", we should have handled it in consult_curriculum?
-        # Graph logic: After consult_curriculum, we wait for user. Next human msg comes here.
-        # We need to check if user wants to start.
-        if "start" in last_msg.content.lower() or "시작" in last_msg.content:
-            return "generate_question"
-            
-        return "consult_curriculum"
-    
-    # Case 3: AI message (Transition check)
-    return "consult_curriculum"
+    elif intent in ["NEXT_QUESTION", "CHANGE_TOPIC"]:
+        return "generate"
+        
+    elif intent == "CONSULT":
+        return "consult"
+        
+    elif intent == "QUIT":
+        return "report"
+        
+    return "consult" # Default
 
-def check_consult_result(state: InterviewState) -> Literal["generate_question", "__end__"]:
-    """
-    After consultation response, do we start interview or wait for user?
-    """
-    messages = state["messages"]
-    last_ai_msg = messages[-1].content
-    
-    # If the AI itself decided to start (e.g., "Starting interview..."), we could auto-route.
-    # But usually we wait for user confirmation.
-    
-    # For now, always wait for user input after consultation.
-    return "__end__"
-
-def check_next_step(state: InterviewState) -> Literal["generate_question", "final_report"]:
+def check_continue_interview(state: InterviewState) -> Literal["generate", "report"]:
     count = state.get("question_count", 0)
-    max_q = state.get("max_questions", 3)
+    max_q = state.get("max_questions", 10) # Increased limit for v1.1
     
     if count >= max_q:
-        return "final_report"
-    else:
-        return "generate_question"
+        return "report"
+    
+    return "generate"
 
 # 4. Graph Construction
 
 workflow = StateGraph(InterviewState)
 
 # Add Nodes
-workflow.add_node("consult_curriculum", consult_curriculum_node)
+workflow.add_node("load_state", load_state_node)
+workflow.add_node("router", router_node)
+workflow.add_node("consult", consult_node)
 workflow.add_node("generate_question", generate_question_node)
 workflow.add_node("evaluate_answer", evaluate_answer_node)
 workflow.add_node("provide_feedback", feedback_node)
 workflow.add_node("final_report", final_report_node)
 
 # Entry Point
-workflow.set_conditional_entry_point(
-    route_input,
-    {
-        "consult_curriculum": "consult_curriculum",
-        "generate_question": "generate_question",
-        "evaluate_answer": "evaluate_answer",
-    }
-)
+workflow.add_edge(START, "load_state")
+workflow.add_edge("load_state", "router")
 
-# Edges
-
-# Phase 1: Consultation
+# Router Edges
 workflow.add_conditional_edges(
-    "consult_curriculum",
-    check_consult_result,
+    "router",
+    check_router_intent,
     {
-        "generate_question": "generate_question",
-        "__end__": END
+        "evaluate": "evaluate_answer",
+        "generate": "generate_question",
+        "consult": "consult",
+        "report": "final_report",
+        "end": END
     }
 )
 
-# Phase 2: Interview Loop
-workflow.add_edge("generate_question", END) # Wait for answer
+# Interview Loop
 workflow.add_edge("evaluate_answer", "provide_feedback")
+
+# After feedback, usually we want to give the NEXT question immediately in this flow's design?
+# "GenQ -> Deliver -> Wait -> Eval -> Reward -> Feedback -> PROBABLY_WAIT_OR_NEXT"
+# If we simply END after feedback, the user has to say "Next".
+# Include Logic: If answer was Good, auto-next? Or just end.
+# v1.1 Design says "Router -- Continue --> CheckDB ...".
+# Let's simple chain to GenerateQuestion to keep momentum (Continuous Interview).
 workflow.add_conditional_edges(
     "provide_feedback",
-    check_next_step,
+    check_continue_interview,
     {
-        "generate_question": "generate_question",
-        "final_report": "final_report"
+        "generate": "generate_question",
+        "report": "final_report"
     }
 )
 
-# Phase 3: Conclusion
+# After generating question, we stop and wait for user.
+workflow.add_edge("generate_question", END)
+
+# After Consult, we stop
+workflow.add_edge("consult", END)
+
+# After Report, we stop
 workflow.add_edge("final_report", END)
 
 # Compile
