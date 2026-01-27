@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv, find_dotenv
 
 # Automatically find and load the .env file from the project root or parents
-load_dotenv(find_dotenv())
+load_dotenv(find_dotenv('.env'))
 
 from langgraph.graph import StateGraph, END, START
 from langgraph.graph.message import add_messages
