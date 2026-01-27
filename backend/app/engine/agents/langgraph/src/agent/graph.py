@@ -4,16 +4,24 @@ import asyncio
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Literal, TypedDict
 from typing_extensions import Annotated
+import os
+from dotenv import load_dotenv
+
+# Load root .env file
+# Adjusted path to go up to the project root from: backend/app/engine/agents/langgraph/src/agent/graph.py
+# Levels up: agent -> src -> langgraph -> agents -> engine -> app -> backend -> PROJECT_ROOT
+root_env_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../../../../.env"))
+load_dotenv(root_env_path)
 
 from langgraph.graph import StateGraph, END, START
 from langgraph.graph.message import add_messages
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
 
 # Import local agents (ported from legacy)
-from .qamaker_agent import generate_questions
-from .evaluator_agent import evaluate_answer, analyze_interview_result
-from .interviewer_agent import generate_feedback_message, format_final_report, recommend_topic_response
-from .router_agent import route_user_input
+from agent.qamaker_agent import generate_questions
+from agent.evaluator_agent import evaluate_answer, analyze_interview_result
+from agent.interviewer_agent import generate_feedback_message, format_final_report, recommend_topic_response
+from agent.router_agent import route_user_input
 
 # --- Mock Service for Standalone Execution ---
 class MockInterviewService:
