@@ -1,13 +1,10 @@
 from .common import MongoDBModel, PyObjectId
 from .user import User, UserProfile, UserStats, AuthInfo
-from .track import Track, TrackStep, TrackNode # TrackNode was removed, need to check tracks.py content again. TrackNode is replaced by TrackSubject/TrackBranchOption.
+from .track import Track, TrackStep, TrackSubject, TrackBranchOption
 from .interview import Interview, InterviewResult, InterviewMessage
 from .question import Question
 from .trend import Trend, TrendCategory
 from .concept import Concept
-
-# Track exports need to be accurate
-from .track import Track, TrackStep, TrackSubject, TrackBranchOption
 
 __all__ = [
     "MongoDBModel", "PyObjectId",
