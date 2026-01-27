@@ -5,13 +5,10 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Literal, TypedDict
 from typing_extensions import Annotated
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
-# Load root .env file
-# Adjusted path to go up to the project root from: backend/app/engine/agents/langgraph/src/agent/graph.py
-# Levels up: agent -> src -> langgraph -> agents -> engine -> app -> backend -> PROJECT_ROOT
-root_env_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../../../../.env"))
-load_dotenv(root_env_path)
+# Automatically find and load the .env file from the project root or parents
+load_dotenv(find_dotenv())
 
 from langgraph.graph import StateGraph, END, START
 from langgraph.graph.message import add_messages
@@ -41,7 +38,7 @@ interview_service = MockInterviewService()
 
 
 # 1. State Definition
-class InterviewState(TypedDict):
+class InterviewState(TypedDict, total=False):
     # Standard LangChain/LangGraph message history
     messages: Annotated[List[BaseMessage], add_messages]
     
